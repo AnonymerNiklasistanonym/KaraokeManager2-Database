@@ -5,179 +5,198 @@
  * This class helps interacting with the database
  */
 
+// get parser
+const DatabaseTableParser = require('./database_table_parser');
+const DatabaseTableParsingClass = require('./database_table_parsing_class');
+
+
 // Convert callbacks to promises
 const promisify = require('util').promisify
 // Read files
 const readFile = require('fs').readFile
+// Write files
+const writeFile = require('fs').writeFile
 
 // Convert normal async ready file with callback to promise
 const readFilePromise = promisify(readFile)
-const JSON_FILE_TABLES_PATH = "data/tables.json"
+const writeFilePromise = promisify(writeFile)
 
-/**
- * Methods to easily create database
- */
-class SetupDatabase {
-    /**
-     * Get path of JSON file which contains all necessary tables
-     */
-    static get JSON_FILE_TABLES_PATH() {
-        return "data/tables.json";
-    }
-    /**
-     * Get parsed JSON object which contains all necessary tables
-     */
-    static readDatabaseTableJsonFile() {
-        return new Promise((resolve, reject) => {
-            readFilePromise(this.JSON_FILE_TABLES_PATH)
-                .then(file => resolve(JSON.parse(file)))
-                .catch(err => reject(err))
-        })
-    }
-    /**
-     * Get query part of property of parsed JSON table object property
-     */
-    static convertJsonTablePropertyToSqliteTableProperty(tableProperty, is_primary_key = false, is_not_null = false) {
-        let property = tableProperty.name
-        // check if property has a name and description
-        if (!tableProperty.hasOwnProperty("name") || tableProperty.name === "") {
-            throw new Error("No property name found!")
-        }
-        if (!tableProperty.hasOwnProperty("description") || tableProperty.description === "") {
-            throw new Error("No property description found! (" + tableProperty.name + ")")
-        }
-        // convert property type to correct sqlite type
-        switch (tableProperty.type) {
-            case "integer":
-                property += " integer"
-                break
-            case "text":
-                property += " text"
-                break
-            case "boolean":
-                property += " integer"
-                break
-            case "date":
-                property += " DATETIME"
-                break
-            default:
-                throw new Error("Undefined property type found (" + tableProperty.name + " >> " + tableProperty.type + ")")
-        }
-        // check if property is a primary key
-        if (is_primary_key) {
-            return property + " PRIMARY KEY NOT NULL UNIQUE"
-        }
-        // check if property is a not null key
-        if (is_not_null) {
-            property += " NOT NULL"
-        }
-        // check if property is unique
-        if (tableProperty.hasOwnProperty("unique") && tableProperty.unique) {
-            property += " UNIQUE"
-        }
-        // check if property has a default value
-        if (tableProperty.hasOwnProperty("default")) {
-            if (tableProperty.type === "boolean") {
-                property += tableProperty.default ? " DEFAULT (1)" : " DEFAULT (0)"
-            } else if (tableProperty.type === "date" && tableProperty.default === "now") {
-                property += " DEFAULT (datetime(CURRENT_TIMESTAMP, 'localtime'))"
-            } else {
-                property += " DEFAULT (" + tableProperty.default+")"
-            }
-        }
-        return property
-    }
-    /**
-     * Get query reference part of property of parsed JSON table object property
-     */
-    static convertJsonTablePropertyToSqliteTableReference(tableProperty) {
-        if (tableProperty.hasOwnProperty("reference")) {
-            return "FOREIGN KEY (" + tableProperty.name + ")" + " REFERENCES " + tableProperty.reference.table + " (" + tableProperty.reference.property + ")"
-        } else {
-            return undefined
-        }
+class SQLiteParser extends DatabaseTableParsingClass {
 
-}
-    /**
-     * Get SQLite queries to create all necessary tables
-     */
-    static parseDatabaseTableJsonToSQLiteQueries() {
-        return new Promise((resolve, reject) => {
-            this.readDatabaseTableJsonFile()
-                .then(jsonArrayObject => {
-                    let sqliteQueries = []
-                    // iterate over all tables
-                    for (let key in jsonArrayObject) {
-                        const TABLE_OBJECT = jsonArrayObject[key]
-
-                        if (!TABLE_OBJECT.hasOwnProperty("name") || TABLE_OBJECT.name === "") {
-                            throw new Error("No table name found!")
-                        }
-                        if (!TABLE_OBJECT.hasOwnProperty("description") || TABLE_OBJECT.description === "") {
-                            throw new Error("No table description found! (" + TABLE_OBJECT.name + ")")
-                        }
-                        let sqliteQuery =
-                            "CREATE TABLE IF NOT EXISTS " +
-                            TABLE_OBJECT.name + " ("
-
-                        let sqliteQueryProperties = []
-                        let sqliteQueryReferences = []
-
-                        // add primary key property
-                        if (TABLE_OBJECT.hasOwnProperty("primary_key")) {
-                            sqliteQueryProperties.push(this.convertJsonTablePropertyToSqliteTableProperty(TABLE_OBJECT.primary_key, true))
-                        } else {
-                            throw new Error("No primary key found! (table = " + TABLE_OBJECT.name + ")")
-                        }
-
-                        if (TABLE_OBJECT.hasOwnProperty("not_null_keys")) {
-                            for (let not_null_property in TABLE_OBJECT.not_null_keys) {
-                                sqliteQueryProperties.push(this.convertJsonTablePropertyToSqliteTableProperty(TABLE_OBJECT.not_null_keys[not_null_property], false, true))
-                                sqliteQueryReferences.push(this.convertJsonTablePropertyToSqliteTableReference(TABLE_OBJECT.not_null_keys[not_null_property]))
-                            }
-                        }
-                        if (TABLE_OBJECT.hasOwnProperty("null_keys")) {
-                            for (let null_property in TABLE_OBJECT.null_keys) {
-                                sqliteQueryProperties.push(this.convertJsonTablePropertyToSqliteTableProperty(TABLE_OBJECT.null_keys[null_property]))
-                                sqliteQueryReferences.push(this.convertJsonTablePropertyToSqliteTableReference(TABLE_OBJECT.null_keys[null_property]))
-                            }
-                        }
-                        // add non null/undefined references to sqliteQueryProperties
-                        for(let reference of sqliteQueryReferences) {
-                            reference && sqliteQueryProperties.push(reference)
-                        }
-                        // add properties to sql query
-                        sqliteQuery += sqliteQueryProperties.join(", ") + ");"
-                        // add query to query array
-                        sqliteQueries.push(sqliteQuery)
-                    }
-
-                    resolve(sqliteQueries)
-                })
-                .catch(err => reject(err))
-        })
-    }
+	constructor() {
+		super()
+		this.sqliteQuery = "";
+		this.sqliteQueries = []
+		this.sqliteQueryProperty = ""
+	}
+	parseEverythingBegin() {
+		this.sqliteQueries = []
+	}
+	parseTableBegin(tableName, tableDescription) {
+		super.parseTableBegin(tableName, tableDescription)
+		this.sqliteQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
+	}
+	parseTablePropertyName(tablePropertyName, tablePropertyDescription) {
+		this.sqliteQueryProperty = tablePropertyName;
+	}
+	parseTablePropertyType(tablePropertyType) {
+		switch (tablePropertyType) {
+			case "integer":
+				this.sqliteQueryProperty += " integer"
+				break
+			case "text":
+				this.sqliteQueryProperty += " text"
+				break
+			case "boolean":
+				this.sqliteQueryProperty += " integer"
+				break
+			case "date":
+				this.sqliteQueryProperty += " DATETIME"
+				break
+		}
+	}
+	parseTablePropertyIsPrimaryKey() {
+		this.sqliteQueryProperty += " PRIMARY KEY NOT NULL UNIQUE"
+	}
+	parseTablePropertyIsNotNullUniqueKey(not_null, unique) {
+		if (not_null) {
+			this.sqliteQueryProperty += " NOT NULL"
+		}
+		if (unique) {
+			this.sqliteQueryProperty += " UNIQUE"
+		}
+ 	}
+	parseTablePropertyDefault(defaultValue, propertyValue) {
+		if (propertyValue === "boolean") {
+			this.sqliteQueryProperty += defaultValue ? " DEFAULT (1)" : " DEFAULT (0)"
+		} else if (propertyValue === "date" && defaultValue === "now") {
+			this.sqliteQueryProperty += " DEFAULT (datetime(CURRENT_TIMESTAMP, 'localtime'))"
+		} else {
+			this.sqliteQueryProperty += " DEFAULT (" + defaultValue + ")"
+		}
+	}
+	parseTablePropertyReturn() {
+		return this.sqliteQueryProperty
+	}
+	parseTablePropertyReference(tableName, referenceTable, referenceProperty) {
+		return "FOREIGN KEY (" + tableName + ")" + " REFERENCES " + referenceTable + " (" + referenceProperty + ")"
+	}
+	resolveTable() {
+		// add non null/undefined references to sqliteQueryProperties
+		for (let reference of this.databaseReferences) {
+			reference && this.databaseProperties.push(reference)
+		}
+		// add properties to sql query
+		this.sqliteQuery += this.databaseProperties.join(", ") + ");"
+		// add query to query array
+		this.sqliteQueries.push(this.sqliteQuery)
+	}
+	resolveEverything() {
+		return this.sqliteQueries
+	}
 }
 
-/**
- * Methods to easily interact with the database
- */
-class DatabaseHelper {
-    constructor() {
-        this.id = 'id_1';
-    }
-    set name(name) {
-        this._name = name.charAt(0).toUpperCase() + name.slice(1);
-    }
-    get name() {
-        return this._name;
-    }
-    static setup() {
-        SetupDatabase.parseDatabaseTableJsonToSQLiteQueries()
-            .then(queries => console.log(queries))
-            .catch(err => console.error(err))
-    }
+class DocumentationParser extends DatabaseTableParsingClass {
 
+	/**
+	 * Get path of database structure documentation file
+	 */
+	static get MD_FILE_DOCUMENTATION_TABLES() {
+		return "documentation_database_structure.md";
+	}
+
+	constructor() {
+		super()
+		this.markdownTableProperty = ""
+		this.markdownDocumentation = ""
+		this.markdownTables = []
+		this.markdownTablesToc = []
+		this.markdownTable = ""
+		this.markdownTablePropertyDescription = ""
+	}
+	parseEverythingBegin() {
+		this.markdownDocumentation = "# Database documentation\n\n" +
+					"This automated created document shows how the database is currently structured for a better overview.\n\n" + "Content:\n"
+		this.markdownTables = []
+		this.markdownTablesToc = ["- [Tables](#tables)"]
+	}
+	parseTableBegin(tableName, tableDescription) {
+		super.parseTableBegin()
+		this.markdownTable = "### " + tableName + "\n\n" + tableDescription + "\n\n"
+		this.markdownTablesToc.push("   - ["+tableName+"](#"+tableName+")")
+	}
+	parseTablePropertyName(tablePropertyName, tablePropertyDescription) {
+		this.markdownTableProperty = "- " + tablePropertyName
+		this.markdownTablePropertyDescription = tablePropertyDescription
+	}
+	parseTablePropertyType(tablePropertyType) {
+		switch (tablePropertyType) {
+			case "integer":
+				this.markdownTableProperty += " (`integer`)"
+				break
+			case "text":
+				this.markdownTableProperty += " (`text`)"
+				break
+			case "boolean":
+				this.markdownTableProperty += " (`boolean/integer`)"
+				break
+			case "date":
+				this.markdownTableProperty += " (`date/DATETIME`)"
+				break
+		}
+	}
+	parseTablePropertyIsPrimaryKey() {
+		this.markdownTableProperty += " [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]"
+	}
+	parseTablePropertyIsNotNullUniqueKey(not_null, unique) {
+		if (not_null && unique) {
+			this.markdownTableProperty += " [*NOT NULL*, *UNIQUE*]"
+		} else if (not_null){
+			this.markdownTableProperty += " [*NOT NULL*]"
+		} else if (unique){
+			this.markdownTableProperty += " [*UNIQUE*]"
+		}
+	}
+	parseTablePropertyDefault(defaultValue, propertyValue) {
+		this.markdownTableProperty + " >> **Default:** " + propertyValue
+		if (propertyValue === "boolean") {
+			this.markdownTableProperty += defaultValue ? " (`1`)" : " (`0`)"
+		} else if (propertyValue === "date" && defaultValue === "now") {
+			this.markdownTableProperty += " (`datetime(CURRENT_TIMESTAMP, 'localtime')`)"
+		}
+	}
+	parseTablePropertyReturn() {
+		return this.markdownTableProperty + "<br>*" +  this.markdownTablePropertyDescription + "*"
+	}
+	parseTablePropertyReference(tableName, referenceTable, referenceProperty) {
+		return "\n   - *reference to* " + referenceTable + "." + referenceProperty
+	}
+	resolveTable() {
+		// add non null/undefined references to sqliteQueryProperties
+		for (let index = 0; index < this.databaseReferences.length; index++) {
+			if (this.databaseReferences[index]) {
+				// take the +1 property, because of primary key that is not counted
+				this.databaseProperties[index + 1] = this.databaseProperties[index + 1] + this.databaseReferences[index]
+			}
+		}
+		// add properties to sql query
+		this.markdownTable += this.databaseProperties.join("\n") + "\n"
+		// add query to query array
+		this.markdownTables.push(this.markdownTable)
+	}
+	resolveEverything() {
+		return this.markdownDocumentation + this.markdownTablesToc.join("\n") + "\n\n\n## Tables\n\n" + this.markdownTables.join("\n")
+	}
 }
 
-DatabaseHelper.setup()
+DatabaseTableParser.parseDatabaseTableWithClass(new SQLiteParser())
+	.then(returnValue => console.log(returnValue))
+	.catch(err => console.error(err))
+
+DatabaseTableParser.parseDatabaseTableWithClass(new DocumentationParser())
+	.then(returnValue => {
+		writeFilePromise(DocumentationParser.MD_FILE_DOCUMENTATION_TABLES, returnValue)
+		.then(console.log("Documentation exported to file ('" + DocumentationParser.MD_FILE_DOCUMENTATION_TABLES + "')"))
+		.catch(err => console.error(err))
+	})
+	.catch(err => console.error(err))

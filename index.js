@@ -34,7 +34,7 @@ db.serialize(() => {
                 file_path_picture text,
                 link_spotify text,
                 link_youtube text,
-                date DATETIME NOT NULL DEFAULT (datetime(CURRENT_TIMESTAMP, 'localtime'))
+                date DATETIME NOT NULL DEFAULT ()
             );`,
         err => err ? console.error(err.message) : console.log("Table added >> artist"));
     db.run(`CREATE TABLE IF NOT EXISTS content_type (
