@@ -34,6 +34,9 @@ class SetupDatabase {
                 .catch(err => reject(err))
         })
     }
+    /**
+     * Get query part of property of parsed JSON table object property
+     */
     static convertJsonTablePropertyToSqliteTableProperty(tableProperty, is_primary_key = false, is_not_null = false) {
         let property = tableProperty.name
         // check if property has a name and description
@@ -54,6 +57,9 @@ class SetupDatabase {
             case "boolean":
                 property += " integer"
                 break
+            case "date":
+                property += " DATETIME"
+                break
             default:
                 throw new Error("Undefined property type found (" + tableProperty.name + " >> " + tableProperty.type + ")")
         }
@@ -73,12 +79,25 @@ class SetupDatabase {
         if (tableProperty.hasOwnProperty("default")) {
             if (tableProperty.type === "boolean") {
                 property += tableProperty.default ? " DEFAULT (1)" : " DEFAULT (0)"
+            } else if (tableProperty.type === "date" && tableProperty.default === "now") {
+                property += " DEFAULT (datetime(CURRENT_TIMESTAMP, 'localtime'))"
             } else {
                 property += " DEFAULT (" + tableProperty.default+")"
             }
         }
         return property
     }
+    /**
+     * Get query reference part of property of parsed JSON table object property
+     */
+    static convertJsonTablePropertyToSqliteTableReference(tableProperty) {
+        if (tableProperty.hasOwnProperty("reference")) {
+            return "FOREIGN KEY (" + tableProperty.name + ")" + " REFERENCES " + tableProperty.reference.table + " (" + tableProperty.reference.property + ")"
+        } else {
+            return undefined
+        }
+
+}
     /**
      * Get SQLite queries to create all necessary tables
      */
@@ -102,6 +121,7 @@ class SetupDatabase {
                             TABLE_OBJECT.name + " ("
 
                         let sqliteQueryProperties = []
+                        let sqliteQueryReferences = []
 
                         // add primary key property
                         if (TABLE_OBJECT.hasOwnProperty("primary_key")) {
@@ -113,12 +133,18 @@ class SetupDatabase {
                         if (TABLE_OBJECT.hasOwnProperty("not_null_keys")) {
                             for (let not_null_property in TABLE_OBJECT.not_null_keys) {
                                 sqliteQueryProperties.push(this.convertJsonTablePropertyToSqliteTableProperty(TABLE_OBJECT.not_null_keys[not_null_property], false, true))
+                                sqliteQueryReferences.push(this.convertJsonTablePropertyToSqliteTableReference(TABLE_OBJECT.not_null_keys[not_null_property]))
                             }
                         }
                         if (TABLE_OBJECT.hasOwnProperty("null_keys")) {
                             for (let null_property in TABLE_OBJECT.null_keys) {
                                 sqliteQueryProperties.push(this.convertJsonTablePropertyToSqliteTableProperty(TABLE_OBJECT.null_keys[null_property]))
+                                sqliteQueryReferences.push(this.convertJsonTablePropertyToSqliteTableReference(TABLE_OBJECT.null_keys[null_property]))
                             }
+                        }
+                        // add non null/undefined references to sqliteQueryProperties
+                        for(let reference of sqliteQueryReferences) {
+                            reference && sqliteQueryProperties.push(reference)
                         }
                         // add properties to sql query
                         sqliteQuery += sqliteQueryProperties.join(", ") + ");"
