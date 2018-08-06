@@ -1,6 +1,22 @@
+# node
+# -------------------
+
 # ignore node modules
 node_modules
 
 # ignore large package.json
 package-lock.json
 
+
+# data
+# -------------------
+
+# ignore binary databases
+*.db
+
+
+# environments
+# -------------------
+
+# ignore VisualStudioCode
+.vscode

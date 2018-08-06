@@ -10,7 +10,7 @@ let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READ
     });
 
 
-
+console.time("create all tables in database...")
 // create tables (if not existing)
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS account (
@@ -209,6 +209,7 @@ db.serialize(() => {
             );`,
         err => err ? console.error(err.message) : console.log("Table added >> album_comment"));
 });
+console.timeEnd("create all tables in database...")
 
 // close database
 db.close(err => {

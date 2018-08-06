@@ -1,0 +1,61 @@
+[{
+    "name": "account",
+    "description": "in here all accounts are saved",
+    "primary_key": {
+        "name": "name",
+        "description": "unique account name",
+        "type": "text"
+    },
+    "not_null_keys": [{
+        "name": "password_hash",
+        "description": "hash of the password of the account",
+        "type": "text"
+    }, {
+        "name": "password_salt",
+        "description": "salt for hashing the password of the account",
+        "type": "text",
+        "unique": true
+    }, {
+        "name": "is_admin",
+        "description": "indicates if account has elevated admin rights",
+        "type": "boolean",
+        "default": false
+    }, {
+        "name": "server_file_path_profile_picture",
+        "description": "server file path to profile picture of account",
+        "type": "text"
+    }, {
+        "name": "status",
+        "description": "account status text",
+        "type": "text"
+    }, {
+        "name": "is_private",
+        "description": "indicates if account should be hidden on public page",
+        "type": "boolean",
+        "default": true
+    }, {
+        "name": "is_banned",
+        "description": "indicates if account is banned",
+        "type": "boolean",
+        "default": false
+    }, {
+        "name": "is_banned_comments",
+        "description": "indicates if account is banned in writing comments",
+        "type": "boolean",
+        "default": false
+    }, {
+        "name": "is_banned_entries",
+        "description": "indicates if account is banned in creating new (playlist) entries",
+        "type": "boolean",
+        "default": false
+    }],
+    "null_keys": [{
+        "name": "server_file_path_profile_picture",
+        "description": "server file path to profile picture of account",
+        "type": "text"
+    }, {
+        "name": "status",
+        "description": "account status text",
+        "type": "text"
+    }]
+}]
