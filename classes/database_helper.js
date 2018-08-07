@@ -152,7 +152,7 @@ class DocumentationParser extends DatabaseTableParsingClass {
     }
   }
   parseTablePropertyDefault (defaultValue, propertyValue) {
-    this.markdownTableProperty += ' >> **Default:** ' + propertyValue
+    this.markdownTableProperty += ' >> **Default:** ' + defaultValue
     if (propertyValue === 'boolean') {
       this.markdownTableProperty += defaultValue ? ' (`1`)' : ' (`0`)'
     } else if (propertyValue === 'date' && defaultValue === 'now') {

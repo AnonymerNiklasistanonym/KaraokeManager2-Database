@@ -33,13 +33,13 @@ in here all accounts are saved
 - id (`text`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id (account name)*
 - password_hash (`text`) [*NOT NULL*]<br>*hash of the password of the account*
 - password_salt (`text`) [*NOT NULL*, *UNIQUE*]<br>*salt for hashing the password of the account*
-- is_admin (`boolean/integer`) [*NOT NULL*] >> **Default:** undefined<br>*indicates if account has elevated admin rights*
+- is_admin (`boolean/integer`) [*NOT NULL*] >> **Default:** false (`0`)<br>*indicates if account has elevated admin rights*
 - server_file_path_profile_picture (`text`) [*NOT NULL*]<br>*server file path to profile picture of account*
 - status (`text`) [*NOT NULL*]<br>*account status text*
-- is_private (`boolean/integer`) [*NOT NULL*] >> **Default:** undefined<br>*indicates if account should be hidden on public page*
-- is_banned (`boolean/integer`) [*NOT NULL*] >> **Default:** undefined<br>*indicates if account is banned*
-- is_banned_comments (`boolean/integer`) [*NOT NULL*] >> **Default:** undefined<br>*indicates if account is banned in writing comments*
-- is_banned_entries (`boolean/integer`) [*NOT NULL*] >> **Default:** undefined<br>*indicates if account is banned in creating new (playlist) entries*
+- is_private (`boolean/integer`) [*NOT NULL*] >> **Default:** true (`1`)<br>*indicates if account should be hidden on public page*
+- is_banned (`boolean/integer`) [*NOT NULL*] >> **Default:** false (`0`)<br>*indicates if account is banned*
+- is_banned_comments (`boolean/integer`) [*NOT NULL*] >> **Default:** false (`0`)<br>*indicates if account is banned in writing comments*
+- is_banned_entries (`boolean/integer`) [*NOT NULL*] >> **Default:** false (`0`)<br>*indicates if account is banned in creating new (playlist) entries*
 - name (`text`)<br>*real name of account*
 - server_file_path_profile_picture (`text`)<br>*server file path to profile picture of account*
 - status (`text`)<br>*account status text*
@@ -50,7 +50,7 @@ in here all artist are saved
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
 - name (`text`) [*NOT NULL*]<br>*name of the artist*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when artist was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when artist was added*
 - author (`text`) [*NOT NULL*]<br>*account that added the artist*
    - reference to [`account.id`](#account)
 - description (`text`)<br>*more information about the artist*
@@ -64,7 +64,7 @@ the type of content in the song file (lyric video, music video, audio file, ...)
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
 - name (`text`) [*NOT NULL*]<br>*name of the type of content in the song file*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when song content type was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when song content type was added*
 - author (`text`) [*NOT NULL*]<br>*account that added the song content type*
    - reference to [`account.id`](#account)
 - description (`text`)<br>*more information about the song content type*
@@ -75,7 +75,7 @@ the language of the song
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
 - name (`text`) [*NOT NULL*]<br>*name of the song language*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when song language was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when song language was added*
 - author (`text`) [*NOT NULL*]<br>*account that added the song language*
    - reference to [`account.id`](#account)
 
@@ -85,7 +85,7 @@ in here all songs are saved
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
 - name (`text`) [*NOT NULL*]<br>*name of the song*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when artist was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when artist was added*
 - author (`text`) [*NOT NULL*]<br>*account that added the artist*
    - reference to [`account.id`](#account)
 - server_file_path (`text`) [*NOT NULL*]<br>*server file path to song file*
@@ -109,7 +109,7 @@ in here artists are connected to songs they sing
    - reference to [`song.id`](#song)
 - artist (`integer`) [*NOT NULL*]<br>*artist which sings the connected song*
    - reference to [`artist.id`](#artist)
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when tag was created*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when tag was created*
 - author (`text`) [*NOT NULL*]<br>*account that made this tag*
    - reference to [`account.id`](#account)
 
@@ -118,7 +118,7 @@ in here artists are connected to songs they sing
 playlist entry of song where accounts can join as singer
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when playlist_entry was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when playlist_entry was added*
 - author (`text`) [*NOT NULL*]<br>*account that created the playlist entry*
    - reference to [`account.id`](#account)
 - song (`integer`) [*NOT NULL*]<br>*song that was added to the playlist entry*
@@ -129,7 +129,7 @@ playlist entry of song where accounts can join as singer
 account that wants to join a song in the connected playlist entry
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when join to playlist_entry was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when join to playlist_entry was added*
 - playlist_entry (`integer`) [*NOT NULL*]<br>*playlist entry that the author account wants to join*
    - reference to [`playlist_entry.id`](#playlist_entry)
 - author (`text`) [*NOT NULL*]<br>*account that created the playlist entry join*
@@ -141,7 +141,7 @@ in here image collections are saved
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
 - name (`text`) [*NOT NULL*]<br>*name of the album*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when album was created*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when album was created*
 - author (`text`) [*NOT NULL*]<br>*account that created the album*
    - reference to [`account.id`](#account)
 
@@ -150,20 +150,20 @@ in here image collections are saved
 in here are all images
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when image was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when image was added*
 - author (`text`) [*NOT NULL*]<br>*account that added the image*
    - reference to [`account.id`](#account)
 - server_file_path (`text`) [*NOT NULL*]<br>*server file path of image*
-- is_private (`boolean/integer`) [*NOT NULL*] >> **Default:** undefined<br>*indicates if image is private*
+- is_private (`boolean/integer`) [*NOT NULL*] >> **Default:** false (`1`)<br>*indicates if image is private*
 - name (`text`)<br>*name of the image*
-- description (`date/DATETIME`) >> **Default:** undefined<br>*description of the image*
+- description (`date/DATETIME`) >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*description of the image*
 
 ### image_tag_song
 
 indicates that a song was played while an image was taken
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when image was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when image was added*
 - image (`integer`) [*NOT NULL*]<br>*image that was taken during a song*
    - reference to [`image.id`](#image)
 - song (`integer`) [*NOT NULL*]<br>*song that was played while taking this image*
@@ -176,7 +176,7 @@ indicates that a song was played while an image was taken
 indicates that an account is in the image
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when image was added*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when image was added*
 - image (`integer`) [*NOT NULL*]<br>*image that was taken during a song*
    - reference to [`image.id`](#image)
 - account (`integer`) [*NOT NULL*]<br>*account that is in the picture*
@@ -189,7 +189,7 @@ indicates that an account is in the image
 a comment on the page of an artist
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when comment was made*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when comment was made*
 - artist (`integer`) [*NOT NULL*]<br>*artist page on which the comment was made*
    - reference to [`artist.id`](#artist)
 - author (`text`) [*NOT NULL*]<br>*account that created this comment*
@@ -203,7 +203,7 @@ a comment on the page of an artist
 a comment on the page of a song
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when comment was made*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when comment was made*
 - song (`integer`) [*NOT NULL*]<br>*song page on which the comment was made*
    - reference to [`song.id`](#song)
 - author (`text`) [*NOT NULL*]<br>*account that created this comment*
@@ -217,7 +217,7 @@ a comment on the page of a song
 a comment on the page of an account
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when comment was made*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when comment was made*
 - account (`text`) [*NOT NULL*]<br>*account page on which the comment was made*
    - reference to [`account.id`](#account)
 - author (`text`) [*NOT NULL*]<br>*account that created this comment*
@@ -231,7 +231,7 @@ a comment on the page of an account
 a comment on a playlist entry
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when comment was made*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when comment was made*
 - playlist_entry (`integer`) [*NOT NULL*]<br>*playlist_entry on which the comment was made*
    - reference to [`playlist_entry.id`](#playlist_entry)
 - author (`text`) [*NOT NULL*]<br>*account that created this comment*
@@ -245,7 +245,7 @@ a comment on a playlist entry
 a comment on an image
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when comment was made*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when comment was made*
 - image (`integer`) [*NOT NULL*]<br>*image on which the comment was made*
    - reference to [`image.id`](#image)
 - author (`text`) [*NOT NULL*]<br>*account that created this comment*
@@ -255,11 +255,10 @@ a comment on an image
    - reference to [`image_comment.id`](#image_comment)
 
 ### image_album_comment
-
 a comment on an album
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
-- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** undefined<br>*date when comment was made*
+- date (`date/DATETIME`) [*NOT NULL*] >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*date when comment was made*
 - album (`integer`) [*NOT NULL*]<br>*album on which the comment was made*
    - reference to [`album.id`](#album)
 - author (`text`) [*NOT NULL*]<br>*account that created this comment*

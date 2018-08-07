@@ -68,7 +68,7 @@ class DatabaseTableParser {
 
     // check if property has a default value
     if (tableProperty.hasOwnProperty('default')) {
-      parseClass.parseTablePropertyDefault(tableProperty.type)
+      parseClass.parseTablePropertyDefault(tableProperty.default, tableProperty.type)
     }
 
     return parseClass.parseTablePropertyReturn()
