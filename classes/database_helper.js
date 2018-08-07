@@ -7,29 +7,48 @@
  */
 
 // get parser and parsing helper inheritance classes
-const {DatabaseTableJsonParser} = require('./database_table_parse_json')
-const {DocumentationParser, SQLiteParser} = require('./database_table_parse_json_custom_parser')
+const {DatabaseTablesJsonParser} = require('./database_tables_parse_json')
+const {DocumentationParserTables, SQLiteParserTables} = require('./database_tables_parse_json_custom_parser')
+const {DatabaseTableValuesJsonParser} = require('./database_table_values_parse_json')
+const {DocumentationParserTableValues, SQLiteParserTableValues} = require('./database_table_values_parse_json_custom_parser')
 
-// Convert callbacks to promises
-const promisify = require('util').promisify
-// Write files asynchronously
-const writeFile = require('fs').writeFile
-
-// Convert normal async ready file with callback to promise
-const writeFilePromise = promisify(writeFile)
-
+/**
+ *Class that make it easy to interact with the database
+ *
+ * @class DatabaseHelper
+ */
 class DatabaseHelper {
-  static parseToSQLiteQueries () {
-    return DatabaseTableJsonParser.parseDatabaseTableWithClass(new SQLiteParser())
+  /**
+   * Get 'Create table' SQLite queries
+   *
+   * @readonly
+   * @static
+   * @returns {Promise} Which resolves with an string array of SQLite queries
+   * @memberof DatabaseHelper
+   * @example
+   * DatabaseHelper.setupSQLiteTablesQueries
+   *   .then(stringArray => console.log(stringArray))
+   * // outputs ['', '', ...]
+   */
+  static get setupSQLiteTablesQueries () {
+    return DatabaseTablesJsonParser.parseDatabaseTablesWithClass(new SQLiteParserTables())
   }
-  static createMarkdownDocumentation () {
-    DatabaseTableJsonParser.parseDatabaseTableWithClass(new DocumentationParser())
-      .then(returnValue => {
-        writeFilePromise(DocumentationParser.MD_FILE_DOCUMENTATION_TABLES, returnValue)
-          .then(console.log("Documentation exported to file ('" + DocumentationParser.MD_FILE_DOCUMENTATION_TABLES + "')"))
-          .catch(err => console.error(err))
-      })
-      .catch(err => console.error(err))
+  /**
+   * Get database table structure in markdown format
+   *
+   * @readonly
+   * @static
+   * @returns {Promise} Which resolves with a string in markdown format
+   * @memberof DatabaseHelper
+   */
+  static get markdownDocumentationTables () {
+    return DatabaseTablesJsonParser.parseDatabaseTablesWithClass(new DocumentationParserTables())
+  }
+  static get setupSQLiteTableValuesQueries () {
+    return DatabaseTableValuesJsonParser.parseDatabaseTableValuesWithClass(new SQLiteParserTableValues())
+  }
+  static get markdownDocumentationTableValues () {
+    return DatabaseTablesJsonParser.parseDatabaseTablesWithClass(new DocumentationParserTableValues())
   }
 }
 

@@ -7,15 +7,15 @@
  */
 
 // get parsing helper inheritance class
-const {DatabaseTableParsingClass} = require('./database_table_parse_json')
+const {DatabaseTablesParsingClass} = require('./database_tables_parse_json')
 
 /**
  * Parse database table JSON file to sqlite create table query string array
  *
- * @class SQLiteParser
- * @extends {DatabaseTableParsingClass}
+ * @class SQLiteParserTables
+ * @extends {DatabaseTablesParsingClass}
  */
-class SQLiteParser extends DatabaseTableParsingClass {
+class SQLiteParserTables extends DatabaseTablesParsingClass {
   constructor () {
     super()
     this.sqliteQuery = ''
@@ -92,10 +92,10 @@ class SQLiteParser extends DatabaseTableParsingClass {
 /**
  * Parse database table JSON file to markdown documentation string
  *
- * @class DocumentationParser
- * @extends {DatabaseTableParsingClass}
+ * @class DocumentationParserTables
+ * @extends {DatabaseTablesParsingClass}
  */
-class DocumentationParser extends DatabaseTableParsingClass {
+class DocumentationParserTables extends DatabaseTablesParsingClass {
   /**
    * Get path of database structure documentation file
    */
@@ -187,4 +187,4 @@ class DocumentationParser extends DatabaseTableParsingClass {
   }
 }
 
-module.exports = {DocumentationParser, SQLiteParser}
+module.exports = {DocumentationParserTables, SQLiteParserTables}

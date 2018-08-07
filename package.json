@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "standard": "sh formatAndFixJsFiles.sh",
+    "documentation": "node create_documentation.js",
     "test": "standard"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database#readme",
   "dependencies": {
+    "documentation": "^8.1.0",
     "sqlite3": "^4.0.2"
   },
   "devDependencies": {

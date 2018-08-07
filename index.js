@@ -13,11 +13,9 @@ let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READ
     console.log('Connected to the database.')
   })
 
-DatabaseHelper.createMarkdownDocumentation()
-
 // create tables (if not existing)
-let createdTables = new Promise((resolve, reject) => {
-  DatabaseHelper.parseToSQLiteQueries()
+let createdSetupTables = new Promise((resolve, reject) => {
+  DatabaseHelper.setupSQLiteTablesQueries
     .then(sqlQueries => {
       db.serialize(() => {
         sqlQueries.forEach(sqliteQuery => {
@@ -31,7 +29,25 @@ let createdTables = new Promise((resolve, reject) => {
     .catch(err => reject(err))
 })
 
-createdTables
+// create default values (if not existing)
+let createdSetupValues = new Promise((resolve, reject) => {
+  createdSetupTables.then(() => {
+    DatabaseHelper.setupSQLiteTableValuesQueries
+      .then(sqlQueries => {
+        db.serialize(() => {
+          sqlQueries.forEach(sqliteQuery => {
+            db.run(sqliteQuery, err => {
+              if (err) console.error(err.message)
+            })
+          })
+        })
+        resolve()
+      })
+      .catch(err => reject(err))
+  }).catch(err => reject(err))
+})
+
+createdSetupValues
   .then(() => {
     // close database
     db.close(err => {

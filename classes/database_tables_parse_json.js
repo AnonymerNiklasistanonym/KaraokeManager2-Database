@@ -17,14 +17,14 @@ const readFilePromise = promisify(readFile)
 /**
  * Parse JSON file to JSON object and the to something else with an additional parser class
  *
- * @class DatabaseTableJsonParser
+ * @class DatabaseTablesJsonParser
  */
-class DatabaseTableJsonParser {
+class DatabaseTablesJsonParser {
   /**
    * @readonly
    * @static
    * @returns {string} Path of JSON file which contains the database tables
-   * @memberof DatabaseTableJsonParser
+   * @memberof DatabaseTablesJsonParser
    */
   static get JSON_FILE_DATABASE_TABLES_PATH () {
     return 'data/tables.json'
@@ -34,9 +34,9 @@ class DatabaseTableJsonParser {
    *
    * @static
    * @returns {Promise} Promise that resolves with the parsed JSON object
-   * @memberof DatabaseTableJsonParser
+   * @memberof DatabaseTablesJsonParser
    */
-  static parseDatabaseTable () {
+  static parseDatabaseTables () {
     return new Promise((resolve, reject) => {
       readFilePromise(this.JSON_FILE_DATABASE_TABLES_PATH)
         .then(file => resolve(JSON.parse(file)))
@@ -47,12 +47,12 @@ class DatabaseTableJsonParser {
    * Get SQLite queries to create all necessary tables
    *
    * @static
-   * @param {object extends DatabaseTableParsingClass} parseClass Class that implements parsing methods
+   * @param {object extends DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @returns {Promise} Promise that resolves with the complete parsed result
-   * @memberof DatabaseTableJsonParser
+   * @memberof DatabaseTablesJsonParser
    */
-  static parseDatabaseTableWithClass (parseClass) {
-    return new Promise((resolve, reject) => this.parseDatabaseTable()
+  static parseDatabaseTablesWithClass (parseClass) {
+    return new Promise((resolve, reject) => this.parseDatabaseTables()
       .then(jsonArrayObject => {
         // if parsing to JSON object was successful initialize custom parsing
         parseClass.parseEverythingBegin()
@@ -98,12 +98,12 @@ class DatabaseTableJsonParser {
    * Parse a JSON object table property
    *
    * @static
-   * @param {object extends DatabaseTableParsingClass} parseClass Class that implements parsing methods
+   * @param {object extends DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @param {{name: string, description:string, type: string, unique: boolean, default: string}} tableProperty Property object
    * @param {boolean} [isPrimaryKey=false] Property is primary key
    * @param {boolean} [isNotNull=false] Property can not be null
    * @returns parsed table property
-   * @memberof DatabaseTableJsonParser
+   * @memberof DatabaseTablesJsonParser
    */
   static parseDatabaseTableProperty (parseClass, tableProperty, isPrimaryKey = false, isNotNull = false) {
     // check if property has a name and description
@@ -149,18 +149,23 @@ class DatabaseTableJsonParser {
    * Parse a JSON object table property reference
    *
    * @static
-   * @param {object extends DatabaseTableParsingClass} parseClass Class that implements parsing methods
+   * @param {object extends DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @param {string} tablePropertyName property of reference name
    * @param {{table: string, property: string}} tablePropertyReference reference object
    * @returns parsed table property reference
-   * @memberof DatabaseTableJsonParser
+   * @memberof DatabaseTablesJsonParser
    */
   static parseDatabaseTablePropertyReference (parseClass, tablePropertyName, tablePropertyReference) {
     return parseClass.parseTablePropertyReference(tablePropertyName, tablePropertyReference.table, tablePropertyReference.property)
   }
 }
 
-class DatabaseTableParsingClass {
+/**
+ * Custom parser class that should be inherited by a custom parser
+ *
+ * @class DatabaseTablesParsingClass
+ */
+class DatabaseTablesParsingClass {
   constructor () {
     this.databaseProperties = []
     this.databaseReferences = []
@@ -216,4 +221,4 @@ class DatabaseTableParsingClass {
   }
 }
 
-module.exports = {DatabaseTableJsonParser, DatabaseTableParsingClass}
+module.exports = {DatabaseTablesJsonParser, DatabaseTablesParsingClass}
