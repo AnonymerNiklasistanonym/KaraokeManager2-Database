@@ -21,14 +21,6 @@
 		"type": "boolean",
 		"default": false
 	}, {
-		"name": "server_file_path_profile_picture",
-		"description": "server file path to profile picture of account",
-		"type": "text"
-	}, {
-		"name": "status",
-		"description": "account status text",
-		"type": "text"
-	}, {
 		"name": "is_private",
 		"description": "indicates if account should be hidden on public page",
 		"type": "boolean",

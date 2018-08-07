@@ -110,7 +110,7 @@ class DocumentationParser extends DatabaseTableParsingClass {
   }
   parseEverythingBegin () {
     this.markdownDocumentation = '# Database documentation\n\n' +
-                    'This automated created document shows how the database is currently structured for a better overview.\n\n' + 'Content:\n'
+      'This automated created document shows how the database is currently structured for a better overview.\n\n' + 'Content:\n'
     this.markdownTables = []
     this.markdownTablesToc = ['- [Tables](#tables)']
   }
@@ -183,6 +183,7 @@ class DocumentationParser extends DatabaseTableParsingClass {
   }
 }
 
+/*
 DatabaseTableParser.parseDatabaseTableWithClass(new SQLiteParser())
   .then(returnValue => console.log(returnValue))
   .catch(err => console.error(err))
@@ -194,3 +195,21 @@ DatabaseTableParser.parseDatabaseTableWithClass(new DocumentationParser())
       .catch(err => console.error(err))
   })
   .catch(err => console.error(err))
+*/
+
+class DatabaseHelper {
+  static parseToSQLiteQueries () {
+    return DatabaseTableParser.parseDatabaseTableWithClass(new SQLiteParser())
+  }
+  static createMarkdownDocumentation () {
+    DatabaseTableParser.parseDatabaseTableWithClass(new DocumentationParser())
+      .then(returnValue => {
+        writeFilePromise(DocumentationParser.MD_FILE_DOCUMENTATION_TABLES, returnValue)
+          .then(console.log("Documentation exported to file ('" + DocumentationParser.MD_FILE_DOCUMENTATION_TABLES + "')"))
+          .catch(err => console.error(err))
+      })
+      .catch(err => console.error(err))
+  }
+}
+
+module.exports = DatabaseHelper
