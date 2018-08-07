@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+'use strict'
+
 const sqlite3 = require('sqlite3')
 const DatabaseHelper = require('./classes/database_helper')
 
@@ -10,16 +13,26 @@ let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READ
     console.log('Connected to the database.')
   })
 
+DatabaseHelper.createMarkdownDocumentation()
+
 // create tables (if not existing)
-DatabaseHelper.parseToSQLiteQueries()
-  .then(sqlQueries => {
-    db.serialize(() => {
-      sqlQueries.forEach(sqliteQuery => {
-        db.run(sqliteQuery, err => {
-          if (err) console.error(err.message)
+let createdTables = new Promise((resolve, reject) => {
+  DatabaseHelper.parseToSQLiteQueries()
+    .then(sqlQueries => {
+      db.serialize(() => {
+        sqlQueries.forEach(sqliteQuery => {
+          db.run(sqliteQuery, err => {
+            if (err) console.error(err.message)
+          })
         })
       })
+      resolve()
     })
+    .catch(err => reject(err))
+})
+
+createdTables
+  .then(() => {
     // close database
     db.close(err => {
       if (err) {

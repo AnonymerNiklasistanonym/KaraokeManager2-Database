@@ -27,15 +27,12 @@ Content:
 ## Tables
 
 ### account
-
 in here all accounts are saved
 
 - id (`text`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id (account name)*
 - password_hash (`text`) [*NOT NULL*]<br>*hash of the password of the account*
 - password_salt (`text`) [*NOT NULL*, *UNIQUE*]<br>*salt for hashing the password of the account*
 - is_admin (`boolean/integer`) [*NOT NULL*] >> **Default:** false (`0`)<br>*indicates if account has elevated admin rights*
-- server_file_path_profile_picture (`text`) [*NOT NULL*]<br>*server file path to profile picture of account*
-- status (`text`) [*NOT NULL*]<br>*account status text*
 - is_private (`boolean/integer`) [*NOT NULL*] >> **Default:** true (`1`)<br>*indicates if account should be hidden on public page*
 - is_banned (`boolean/integer`) [*NOT NULL*] >> **Default:** false (`0`)<br>*indicates if account is banned*
 - is_banned_comments (`boolean/integer`) [*NOT NULL*] >> **Default:** false (`0`)<br>*indicates if account is banned in writing comments*
@@ -45,7 +42,6 @@ in here all accounts are saved
 - status (`text`)<br>*account status text*
 
 ### artist
-
 in here all artist are saved
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -59,7 +55,6 @@ in here all artist are saved
 - link_youtube (`text`)<br>*link to the YouTube account of the artist*
 
 ### song_content_type
-
 the type of content in the song file (lyric video, music video, audio file, ...)
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -70,7 +65,6 @@ the type of content in the song file (lyric video, music video, audio file, ...)
 - description (`text`)<br>*more information about the song content type*
 
 ### song_content_language
-
 the language of the song
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -80,7 +74,6 @@ the language of the song
    - reference to [`account.id`](#account)
 
 ### song
-
 in here all songs are saved
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -101,7 +94,6 @@ in here all songs are saved
 - link_youtube (`text`)<br>*link to song on YouTube*
 
 ### song_tag_artist
-
 in here artists are connected to songs they sing
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -114,7 +106,6 @@ in here artists are connected to songs they sing
    - reference to [`account.id`](#account)
 
 ### playlist_entry
-
 playlist entry of song where accounts can join as singer
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -125,7 +116,6 @@ playlist entry of song where accounts can join as singer
    - reference to [`song.id`](#song)
 
 ### playlist_entry_singer
-
 account that wants to join a song in the connected playlist entry
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -136,7 +126,6 @@ account that wants to join a song in the connected playlist entry
    - reference to [`account.id`](#account)
 
 ### image_album
-
 in here image collections are saved
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -146,7 +135,6 @@ in here image collections are saved
    - reference to [`account.id`](#account)
 
 ### image
-
 in here are all images
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -159,7 +147,6 @@ in here are all images
 - description (`date/DATETIME`) >> **Default:** now (`datetime(CURRENT_TIMESTAMP, 'localtime')`)<br>*description of the image*
 
 ### image_tag_song
-
 indicates that a song was played while an image was taken
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -172,7 +159,6 @@ indicates that a song was played while an image was taken
    - reference to [`account.id`](#account)
 
 ### image_tag_account
-
 indicates that an account is in the image
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -185,7 +171,6 @@ indicates that an account is in the image
    - reference to [`account.id`](#account)
 
 ### artist_comment
-
 a comment on the page of an artist
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -199,7 +184,6 @@ a comment on the page of an artist
    - reference to [`artist_comment.id`](#artist_comment)
 
 ### song_comment
-
 a comment on the page of a song
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -213,7 +197,6 @@ a comment on the page of a song
    - reference to [`song_comment.id`](#song_comment)
 
 ### account_comment
-
 a comment on the page of an account
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -227,7 +210,6 @@ a comment on the page of an account
    - reference to [`account_comment.id`](#account_comment)
 
 ### playlist_entry_comment
-
 a comment on a playlist entry
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
@@ -241,7 +223,6 @@ a comment on a playlist entry
    - reference to [`playlist_entry_comment.id`](#playlist_entry_comment)
 
 ### image_comment
-
 a comment on an image
 
 - id (`integer`) [**PRIMARY KEY**, *NOT NULL*, *UNIQUE*]<br>*unique id*
