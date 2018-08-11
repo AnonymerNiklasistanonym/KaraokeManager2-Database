@@ -7,7 +7,8 @@
     "start": "node index.js",
     "standard": "sh formatAndFixJsFiles.sh",
     "documentation": "node create_documentation.js",
-    "test": "standard"
+    "test": "standard",
+    "generate-docs": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
     "sqlite3": "^4.0.2"
   },
   "devDependencies": {
+    "@pixi/jsdoc-template": "^2.4.2",
+    "jsdoc": "^3.5.5",
     "standard": "^11.0.1"
   }
 }

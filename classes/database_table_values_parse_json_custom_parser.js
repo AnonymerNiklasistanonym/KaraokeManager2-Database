@@ -14,6 +14,7 @@ const {DatabaseTableValuesParsingClass} = require('./database_table_values_parse
  *
  * @class SQLiteParserTableValues
  * @extends {DatabaseTableValuesParsingClass}
+ * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class SQLiteParserTableValues extends DatabaseTableValuesParsingClass {
   constructor () {

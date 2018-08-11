@@ -18,6 +18,7 @@ const readFilePromise = promisify(readFile)
  * Parse JSON file to JSON object and then to something else with an additional parser class
  *
  * @class DatabaseTableValuesJsonParser
+ * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class DatabaseTableValuesJsonParser {
   /**
@@ -39,7 +40,7 @@ class DatabaseTableValuesJsonParser {
   static parseDatabaseTableValues () {
     return new Promise((resolve, reject) => {
       readFilePromise(this.JSON_FILE_DATABASE_TABLE_VALUES_PATH)
-        .then(file => resolve(JSON.parse(file)))
+        .then(file => resolve(JSON.parse(file.toString())))
         .catch(err => reject(err))
     })
   }
@@ -47,12 +48,12 @@ class DatabaseTableValuesJsonParser {
    * Get SQLite queries to create all necessary tables
    *
    * @static
-   * @param {object extends DatabaseTableValuesParsingClass} parseClass Class that implements parsing methods
+   * @param {DatabaseTableValuesParsingClass} parseClass Class that implements parsing methods
    * @returns {Promise} Promise that resolves with the complete parsed result
    * @memberof DatabaseTableValuesJsonParser
    */
   static parseDatabaseTableValuesWithClass (parseClass) {
-    return new Promise((resolve, reject) => this.parseDatabaseTables()
+    return new Promise((resolve, reject) => this.parseDatabaseTableValues()
       .then(jsonObject => resolve(parseClass.do(jsonObject)))
       .catch(err => reject(err)))
   }

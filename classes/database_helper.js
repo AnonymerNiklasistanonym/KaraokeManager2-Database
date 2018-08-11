@@ -2,8 +2,9 @@
 'use strict'
 
 /*
- * Description:
- * This class helps interacting with the database
+ * This file contains:
+ * Convenience class for really fast and easy interaction with the database (which for basically
+ * for now means ease-of-use over performance)
  */
 
 // get parser and parsing helper inheritance classes
@@ -16,6 +17,7 @@ const {DocumentationParserTableValues, SQLiteParserTableValues} = require('./dat
  *Class that make it easy to interact with the database
  *
  * @class DatabaseHelper
+ * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class DatabaseHelper {
   /**
@@ -29,6 +31,7 @@ class DatabaseHelper {
    * DatabaseHelper.setupSQLiteTablesQueries
    *   .then(stringArray => console.log(stringArray))
    * // outputs ['', '', ...]
+   * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
    */
   static get setupSQLiteTablesQueries () {
     return DatabaseTablesJsonParser.parseDatabaseTablesWithClass(new SQLiteParserTables())
@@ -48,7 +51,7 @@ class DatabaseHelper {
     return DatabaseTableValuesJsonParser.parseDatabaseTableValuesWithClass(new SQLiteParserTableValues())
   }
   static get markdownDocumentationTableValues () {
-    return DatabaseTablesJsonParser.parseDatabaseTablesWithClass(new DocumentationParserTableValues())
+    return DatabaseTableValuesJsonParser.parseDatabaseTableValuesWithClass(new DocumentationParserTableValues())
   }
 }
 

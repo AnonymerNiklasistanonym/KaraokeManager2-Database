@@ -18,6 +18,7 @@ const readFilePromise = promisify(readFile)
  * Parse JSON file to JSON object and the to something else with an additional parser class
  *
  * @class DatabaseTablesJsonParser
+ * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class DatabaseTablesJsonParser {
   /**
@@ -39,7 +40,7 @@ class DatabaseTablesJsonParser {
   static parseDatabaseTables () {
     return new Promise((resolve, reject) => {
       readFilePromise(this.JSON_FILE_DATABASE_TABLES_PATH)
-        .then(file => resolve(JSON.parse(file)))
+        .then(file => resolve(JSON.parse(file.toString())))
         .catch(err => reject(err))
     })
   }
@@ -47,7 +48,7 @@ class DatabaseTablesJsonParser {
    * Get SQLite queries to create all necessary tables
    *
    * @static
-   * @param {object extends DatabaseTablesParsingClass} parseClass Class that implements parsing methods
+   * @param {DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @returns {Promise} Promise that resolves with the complete parsed result
    * @memberof DatabaseTablesJsonParser
    */
@@ -98,11 +99,11 @@ class DatabaseTablesJsonParser {
    * Parse a JSON object table property
    *
    * @static
-   * @param {object extends DatabaseTablesParsingClass} parseClass Class that implements parsing methods
+   * @param {DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @param {{name: string, description:string, type: string, unique: boolean, default: string}} tableProperty Property object
    * @param {boolean} [isPrimaryKey=false] Property is primary key
    * @param {boolean} [isNotNull=false] Property can not be null
-   * @returns parsed table property
+   * @returns {*} Custom parsed table property determined by the given parse class
    * @memberof DatabaseTablesJsonParser
    */
   static parseDatabaseTableProperty (parseClass, tableProperty, isPrimaryKey = false, isNotNull = false) {
@@ -149,10 +150,10 @@ class DatabaseTablesJsonParser {
    * Parse a JSON object table property reference
    *
    * @static
-   * @param {object extends DatabaseTablesParsingClass} parseClass Class that implements parsing methods
+   * @param {DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @param {string} tablePropertyName property of reference name
    * @param {{table: string, property: string}} tablePropertyReference reference object
-   * @returns parsed table property reference
+   * @returns {*} Custom parsed table property reference determined by the given parse class
    * @memberof DatabaseTablesJsonParser
    */
   static parseDatabaseTablePropertyReference (parseClass, tablePropertyName, tablePropertyReference) {
