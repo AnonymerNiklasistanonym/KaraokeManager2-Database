@@ -2,7 +2,7 @@
 'use strict'
 
 const sqlite3 = require('sqlite3')
-const DatabaseHelper = require('./classes/database_helper')
+const DatabaseHelper = require('./classes/database/setup/database_helper')
 
 // create/open connection to database
 let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,

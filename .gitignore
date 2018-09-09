@@ -15,7 +15,7 @@ package-lock.json
 *.db
 
 # ignore locally created documentations
-documentation_database
+documentation
 documentation_database_structure.md
 documentation_database.md
 docs

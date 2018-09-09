@@ -1,7 +1,7 @@
 {
     "admin_account": {
         "id": "root",
-        "name": "Root",
+        "name": "root",
         "password": "root"
     }
 }

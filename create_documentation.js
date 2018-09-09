@@ -9,7 +9,7 @@
 // Create JavaScript documentation
 const documentation = require('documentation')
 // Get database structure to md class
-const DatabaseHelper = require('./classes/database_helper')
+const DatabaseHelper = require('./classes/database/setup/database_helper')
 // Convert callbacks to promises
 const promisify = require('util').promisify
 // Write files asynchronously
@@ -27,8 +27,19 @@ const indexJsDoc = documentation.build(['./index.js'], {external: []})
   .then(documentation.formats.md)
   .catch(err => console.error(err))
 
+// Document public_api.js and all connected files
+const indexApiDoc = documentation.build(['./classes/api/public_api.js'], {external: []})
+  // @ts-ignore
+  .then(documentation.formats.html)
+  .catch(err => console.error(err))
+  .then(output => {
+    streamArray(output).pipe(vfs.dest('./documentation/api'))
+    console.log("API Documentation exported to directory ('documentation/api')")
+  })
+  .catch(err => console.error(err))
+
 // Wait for everything and then continue with the complete source code documentation
-Promise.all([indexJsDoc].map(p => p.catch(err => err)))
+Promise.all([indexJsDoc, indexApiDoc].map(p => p.catch(err => err)))
   .then(results => {
     const documentationText = '# Database Source Code Documentation\n\n' + results.join('\n')
     writeFilePromise('documentation_database.md', documentationText)
@@ -43,8 +54,8 @@ documentation.build(['./index.js'], {external: []})
   .then(documentation.formats.html)
   .catch(err => console.error(err))
   .then(output => {
-    streamArray(output).pipe(vfs.dest('./documentation_database'))
-    console.log("Database Structure Documentation exported to directory ('documentation_database')")
+    streamArray(output).pipe(vfs.dest('./documentation/database'))
+    console.log("Database Structure Documentation exported to directory ('documentation/database')")
   })
   .catch(err => console.error(err))
 

@@ -28,7 +28,7 @@ class DatabaseTableValuesJsonParser {
    * @memberof DatabaseTableValuesJsonParser
    */
   static get JSON_FILE_DATABASE_TABLE_VALUES_PATH () {
-    return 'data/table_values.json'
+    return 'data/database/default_values.json'
   }
   /**
    *Parse JSON file to JSON object

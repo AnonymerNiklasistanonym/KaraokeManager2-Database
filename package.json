@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "standard": "sh formatAndFixJsFiles.sh",
-    "documentation": "node create_documentation.js",
+    "documentation": "node create_documentation.js && echo documentation can be found in .\\documentation\\",
     "test": "standard",
-    "generate-docs": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose"
+    "lint": "node_modules/.bin/jshint  -c .jshint.json --verbose index.js",
+    "generate-docs": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo documentation can be found in .\\docs\\index.html"
   },
   "repository": {
     "type": "git",
@@ -21,12 +22,13 @@
   },
   "homepage": "https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database#readme",
   "dependencies": {
-    "documentation": "^8.1.0",
+    "documentation": "^8.1.2",
     "sqlite3": "^4.0.2"
   },
   "devDependencies": {
     "@pixi/jsdoc-template": "^2.4.2",
     "jsdoc": "^3.5.5",
-    "standard": "^11.0.1"
+    "jshint": "^2.9.6",
+    "standard": "^12.0.1"
   }
 }

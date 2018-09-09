@@ -28,7 +28,7 @@ class DatabaseTablesJsonParser {
    * @memberof DatabaseTablesJsonParser
    */
   static get JSON_FILE_DATABASE_TABLES_PATH () {
-    return 'data/tables.json'
+    return 'data/database/tables.json'
   }
   /**
    *Parse JSON file to JSON object
