@@ -9,7 +9,14 @@ const DatabaseHelper = require('./classes/database/setup/database_helper')
 const express = require('express')
 const compression = require('compression')
 const handlebars = require('express-handlebars')
+const http = require('http')
+const socketIo = require('socket.io')
+
 const app = express()
+
+const server = http.createServer(app)
+const io = socketIo(server)
+
 const hbs = handlebars.create({
   // Specify helpers which are only registered on this instance.
   helpers: {
@@ -25,6 +32,7 @@ app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
 app.use(compression())
 const birds = require('./routes/birds')
+const sockets = require('./routes/sockets')
 
 // create/open connection to database
 let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
@@ -119,10 +127,10 @@ app.get('/users/:userId/books/:bookId', (req, res) => {
 app.get('/plantae/:genus.:species', (req, res) => {
   res.send(req.params)
 })
-// http://localhost:3000/user/42
+/* // http://localhost:3000/user/42
 app.get('/user/:userId(\d+)', (req, res) => {
   res.send(req.params)
-})
+}) */
 
 /*
  * Route handlers
@@ -177,11 +185,10 @@ app.get('/type/sendFile', (req, res) => {
   res.sendFile() // Send a file as an octet stream
 })
 app.get('/type/render', (req, res) => {
-
   res.locals = {
     some_value: 'foo bar',
     list: ['cat', 'dog']
-}
+  }
 
   res.render('home', {
     showTitle: true,
@@ -201,11 +208,25 @@ app.get('/type/status', (req, res) => {
  * Make a whole directory downloadable
  */
 // http://localhost:3000/database/tables.json
-app.use(express.static(__dirname + '/data'))
+app.use(express.static(path.join(__dirname, 'data')))
 
 /*
  * Use externalized router
  */
 app.use('/birds', birds)
+app.use('/sockets', sockets)
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+/*
+ * React to socket connections
+ */
+io.on('connection', (clientSocket) => {
+  console.log('Client connected...', clientSocket.client.id)
+
+  clientSocket.on('join', (data) => {
+    console.log('client sent data -', clientSocket.client.id, '\n\t', data)
+  })
+})
+
+// app.listen(3000, () => console.log('Example app listening on port 3000!'))
+
+server.listen(3000, () => console.log('Example app listening on port 3000!'))
