@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "standard": "./node_modules/.bin/standard --fix ./index.js ./create_documentation.js ./classes/api/** ./classes/database/** && echo All documents were formatted according to the JavaScript Standard style guide",
-    "documentation": "./node create_documentation.js && echo documentation can be found in .\\documentation\\",
-    "test": "./node_modules/.bin/standard",
-    "lint": "./node_modules/.bin/jshint  -c ./.jshint.json --verbose ./index.js",
-    "generate-docs": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo Documentation can be found in .\\docs\\index.html"
+    "standard": "node_modules/.bin/standard --fix ./index.js ./create_documentation.js ./classes/api/** ./classes/database/** && echo All documents were formatted according to the JavaScript Standard style guide",
+    "documentation": "node create_documentation.js && echo documentation can be found in .\\documentation\\",
+    "test": "node_modules/.bin/standard",
+    "lint": "node_modules/.bin/jshint  -c ./.jshint.json --verbose ./index.js",
+    "generate-docs": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo Documentation can be found in .\\docs\\index.html",
+    "generate-executable": "node_modules/.bin/pkg ."
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,27 @@
     "@pixi/jsdoc-template": "^2.4.2",
     "jsdoc": "^3.5.5",
     "jshint": "^2.9.6",
-    "standard": "^12.0.1"
+    "standard": "^12.0.1",
+    "pkg": "^4.3.4"
+  },
+  "bin": {
+    "pkg": "index.js"
+  },
+  "pkg": {
+    "scripts": [
+      "classes/**/*.js",
+      "routes/**/*.js"
+    ],
+    "assets": [
+      "views/**/*.handlebars",
+      "data/**/*.json"
+    ],
+    "targets": [
+      "latest-linux-x64",
+      "latest-win-x64"
+    ]
+  },
+  "engines": {
+    "node": ">=10"
   }
 }

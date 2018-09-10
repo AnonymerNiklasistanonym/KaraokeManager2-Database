@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
+const path = require('path')
 // database
 const sqlite3 = require('sqlite3')
 const DatabaseHelper = require('./classes/database/setup/database_helper')
@@ -17,13 +18,13 @@ const hbs = handlebars.create({
   },
   extname: '.handlebars',
   defaultLayout: 'main',
-  layoutsDir: __dirname + '/views/layouts/',
-  partialsDir: __dirname + '/views/partials/'
+  layoutsDir: path.join(__dirname, 'views/layouts'),
+  partialsDir: path.join(__dirname, 'views/partials')
 })
 app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
 app.use(compression())
-const birds = require('./classes/server/birds')
+const birds = require('./routes/birds')
 
 // create/open connection to database
 let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
