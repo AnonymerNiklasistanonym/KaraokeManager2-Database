@@ -8,5 +8,6 @@
 
 - `npm start` Execute main file
 - `npm run documentation` Creates local html documentation of source code, api and database structure documentation
-- `npm run generate-docs` Creates local html documentation of source code via jsdoc
+- `npm run generate-docs` Creates local html documentation of source code via [jsdoc](https://github.com/jsdoc3/jsdoc)
+- `npm run generate-executable` Creates local binary builds of this project via [pkg](https://github.com/zeit/pkg)
 - `npm run standard` Automatically fixes and lints JavaScript source code to be in the correct format (js-standard-style)
