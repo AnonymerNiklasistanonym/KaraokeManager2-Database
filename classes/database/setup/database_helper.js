@@ -8,10 +8,10 @@
  */
 
 // get parser and parsing helper inheritance classes
-const {DatabaseTablesJsonParser} = require('./database_tables_parse_json')
-const {DocumentationParserTables, SQLiteParserTables} = require('./database_tables_parse_json_custom_parser')
-const {DatabaseTableValuesJsonParser} = require('./database_table_values_parse_json')
-const {DocumentationParserTableValues, SQLiteParserTableValues} = require('./database_table_values_parse_json_custom_parser')
+const { DatabaseTablesJsonParser } = require('./database_tables_parse_json')
+const { DocumentationParserTables, SQLiteParserTables } = require('./database_tables_parse_json_custom_parser')
+const { DatabaseTableValuesJsonParser } = require('./database_table_values_parse_json')
+const { DocumentationParserTableValues, SQLiteParserTableValues } = require('./database_table_values_parse_json_custom_parser')
 
 /**
  *Class that make it easy to interact with the database

@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "standard": "sh formatAndFixJsFiles.sh",
-    "documentation": "node create_documentation.js && echo documentation can be found in .\\documentation\\",
-    "test": "standard",
-    "lint": "node_modules/.bin/jshint  -c .jshint.json --verbose index.js",
-    "generate-docs": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo documentation can be found in .\\docs\\index.html"
+    "standard": "./node_modules/.bin/standard --fix ./index.js ./create_documentation.js ./classes/api/** ./classes/database/** && echo All documents were formatted according to the JavaScript Standard style guide",
+    "documentation": "./node create_documentation.js && echo documentation can be found in .\\documentation\\",
+    "test": "./node_modules/.bin/standard",
+    "lint": "./node_modules/.bin/jshint  -c ./.jshint.json --verbose ./index.js",
+    "generate-docs": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo Documentation can be found in .\\docs\\index.html"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,10 @@
   },
   "homepage": "https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database#readme",
   "dependencies": {
+    "compression": "^1.7.3",
     "documentation": "^8.1.2",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
     "sqlite3": "^4.0.2"
   },
   "devDependencies": {

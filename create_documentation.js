@@ -22,13 +22,13 @@ const vfs = require('vinyl-fs')
 const writeFilePromise = promisify(writeFile)
 
 // Document index.js and all connected files
-const indexJsDoc = documentation.build(['./index.js'], {external: []})
+const indexJsDoc = documentation.build(['./index.js'], { external: [] })
   // @ts-ignore
   .then(documentation.formats.md)
   .catch(err => console.error(err))
 
 // Document public_api.js and all connected files
-const indexApiDoc = documentation.build(['./classes/api/public_api.js'], {external: []})
+const indexApiDoc = documentation.build(['./classes/api/api.js'], { external: [] })
   // @ts-ignore
   .then(documentation.formats.html)
   .catch(err => console.error(err))
@@ -49,7 +49,7 @@ Promise.all([indexJsDoc, indexApiDoc].map(p => p.catch(err => err)))
   .catch(err => console.error(err))
 
 // Locally document index.js and all connected files in html document
-documentation.build(['./index.js'], {external: []})
+documentation.build(['./index.js'], { external: [] })
   // @ts-ignore
   .then(documentation.formats.html)
   .catch(err => console.error(err))

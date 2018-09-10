@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Example App</title>
+</head>
+
+<body>
+
+    {{{body}}}
+
+    {{> partial}}
+
+    {{#each array}}
+    <p>=> "{{this}}"</p>
+    <p>@index: {{@index}}</p>
+    {{#if @first}}
+    <p>@first: First!</p>
+    {{/if}}
+    {{#if @last}}
+    <p>@last: Last!</p>
+    {{/if}}
+    <p>@key: {{@key}}</p>
+    <p>@root: {{@root.foo}}</p>
+    {{/each}}
+
+</body>
+
+</html>

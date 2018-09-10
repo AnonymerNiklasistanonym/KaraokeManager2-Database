@@ -7,7 +7,7 @@
  */
 
 // get parsing helper inheritance class
-const {DatabaseTablesParsingClass} = require('./database_tables_parse_json')
+const { DatabaseTablesParsingClass } = require('./database_tables_parse_json')
 
 /**
  * Parse database table JSON file to sqlite create table query string array
@@ -189,4 +189,4 @@ class DocumentationParserTables extends DatabaseTablesParsingClass {
   }
 }
 
-module.exports = {DocumentationParserTables, SQLiteParserTables}
+module.exports = { DocumentationParserTables, SQLiteParserTables }

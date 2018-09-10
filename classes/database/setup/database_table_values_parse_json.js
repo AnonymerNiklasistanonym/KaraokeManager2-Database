@@ -73,4 +73,4 @@ class DatabaseTableValuesParsingClass {
   }
 }
 
-module.exports = {DatabaseTableValuesJsonParser, DatabaseTableValuesParsingClass}
+module.exports = { DatabaseTableValuesJsonParser, DatabaseTableValuesParsingClass }

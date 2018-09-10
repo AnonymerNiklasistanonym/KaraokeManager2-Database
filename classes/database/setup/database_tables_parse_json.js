@@ -222,4 +222,4 @@ class DatabaseTablesParsingClass {
   }
 }
 
-module.exports = {DatabaseTablesJsonParser, DatabaseTablesParsingClass}
+module.exports = { DatabaseTablesJsonParser, DatabaseTablesParsingClass }
