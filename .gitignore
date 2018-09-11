@@ -16,6 +16,7 @@ package-lock.json
 
 # ignore binary builds
 karaokemanager2-database-linux
+karaokemanager2-database-macos
 karaokemanager2-database-win.exe
 
 # ignore locally created documentations

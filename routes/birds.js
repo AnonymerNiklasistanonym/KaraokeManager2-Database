@@ -1,5 +1,8 @@
-var express = require('express')
-var router = express.Router()
+#!/usr/bin/env node
+'use strict'
+
+const express = require('express')
+const router = express.Router()
 
 // middleware that is specific to this router
 router.use(function timeLog (req, res, next) {

@@ -8,8 +8,8 @@ const compression = require('compression')
 const handlebars = require('express-handlebars')
 const http = require('http')
 // server > externalized router
-const birds = require(path.join(__dirname, '../../routes/birds'))
-const sockets = require(path.join(__dirname, '../../routes/sockets'))
+const birds = require('../../routes/birds')
+const sockets = require('../../routes/sockets')
 
 const app = express()
 const server = http.createServer(app)
@@ -153,7 +153,7 @@ app.get('/type/status', (req, res) => {
    * Make a whole directory downloadable
    */
 // http://localhost:3000/database/tables.json
-app.use(express.static(path.join(__dirname, 'data')))
+app.use(express.static('./data'))
 
 /*
    * Use externalized router

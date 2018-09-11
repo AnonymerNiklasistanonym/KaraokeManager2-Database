@@ -5,13 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "standard": "node_modules/.bin/standard --fix ./index.js ./create_documentation.js ./classes/**/*.js && echo All documents were formatted according to the JavaScript Standard style guide",
-    "documentation": "node create_documentation.js && echo documentation can be found in .\\documentation\\",
-    "test": "node_modules/.bin/standard",
-    "lint": "node_modules/.bin/jshint  -c ./.jshint.json --verbose ./index.js",
-    "generate-docs": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo Documentation can be found in .\\docs\\index.html",
-    "generate-docs-file-structure": "node ./classes/document/document.js",
-    "generate-executable": "node_modules/.bin/pkg ."
+    "build": "node_modules/.bin/pkg .",
+    "doc": "node ./classes/document/document.js",
+    "format": "node_modules/.bin/standard --fix ./index.js ./classes/**/*.js ./routes/**/*.js",
+    "test": "node_modules/.bin/jshint -c ./.jshint.json --verbose ./index.js ./classes/ ./routes/",
+    "z-fix-later-jsdoc": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo Documentation can be found in .\\docs\\index.html"
   },
   "repository": {
     "type": "git",
@@ -43,7 +41,8 @@
   },
   "pkg": {
     "scripts": [
-      "classes/**/*.js",
+      "classes/database/**/*.js",
+      "classes/api/**/*.js",
       "routes/**/*.js"
     ],
     "assets": [
@@ -52,7 +51,8 @@
     ],
     "targets": [
       "latest-linux-x64",
-      "latest-win-x64"
+      "latest-win-x64",
+      "latest-macos-x64"
     ]
   },
   "engines": {

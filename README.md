@@ -6,8 +6,14 @@
 
 ## Commands
 
+"start": "node index.js",
+    "build": "node_modules/.bin/pkg .",
+    "doc": "node ./classes/document/document.js",
+    "format": "node_modules/.bin/standard --fix ./index.js ./classes/**/*.js ./routes/**/*.js",
+    "test": "node_modules/.bin/jshint -c ./.jshint.json --verbose ./index.js ./classes/ ./routes/",
+
 - `npm start` Execute main file
-- `npm run documentation` Creates local html documentation of source code, api and database structure documentation
-- `npm run generate-docs` Creates local html documentation of source code via [jsdoc](https://github.com/jsdoc3/jsdoc)
-- `npm run generate-executable` Creates local binary builds of this project via [pkg](https://github.com/zeit/pkg)
-- `npm run standard` Automatically fixes and lints JavaScript source code to be in the correct format (js-standard-style)
+- `npm run build` Creates binary builds of this project via [pkg](https://github.com/zeit/pkg)
+- `npm run doc` Creates documentation files (HTML, MD) of source code and file/database structure
+- `npm run format` Automatically fixes JavaScript source code to be in the correct format ([js-standard-style](http://standardjs.com))
+- `npm run test` Lints JavaScript source code without looking mainly at the code style via [jshint](http://jshint.com/)

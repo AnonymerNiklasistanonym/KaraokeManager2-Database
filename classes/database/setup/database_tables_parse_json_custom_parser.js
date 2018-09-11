@@ -78,7 +78,9 @@ class SQLiteParserTables extends DatabaseTablesParsingClass {
   resolveTable () {
     // add non null/undefined references to sqliteQueryProperties
     for (let reference of this.databaseReferences) {
-      reference && this.databaseProperties.push(reference)
+      if (reference) {
+        this.databaseProperties.push(reference)
+      }
     }
     // add properties to sql query
     this.sqliteQuery += this.databaseProperties.join(', ') + ');'
