@@ -55,4 +55,4 @@ class DatabaseHelper {
   }
 }
 
-module.exports = DatabaseHelper
+module.exports = { DatabaseHelper: DatabaseHelper }

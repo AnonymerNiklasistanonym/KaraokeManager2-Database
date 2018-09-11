@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "standard": "node_modules/.bin/standard --fix ./index.js ./create_documentation.js ./classes/api/** ./classes/database/** && echo All documents were formatted according to the JavaScript Standard style guide",
+    "standard": "node_modules/.bin/standard --fix ./index.js ./create_documentation.js ./classes/**/*.js && echo All documents were formatted according to the JavaScript Standard style guide",
     "documentation": "node create_documentation.js && echo documentation can be found in .\\documentation\\",
     "test": "node_modules/.bin/standard",
     "lint": "node_modules/.bin/jshint  -c ./.jshint.json --verbose ./index.js",
