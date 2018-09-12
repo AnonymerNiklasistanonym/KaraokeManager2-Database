@@ -157,12 +157,42 @@ class DocumentFileStructureHelper {
     return new Promise((resolve, reject) => {
       readFilePromise(filePath, 'utf8')
         .then(value => {
-          if (value.indexOf('\n * This file contains:') !== -1) {
-            const fileContentHeader = value.substring(value.indexOf('* This file contains:') + '* This file contains:'.length, value.indexOf('*/')).split('* ').join('').replace(/^\s+|\s+$/g, '')
-            resolve(fileContentHeader)
-          } else {
-            resolve('TODO')
+          switch (filePath.substring(filePath.lastIndexOf('.') + 1)) {
+            case 'js':
+            if (value.indexOf('\n * This file contains:') !== -1) {
+              const fileContentHeader = value.substring(value.indexOf('* This file contains:') + '* This file contains:'.length, value.indexOf('*/')).split('* ').join('').replace(/^\s+|\s+$/g, '')
+              resolve(fileContentHeader)
+            } else {
+              resolve('TODO')
+            }
+              break;
+              case 'handlebars':
+              if (value.indexOf('{{!--') !== -1) {
+                const fileContentHeader = value.substring(value.indexOf('{{!--') + 7 + ' Description:'.length, value.indexOf('--}}')).split('\n ').join('').replace(/^\s+|\s+$/g, '')
+                resolve(fileContentHeader)
+              } else {
+                resolve('TODO')
+              }
+              break;
+              case 'json':
+              const explanationFile = filePath.substring(0, filePath.lastIndexOf('.')) + '.md'
+              existsPromise(explanationFile)
+              .then(exists => {
+                if (exists) {
+                readFilePromise(explanationFile, 'utf8')
+                .then(fileContent => resolve(fileContent.substring(fileContent.indexOf('\n')).replace(/^\s+|\s+$/g, '')))
+                .catch(reject)
+                } else {
+                  resolve('TODO')
+                }
+              }).catch(reject)
+              break;
+
+            default:
+
+              resolve('TODO')
           }
+
         })
         .catch(err => reject(err))
     })
@@ -200,6 +230,37 @@ class DocumentFileStructure {
   static get documentationFile () {
     return path.join(this.documentationDirectory, 'fileStructure.md')
   }
+  static get sourceDirectoryClasses () {
+    return { path: path.join(this.rootDirectory, 'classes'),
+      fileFilter: this.fileFilter('js') }
+  }
+  static get sourceDirectoryRoutes () {
+    return { path: path.join(this.rootDirectory, 'routes'),
+      fileFilter: this.fileFilter('js') }
+  }
+  static get sourceDirectoryData () {
+    return { path: path.join(this.rootDirectory, 'data'),
+      fileFilter: this.fileFilter('json') }
+  }
+  static get sourceDirectoryViews () {
+    return { path: path.join(this.rootDirectory, 'views'),
+      fileFilter: this.fileFilter('handlebars') }
+  }
+  static get sourceFileIndex () {
+    return { path: path.join(this.rootDirectory, 'index.js') }
+  }
+
+  static fileFilter (fileExtension) {
+    return file => file.filter(a => a.lastIndexOf('.') === -1 || a.substring(a.lastIndexOf('.') + 1) === fileExtension)
+  }
+  static markdownFileTitleFilter () {
+    return filePath => {
+      const tempAbsoluteFilePath = filePath.path.replace(this.rootDirectory, '').replace(/\\/g, '/')
+      filePath.path = path.basename(filePath.path)
+      filePath.path = '[`' + filePath.path + '`](../' + tempAbsoluteFilePath + ')'
+      return filePath
+    }
+  }
   /**
    * @returns {Promise<string>} Message
    */
@@ -218,26 +279,39 @@ class DocumentFileStructure {
         .catch(err => reject(err))
     })
   }
+  static getDocumentationFileContent (directoryPath, depth = 0, filter = a => a, filterMarkdown = a => a) {
+    return new Promise((resolve, reject) => {
+      DocumentFileStructureHelper.analyzeDirectory(directoryPath, filter)
+        .then(files => resolve(DocumentFileStructureHelper.renderFileToMarkdown(files, depth, filterMarkdown)))
+        .catch(err => reject(err))
+    })
+  }
+  static getDocumentationFileContentTest (filePath, depth = 0, filterMarkdown = a => a) {
+    return new Promise((resolve, reject) => {
+      DocumentFileStructureHelper.analyzeFile(filePath)
+        .then(files => resolve(DocumentFileStructureHelper.renderFileToMarkdown(files, depth, filterMarkdown)))
+        .catch(err => reject(err))
+    })
+  }
   static createDocumentationFile () {
     return new Promise((resolve, reject) => {
-      DocumentFileStructureHelper.analyzeDirectory(path.join(__dirname, '..', '..', 'classes'), (file) => {
-        return file.filter(a => {
-          const lastIndex = a.lastIndexOf('.')
-          return (lastIndex === -1 || a.substring(lastIndex + 1) === 'js')
-        })
-      })
-        .then(files => {
-          writeFilePromise(this.documentationFile, '# File structure\n\n' + DocumentFileStructureHelper.renderFileToMarkdown(files, 2,
-            a => {
-              const b = a.path.replace(this.rootDirectory, '').replace(/\\/g, '/')
-              a.path = path.basename(a.path)
-              a.path = '[`' + a.path + '`](../' + b + ')'
-              return a
-            }))
-            .then(() => resolve('File structure documentation exported to "' + this.documentationFile + '"'))
-            .catch(err => reject(err))
-        })
-        .catch(err => reject(err))
+      const indexFileMdPromise = this.getDocumentationFileContentTest(this.sourceFileIndex.path, 2, this.markdownFileTitleFilter())
+      const classesDirMdPromise = this.getDocumentationFileContent(this.sourceDirectoryClasses.path, 2, this.sourceDirectoryClasses.fileFilter, this.markdownFileTitleFilter())
+      const dataDirMdPromise = this.getDocumentationFileContent(this.sourceDirectoryData.path, 2, this.sourceDirectoryData.fileFilter, this.markdownFileTitleFilter())
+      const routesDirMdPromise = this.getDocumentationFileContent(this.sourceDirectoryRoutes.path, 2, this.sourceDirectoryRoutes.fileFilter, this.markdownFileTitleFilter())
+      const viewsDirMdPromise = this.getDocumentationFileContent(this.sourceDirectoryViews.path, 2, this.sourceDirectoryViews.fileFilter, this.markdownFileTitleFilter())
+
+      indexFileMdPromise
+        .then(index => classesDirMdPromise
+          .then(classes => dataDirMdPromise
+            .then(data => routesDirMdPromise
+              .then(routes => viewsDirMdPromise
+                .then(views => {
+                  const content = ['# File structure', '## Main method', index, classes, data, routes, views].join('\n\n')
+                  writeFilePromise(this.documentationFile, content)
+                    .then(() => resolve('File structure documentation exported to "' + this.documentationFile + '"'))
+                    .catch(reject)
+                }).catch(reject)).catch(reject)).catch(reject)).catch(reject)).catch(reject)
     })
   }
   /**
