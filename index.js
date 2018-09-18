@@ -15,8 +15,8 @@ const serverHttp = require('./classes/server/socket_server').ServerHttp
 const serverHttps = require('./classes/server/socket_server').ServerHttps
 
 // start server
-serverHttp.listen(8080, () => console.log('Example app listening on port 8080!'))
-serverHttps.listen(8443, () => console.log('Example app listening on port 8443!'))
+serverHttp.listen(8080, () => console.log('Example app listening on -> http://localhost:8080'))
+serverHttps.listen(8443, () => console.log('Example app listening on -> https://localhost:8443'))
 
 // create/open connection to database
 let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,

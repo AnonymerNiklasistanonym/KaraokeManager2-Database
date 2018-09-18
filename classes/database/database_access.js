@@ -55,7 +55,11 @@ class DatabaseAccess {
      */
   static openSqliteDbRw (purpose = 'not specified') {
     return new sqlite3.Database(this.databasePath, sqlite3.OPEN_READWRITE, (err) => {
-      (err) ? console.error('$ ' + err.message + ' (' + purpose + ')') : console.log('$ Database connection opened "rw" (' + purpose + ')')
+      if (err) {
+        console.error('$ ' + err.message + ' (' + purpose + ')')
+      } else {
+        console.log('$ Database connection opened "rw" (' + purpose + ')')
+      }
     })
   }
 
@@ -66,7 +70,11 @@ class DatabaseAccess {
      */
   static openSqliteDbRo (purpose = 'not specified') {
     return new sqlite3.Database(this.databasePath, sqlite3.OPEN_READONLY, (err) => {
-      (err) ? console.error('$ ' + err.message + ' (' + purpose + ')') : console.log('$ Database connection opened "ro" (' + purpose + ')')
+      if (err) {
+        console.error('$ ' + err.message + ' (' + purpose + ')')
+      } else {
+        console.log('$ Database connection opened "ro" (' + purpose + ')')
+      }
     })
   }
 
@@ -74,7 +82,7 @@ class DatabaseAccess {
      * Get data from the database with a given query (because async a callback is needed!)
      * @param {string} query - 'GET' query for the database
      * @param {string} purpose - (Debugging) purpose of connection
-     * @param {function(Error, [{}])} callback - Optional callback function with Error object and if successfull as second parameter the requested data
+     * @param {(function(Error, [{}])|function(Error))} callback - Optional callback function with Error object and if successfully as second parameter the requested data
      */
   static makeSqlRequestGet (query, purpose = 'not specified', callback = console.log) {
     // create empty list for objects that we want
@@ -88,7 +96,7 @@ class DatabaseAccess {
     // debug the request
     console.log('$ Database request "GET" ' + purpose + ':')
 
-    // check if the database connection was successfull
+    // check if the database connection was successfully
     if (db !== undefined && db !== null) {
       // serialize() method puts the execution mode into serialized mode. It means that only one statement can execute at a time. Other statements will wait in a queue until all the previous statements are executed
       db.serialize(() => {
@@ -96,26 +104,17 @@ class DatabaseAccess {
 
         db.each(query, (err, row) => {
           if (err) {
-            (errorMsg === undefined) ? errorMsg = err.message : errorMsg += ', ' + err.message
+            if (errorMsg === undefined) {
+              errorMsg = err.message
+            } else {
+              errorMsg += ', ' + err.message
+            }
             console.error(err.message)
           } else {
             // add the matching row from the database to the (empty) list
             requestedList.push(row)
           }
         })
-      }).close((err) => {
-        if (err || errorMsg !== undefined) {
-          if (err) {
-            (errorMsg === undefined) ? errorMsg = err.message : errorMsg += ', ' + err.message
-            console.error(err.message)
-          }
-          callback(Error(errorMsg))
-        } else {
-          console.log('$ Database connection closed (' + purpose + ')')
-
-          // then call the callback function with the given function and the requested list as parameter
-          callback(null, requestedList)
-        }
       })
     } else {
       console.error('$ Database connection was never established! (' + purpose + ')')
@@ -140,31 +139,21 @@ class DatabaseAccess {
     console.log('$ Database request "EDIT/POST"  (' + purpose + '):')
     // ...if the main database exists
     if (db !== undefined || db !== null) {
-      db.serialize(function () {
-        db.run(query, properties, function (err) {
+      db.serialize(() => {
+        db.run(query, properties, (runResult, err) => {
           // if there is an error return false in the callback function
           if (err) {
-            (errorMsg === undefined) ? errorMsg = err.message : errorMsg += ', ' + err.message
+            if (errorMsg === undefined) {
+              errorMsg = err.message
+            } else {
+              errorMsg += ', ' + err.message
+            }
             console.error(err.message)
           } else {
             // else log the change/action in the console
-            console.log(`$ (${purpose}) in row ${this.changes}`)
+            console.log(`$ (${purpose}) in row ${runResult.changes}`)
           }
         })
-      }).close((err) => {
-        // close the database
-        if (err || errorMsg !== undefined) {
-          // if there is an error return false in the callback function
-          if (err) {
-            (errorMsg === undefined) ? errorMsg = err.message : errorMsg += ', ' + err.message
-          }
-          console.error('$ ' + errorMsg)
-          callback(Error(errorMsg))
-        } else {
-          // else return that everything worked out in the callback function
-          console.log('$ Database connection closed (' + purpose + ')')
-          callback(null)
-        }
       })
     } else {
       console.error('$ Database connection was never established! (' + purpose + ')')
@@ -190,7 +179,7 @@ class DatabaseAccess {
     // debug the request
     console.log('$ Database request "GET/EDIT" ' + purpose + ':')
 
-    // check if the database connection was successfull
+    // check if the database connection was successfully
     if (db !== undefined && db !== null) {
       // serialize() method puts the execution mode into serialized mode. It means that only one statement can execute at a time. Other statements will wait in a queue until all the previous statements are executed
       db.serialize(() => {
@@ -198,26 +187,17 @@ class DatabaseAccess {
 
         db.each(query, (err, row) => {
           if (err) {
-            (errorMsg === undefined) ? errorMsg = err.message : errorMsg += ', ' + err.message
+            if (errorMsg === undefined) {
+              errorMsg = err.message
+            } else {
+              errorMsg += ', ' + err.message
+            }
             console.error(err.message)
           } else {
             // add the matching row from the database to the (empty) list
             requestedList.push(row)
           }
         })
-      }).close((err) => {
-        if (err || errorMsg !== undefined) {
-          if (err) {
-            (errorMsg === undefined) ? errorMsg = err.message : errorMsg += ', ' + err.message
-            console.error(err.message)
-          }
-          callback(Error(errorMsg))
-        } else {
-          console.log('$ Database connection closed (' + purpose + ')')
-
-          // then call the callback function with the given function and the requested list as parameter
-          callback(null, requestedList)
-        }
       })
     } else {
       console.error('$ Database connection was never established! (' + purpose + ')')

@@ -7,12 +7,17 @@ const express = require('express')
 const compression = require('compression')
 const handlebars = require('express-handlebars')
 const http = require('http')
+const {IncomingMessage, ServerResponse} = require('http')
+
 const https = require('https')
 const helmet = require('helmet')
 const { readFileSync } = require('fs')
-const privateKey = readFileSync(path.join(__dirname, '../../https/ssl-cert/server.key'), 'utf8')
-const certificate = readFileSync(path.join(__dirname, '../../https/ssl-cert/server.crt'), 'utf8')
-const diffieHellmanParam = readFileSync(path.join(__dirname, '../../https/ssl-cert/dh-strong.pem'), 'utf8')
+const serverSecurityDirectory = path.join(__dirname, '..', '..', 'https')
+const serverSecurityDirectorySSL = path.join(serverSecurityDirectory, 'ssl')
+const serverSecurityDirectoryDH = path.join(serverSecurityDirectory, 'dh')
+const sslKey = readFileSync(path.join(serverSecurityDirectorySSL, 'localhost.key'), 'utf8')
+const sslCert = readFileSync(path.join(serverSecurityDirectorySSL, 'localhost.crt'), 'utf8')
+const dhParam = readFileSync(path.join(serverSecurityDirectoryDH, 'dh-strong.pem'), 'utf8')
 
 // server > externalized router
 const birds = require('../../routes/birds')
@@ -21,15 +26,14 @@ const sockets = require('../../routes/sockets')
 // create http/https express server
 const app = express()
 const serverHttp = http.createServer(app)
-const serverHttps = https.createServer(
-  { key: privateKey, cert: certificate, dhparam: diffieHellmanParam, passphrase: 'test' }, app)
+const serverHttps = https.createServer({ key: sslKey, cert: sslCert, dhparam: dhParam }, app)
 
 // handlebars engine setup
 const hbs = handlebars.create({
   // Specify helpers which are only registered on this instance.
   helpers: {
-    foo: function () { return 'FOO!' },
-    bar: function () { return 'BAR!' }
+    foo: () => { return 'FOO!' },
+    bar: () => { return 'BAR!' }
   },
   // specify file extensions
   extname: '.handlebars',
@@ -137,9 +141,6 @@ app.get('/type/redirect', (req, res) => {
 app.get('/type/send', (req, res) => {
   res.send() // Send a response of various types
 })
-app.get('/type/sendFile', (req, res) => {
-  res.sendFile() // Send a file as an octet stream
-})
 app.get('/type/render', (req, res) => {
   res.locals = {
     some_value: 'foo bar',
@@ -157,7 +158,7 @@ app.get('/type/render', (req, res) => {
   }) // Render a view template
 })
 app.get('/type/status', (req, res) => {
-  res.sendStatus() // Set the response status code and send its string representation as the response body
+  res.sendStatus(505) // Set the response status code and send its string representation as the response body
 })
 
 /*
