@@ -8,6 +8,6 @@
 
 - `npm start` Execute main file
 - `npm run build` Creates binary builds of this project via [pkg](https://github.com/zeit/pkg)
-- `npm run doc` Creates documentation files (HTML, MD) of source code and file/database structure
+- `npm run documentation` Creates documentation files (HTML, Markdown) of source code and file/database structure
 - `npm run format` Automatically fixes JavaScript source code to be in the correct format ([js-standard-style](http://standardjs.com))
 - `npm run test` Lints JavaScript source code without looking mainly at the code style via [jshint](http://jshint.com/)

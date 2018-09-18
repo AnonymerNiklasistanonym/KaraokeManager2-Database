@@ -14,16 +14,10 @@ const DocumentFileStructure = require('./file_structure').DocumentFileStructure
 const DocumentJsDoc = require('./js_doc').DocumentJsDoc
 
 // File structure documentation
-DocumentFileStructure.createDocumentation()
-  .then(message => console.log(message))
-  .catch(err => console.error(err))
+DocumentFileStructure.createDocumentation().catch(console.error)
 
 // Database structure documentation
-DocumentDatabaseStructure.createDocumentation()
-  .then(message => console.log(message))
-  .catch(err => console.error(err))
+DocumentDatabaseStructure.createDocumentation().catch(console.error)
 
 // Source code documentation
-DocumentJsDoc.createDocumentation()
-  .then(message => message.forEach(msg => console.log(msg)))
-  .catch(err => console.error(err))
+DocumentJsDoc.createDocumentation().catch(console.error)

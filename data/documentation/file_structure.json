@@ -1,0 +1,19 @@
+{
+	"filePath": ["fileStructure.md"],
+	"indexFile": {
+		"filePath": ["index.js"]
+	},
+	"sourceDirectories": [{
+		"filePath": ["classes"],
+		"fileExtensions": ["js"]
+	}, {
+		"filePath": ["routes"],
+		"fileExtensions": ["js"]
+	}, {
+		"filePath": ["data"],
+		"fileExtensions": ["json"]
+	}, {
+		"filePath": ["views"],
+		"fileExtensions": ["handlebars"]
+	}]
+}

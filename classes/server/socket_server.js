@@ -4,23 +4,31 @@
 const socketIo = require('socket.io')
 
 /**
- * Express http server
+ * Express server
  */
-const server = require('./server').Server
+const serverHttp = require('./server').ServerHttp
+/**
+ * Express https server
+ */
+const serverHttps = require('./server').ServerHttps
 /**
  * SocketIO.Server
  */
-const io = socketIo(server)
+const ioHttp = socketIo(serverHttp)
+const ioHttps = socketIo(serverHttps)
+
+const socketMethod = clientSocket => {
+  console.log('Http > Client connected...', clientSocket.client.id)
+
+  clientSocket.on('join', (data) => {
+    console.log('Http > client sent data -', clientSocket.client.id, '\n\t', data)
+  })
+}
 
 /*
  * React to socket connections
  */
-io.on('connection', (clientSocket) => {
-  console.log('Client connected...', clientSocket.client.id)
+ioHttp.on('connection', socketMethod)
+ioHttps.on('connection', socketMethod)
 
-  clientSocket.on('join', (data) => {
-    console.log('client sent data -', clientSocket.client.id, '\n\t', data)
-  })
-})
-
-module.exports = { Server: server, SocketIO$Server: io }
+module.exports = { ServerHttp: serverHttp, ServerHttps: serverHttps, ServerHttpSocketIo: ioHttp, ServerHttpsSocketIo: ioHttps }

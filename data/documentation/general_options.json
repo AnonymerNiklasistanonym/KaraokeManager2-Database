@@ -1,0 +1,4 @@
+{
+	"directoryPath": ["docs"],
+	"infoText": "This document was automatically created via 'npm run documentation', to change it look/change the source code (find out how everything is parsed in the file: '/classes/documentation/documentation.js')."
+}

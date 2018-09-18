@@ -7,12 +7,22 @@ const express = require('express')
 const compression = require('compression')
 const handlebars = require('express-handlebars')
 const http = require('http')
+const https = require('https')
+const helmet = require('helmet')
+const { readFileSync } = require('fs')
+const privateKey = readFileSync(path.join(__dirname, '../../https/ssl-cert/server.key'), 'utf8')
+const certificate = readFileSync(path.join(__dirname, '../../https/ssl-cert/server.crt'), 'utf8')
+const diffieHellmanParam = readFileSync(path.join(__dirname, '../../https/ssl-cert/dh-strong.pem'), 'utf8')
+
 // server > externalized router
 const birds = require('../../routes/birds')
 const sockets = require('../../routes/sockets')
 
+// create http/https express server
 const app = express()
-const server = http.createServer(app)
+const serverHttp = http.createServer(app)
+const serverHttps = https.createServer(
+  { key: privateKey, cert: certificate, dhparam: diffieHellmanParam, passphrase: 'test' }, app)
 
 // handlebars engine setup
 const hbs = handlebars.create({
@@ -33,6 +43,7 @@ app.engine('handlebars', hbs.engine) // add handlebars engine
 app.set('view engine', 'handlebars') // use handlebars as view engine
 app.set('view cache', true) // cache views for better performance
 app.use(compression()) // compress responses before sending them to the client
+app.use(helmet()) // use Diffie-Hellman connection buildup
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', (req, res) => {
@@ -161,4 +172,4 @@ app.use(express.static('./data'))
 app.use('/birds', birds)
 app.use('/sockets', sockets)
 
-module.exports = { Server: server }
+module.exports = { ServerHttp: serverHttp, ServerHttps: serverHttps }

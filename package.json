@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "node_modules/.bin/pkg .",
-    "doc": "node ./classes/document/document.js",
+    "documentation": "node ./classes/documentation/documentation.js",
     "format": "node_modules/.bin/standard --fix ./index.js ./classes/**/*.js ./routes/**/*.js",
     "test": "node_modules/.bin/jshint -c ./.jshint.json --verbose ./index.js ./classes/ ./routes/",
     "z-fix-later-jsdoc": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo Documentation can be found in .\\docs\\index.html"
@@ -26,6 +26,7 @@
     "documentation": "^8.1.2",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
+    "helmet": "^3.13.0",
     "socket.io": "^2.1.1",
     "sqlite3": "^4.0.2"
   },

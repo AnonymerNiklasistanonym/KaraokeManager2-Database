@@ -1,0 +1,16 @@
+[{
+	"name": "Source Code API",
+	"directoryPathJsDoc": ["jsDocApi"],
+	"filePathMdDoc": ["sourceCodeApi.md"],
+	"indexFilePath": ["classes", "api", "api.js"]
+}, {
+	"name": "Source Code Documentation",
+	"directoryPathJsDoc": ["jsDocDocumentation"],
+	"filePathMdDoc": ["sourceCodeDocumentation.md"],
+	"indexFilePath": ["classes", "documentation", "documentation.js"]
+}, {
+	"name": "Source Code Project",
+	"directoryPathJsDoc": ["jsDocProject"],
+	"filePathMdDoc": ["sourceCodeProject.md"],
+	"indexFilePath": ["index.js"]
+}]

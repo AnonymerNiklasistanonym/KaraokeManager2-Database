@@ -20,11 +20,10 @@ karaokemanager2-database-macos
 karaokemanager2-database-win.exe
 
 # ignore locally created documentations
-documentation
-documentation_database_structure.md
-documentation_database.md
 docs
 
+# ignore https certificates
+https
 
 # environments
 # -------------------

@@ -8,10 +8,15 @@ const DatabaseHelper = require('./classes/database/setup/database_helper').Datab
 /**
  * Express http socket-io server
  */
-const socketServer = require('./classes/server/socket_server').Server
+const serverHttp = require('./classes/server/socket_server').ServerHttp
+/**
+ * Express https socket-io server
+ */
+const serverHttps = require('./classes/server/socket_server').ServerHttps
 
 // start server
-socketServer.listen(3000, () => console.log('Example app listening on port 3000!'))
+serverHttp.listen(8080, () => console.log('Example app listening on port 8080!'))
+serverHttps.listen(8443, () => console.log('Example app listening on port 8443!'))
 
 // create/open connection to database
 let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
