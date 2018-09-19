@@ -201,7 +201,7 @@ class DatabaseAccess {
       })
     } else {
       console.error('$ Database connection was never established! (' + purpose + ')')
-      callback(Error('Database connection was never established!'),[{}])
+      callback(Error('Database connection was never established!'), [{}])
     }
   }
 }

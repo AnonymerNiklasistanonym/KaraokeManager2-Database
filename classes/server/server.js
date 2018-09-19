@@ -26,15 +26,15 @@ const sockets = require('../../routes/sockets')
 
 // create http/https express server
 const app = express()
-const serverHttp = http.createServer(app)
-const serverHttps = https.createServer({ key: sslKey, cert: sslCert, dhparam: dhParam }, app)
+const serverHttp = http.createServer(app).on('error', ServerHelper.serverErrorListener)
+const serverHttps = https.createServer({ key: sslKey, cert: sslCert, dhparam: dhParam }, app).on('error', ServerHelper.serverErrorListener)
 
 // handlebars engine setup
 const hbs = handlebars.create({
   // Specify helpers which are only registered on this instance.
   helpers: {
-    foo: () => { return 'FOO!' },
-    bar: () => { return 'BAR!' }
+    foo: () => 'FOO!',
+    bar: () => 'BAR!'
   },
   // specify file extensions
   extname: '.handlebars',

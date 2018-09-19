@@ -14,7 +14,7 @@ const { IncomingMessage, OutgoingMessage } = require('http')
 class ServerHelper {
   /**
    * Returns function for logging requests
-   * @returns {function(*,*,function)}
+   * @returns {function(*,*,function):void}
    */
   static get requestLogger () {
     return (req, res, next) => {
@@ -25,6 +25,21 @@ class ServerHelper {
         next()
       } else {
         throw Error('Something is wrong with the request logger [ServerHelper]')
+      }
+    }
+  }
+  /**
+   * Returns function for handling server errors
+   * @returns {function(*):void}
+   */
+  static get serverErrorListener () {
+    return error => {
+      if (error.code === 'EADDRINUSE') {
+        console.error(`The server port ${error.port} is already being used!` +
+          'Change port or close the instance that is using this port currently.')
+        throw error
+      } else {
+        console.error(error)
       }
     }
   }
