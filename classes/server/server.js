@@ -7,11 +7,12 @@ const express = require('express')
 const compression = require('compression')
 const handlebars = require('express-handlebars')
 const http = require('http')
-const {IncomingMessage, ServerResponse} = require('http')
+const bodyParser = require('body-parser')
 
 const https = require('https')
 const helmet = require('helmet')
 const { readFileSync } = require('fs')
+const ServerHelper = require('./server_helper').ServerHelper
 const serverSecurityDirectory = path.join(__dirname, '..', '..', 'https')
 const serverSecurityDirectorySSL = path.join(serverSecurityDirectory, 'ssl')
 const serverSecurityDirectoryDH = path.join(serverSecurityDirectory, 'dh')
@@ -48,6 +49,8 @@ app.set('view engine', 'handlebars') // use handlebars as view engine
 app.set('view cache', true) // cache views for better performance
 app.use(compression()) // compress responses before sending them to the client
 app.use(helmet()) // use Diffie-Hellman connection buildup
+app.all('/*', ServerHelper.requestLogger) // request logger for all paths
+app.use(bodyParser.json()) // request argument parser (for post requests)
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', (req, res) => {
@@ -158,7 +161,13 @@ app.get('/type/render', (req, res) => {
   }) // Render a view template
 })
 app.get('/type/status', (req, res) => {
-  res.sendStatus(505) // Set the response status code and send its string representation as the response body
+  res.sendStatus(200) // Set the response status code and send its string representation as the response body
+})
+
+// Post interface
+app.post('/type/status', (req, res) => {
+  console.log(req.body)
+  res.sendStatus(200)
 })
 
 /*

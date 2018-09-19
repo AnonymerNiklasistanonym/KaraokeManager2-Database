@@ -8,7 +8,8 @@
     "build": "node_modules/.bin/pkg .",
     "documentation": "node ./classes/documentation/documentation.js",
     "format": "node_modules/.bin/standard --fix ./index.js ./classes/**/*.js ./routes/**/*.js",
-    "test": "node_modules/.bin/jshint -c ./.jshint.json --verbose ./index.js ./classes/ ./routes/",
+    "prune": "node_modules/.bin/node-prune",
+    "test": "node_modules/.bin/jshint -c ./.jshintrc --verbose ./index.js ./classes/ ./routes/",
     "z-fix-later-jsdoc": "node_modules/.bin/jsdoc -c .jsdoc.json -R README.md --verbose index.js && echo Documentation can be found in .\\docs\\index.html"
   },
   "repository": {
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "documentation": "^8.1.2",
     "express": "^4.16.3",
@@ -34,6 +36,7 @@
     "@pixi/jsdoc-template": "^2.4.2",
     "jsdoc": "^3.5.5",
     "jshint": "^2.9.6",
+    "node-prune": "^1.0.2",
     "standard": "^12.0.1",
     "pkg": "^4.3.4"
   },

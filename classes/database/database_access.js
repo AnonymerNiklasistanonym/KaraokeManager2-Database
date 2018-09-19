@@ -17,7 +17,7 @@ class DatabaseAccess {
    * @returns {string} - The path of the database
    */
   static get databasePath () {
-    return './retiDatabase.db'
+    return './database.db'
   }
 
   /**
@@ -82,7 +82,7 @@ class DatabaseAccess {
      * Get data from the database with a given query (because async a callback is needed!)
      * @param {string} query - 'GET' query for the database
      * @param {string} purpose - (Debugging) purpose of connection
-     * @param {(function(Error, [{}])|function(Error))} callback - Optional callback function with Error object and if successfully as second parameter the requested data
+     * @param {function(Error, [{}])} callback - Optional callback function with Error object and if successfully as second parameter the requested data
      */
   static makeSqlRequestGet (query, purpose = 'not specified', callback = console.log) {
     // create empty list for objects that we want
@@ -118,7 +118,7 @@ class DatabaseAccess {
       })
     } else {
       console.error('$ Database connection was never established! (' + purpose + ')')
-      callback(Error('Database connection was never established!'))
+      callback(Error('Database connection was never established!'), [{}])
     }
   }
 
@@ -165,7 +165,7 @@ class DatabaseAccess {
      * Get data from the database with a given query (because async a callback is needed!)
      * @param {string} query - 'GET' query for the database
      * @param {string} purpose - (Debugging) purpose of connection
-     * @param {function(Error, [{}])} callback - Optional callback function with Error object and if successfull as second parameter the requested data
+     * @param {function(Error, [{}])} callback - Optional callback function with Error object and if successfully as second parameter the requested data
      */
   static makeSqlRequestGetRw (query, purpose = 'not specified', callback = console.log) {
     // create empty list for objects that we want
@@ -201,7 +201,7 @@ class DatabaseAccess {
       })
     } else {
       console.error('$ Database connection was never established! (' + purpose + ')')
-      callback(Error('Database connection was never established!'))
+      callback(Error('Database connection was never established!'),[{}])
     }
   }
 }

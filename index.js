@@ -19,7 +19,7 @@ serverHttp.listen(8080, () => console.log('Example app listening on -> http://lo
 serverHttps.listen(8443, () => console.log('Example app listening on -> https://localhost:8443'))
 
 // create/open connection to database
-let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
+let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, // jshint ignore:line
   err => {
     if (err) {
       console.error(err.message)

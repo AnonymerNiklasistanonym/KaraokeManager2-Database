@@ -11,11 +11,11 @@ const DocumentationHelper = require('./documentation_helper').DocumentationHelpe
  */
 /**
  * Type definition for a Directory object
- * @typedef {{path: string, files: [(File|Directory)]}} DirectoryLite
+ * @typedef {{path: string, files: [File|Directory]}} DirectoryLite
  */
 /**
  * Type definition for a Directory object
- * @typedef {{path: string, info: string, files: [(File|Directory)]}} Directory
+ * @typedef {{path: string, info: string, files: [File|Directory]}} Directory
  */
 
 /**
@@ -163,12 +163,13 @@ class DocumentFileStructureHelper {
     // filter file customized
     fileObject = filter(fileObject)
     // check if file is not a directory
-    if (fileObject.files === undefined) {
+    if (!fileObject.hasOwnProperty('files')) {
       return '- ' + fileObject.path +
             (fileObject.info === undefined ? '\n' : '<br>' + fileObject.info + '\n')
     } else {
       return '\n' + '#'.repeat(depth) + ' ' + fileObject.path + '\n' +
             (fileObject.info === undefined ? '' : '\n' + fileObject.info + '\n\n') +
+            // @ts-ignore
             (fileObject.files === undefined ? '' : fileObject.files
               .map(element => this.renderFileToMarkdown(element, depth + 1, filter)).join(''))
     }
