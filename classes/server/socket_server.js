@@ -31,4 +31,4 @@ const socketMethod = clientSocket => {
 ioHttp.on('connection', socketMethod)
 ioHttps.on('connection', socketMethod)
 
-module.exports = { ServerHttp: serverHttp, ServerHttps: serverHttps, ServerHttpSocketIo: ioHttp, ServerHttpsSocketIo: ioHttps }
+module.exports = { serverHttp, serverHttps, ServerHttpSocketIo: ioHttp, ServerHttpsSocketIo: ioHttps }

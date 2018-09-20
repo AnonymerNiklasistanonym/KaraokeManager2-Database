@@ -4,7 +4,6 @@
     "strict": true,
     "trailing": true,
     "white": true,
-    "bitwise": true,
     "curly": true,
     "eqeqeq": true,
     "forin": true,

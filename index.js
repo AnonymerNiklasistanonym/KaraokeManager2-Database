@@ -2,73 +2,36 @@
 'use strict'
 
 // database
-const sqlite3 = require('sqlite3')
 const DatabaseHelper = require('./classes/database/setup/database_helper').DatabaseHelper
+const DatabaseQueries = require('./classes/database/database_queries')
 
 /**
- * Express http socket-io server
+ * Express http/https socket-io server
  */
-const serverHttp = require('./classes/server/socket_server').ServerHttp
-/**
- * Express https socket-io server
- */
-const serverHttps = require('./classes/server/socket_server').ServerHttps
+const { serverHttp, serverHttps } = require('./classes/server/socket_server')
 
 // start server
-serverHttp.listen(8080, () => console.log('Example app listening on -> http://localhost:8080'))
-serverHttps.listen(8443, () => console.log('Example app listening on -> https://localhost:8443'))
+const httpPort = 8080
+const httpsPort = 8443
 
-// create/open connection to database
-let db = new sqlite3.Database('./karaokemanager2_database.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, // jshint ignore:line
-  err => {
-    if (err) {
-      console.error(err.message)
-    }
-    console.log('Connected to the database.')
-  })
+serverHttp.listen(httpPort, () => console.log('Example app listening on -> http://localhost:' + httpPort))
+serverHttps.listen(httpsPort, () => console.log('Example app listening on -> https://localhost:' + httpsPort))
 
 // create tables (if not existing)
-let createdSetupTables = new Promise((resolve, reject) => {
-  DatabaseHelper.setupSQLiteTablesQueries
-    .then(sqlQueries => {
-      db.serialize(() => {
-        sqlQueries.forEach(sqliteQuery => {
-          db.run(sqliteQuery, err => {
-            if (err) console.error(err.message)
-          })
-        })
-      })
-      resolve()
-    })
-    .catch(err => reject(err))
-})
+const createdSetupTables = new Promise((resolve, reject) =>
+  DatabaseHelper.setupSQLiteTablesQueries.then(sqlQueries => {
+    const promises = []
+    sqlQueries.forEach(sqliteQuery => promises.push(DatabaseQueries.postRequest(sqliteQuery)))
+    Promise.all(promises).then(resolve).catch(reject)
+  }).catch(reject))
 
 // create default values (if not existing)
-let createdSetupValues = new Promise((resolve, reject) => {
-  createdSetupTables.then(() => {
-    DatabaseHelper.setupSQLiteTableValuesQueries
-      .then(sqlQueries => {
-        db.serialize(() => {
-          sqlQueries.forEach(sqliteQuery => {
-            db.run(sqliteQuery, err => {
-              if (err) console.error(err.message)
-            })
-          })
-        })
-        resolve()
-      })
-      .catch(err => reject(err))
-  }).catch(err => reject(err))
-})
+const createdSetupValues = new Promise((resolve, reject) =>
+  createdSetupTables.then(() =>
+    DatabaseHelper.setupSQLiteTableValuesQueries.then(sqlQueries => {
+      const promises = []
+      sqlQueries.forEach(sqliteQuery => promises.push(DatabaseQueries.postRequest(sqliteQuery)))
+      Promise.all(promises).then(resolve).catch(reject)
+    }).catch(reject)).catch(reject))
 
-createdSetupValues
-  .then(() => {
-    // close database
-    db.close(err => {
-      if (err) {
-        console.error(err.message)
-      }
-      console.log('Close the database connection.')
-    })
-  })
-  .catch(err => console.error(err))
+createdSetupValues.then(() => console.log('Table setup completed')).catch(console.error)

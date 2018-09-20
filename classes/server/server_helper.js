@@ -30,12 +30,12 @@ class ServerHelper {
   }
   /**
    * Returns function for handling server errors
-   * @returns {function(*):void}
+   * @returns {function({code: string, port: number}):void}
    */
   static get serverErrorListener () {
     return error => {
       if (error.code === 'EADDRINUSE') {
-        console.error(`The server port ${error.port} is already being used!` +
+        console.error(`The server port ${error.port} is already being used! ` +
           'Change port or close the instance that is using this port currently.')
         throw error
       } else {
@@ -45,4 +45,4 @@ class ServerHelper {
   }
 }
 
-module.exports = { ServerHelper: ServerHelper }
+module.exports = ServerHelper
