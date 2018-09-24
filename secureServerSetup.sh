@@ -10,7 +10,7 @@
 ###################################################################################################
 
 serverSecurityDirectory="./https"
-mkdir -p $serverSecurityDirectorySSL
+mkdir -p $serverSecurityDirectory
 
 # 1. Create ssl certs
 ###################################################################################################
@@ -18,6 +18,8 @@ mkdir -p $serverSecurityDirectorySSL
 # https/ssl-cert/localhost.key is the key and https/ssl-cert/localhost.crt is the certificate that
 # can also be installed
 serverSecurityDirectorySSL="${serverSecurityDirectory}/ssl"
+mkdir -p $serverSecurityDirectorySSL
+
 serverSecurityConfCertSSL="${serverSecurityDirectorySSL}/config.cnf"
 serverSecurityCertSSL="${serverSecurityDirectorySSL}/localhost.crt"
 serverSecurityKeySSL="${serverSecurityDirectorySSL}/localhost.key"
@@ -34,8 +36,8 @@ rm $serverSecurityConfCertSSL
 # 2. Create Diffie–Hellman key exchange parameter
 ###################################################################################################
 serverSecurityDirectoryDH="${serverSecurityDirectory}/dh"
-serverSecurityStrongParameterDH="${serverSecurityDirectoryDH}/dh-strong.pem"
-
 mkdir -p $serverSecurityDirectoryDH
+
+serverSecurityStrongParameterDH="${serverSecurityDirectoryDH}/dh-strong.pem"
 
 openssl dhparam -out $serverSecurityStrongParameterDH 2048

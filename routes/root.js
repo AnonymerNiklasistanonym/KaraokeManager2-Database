@@ -1,6 +1,10 @@
 #!/usr/bin/env node
-
 'use strict'
+
+/*
+ * This file contains:
+ * The root route of the server
+ */
 
 const router = require('express').Router()
 const birds = require('./birds')

@@ -3,7 +3,7 @@
 
 /*
  * This file contains:
- * Basic methods to access/talk to the database
+ * Basic methods to make get and post requests to the database
  */
 
 const DatabaseAccess = require('./database_access')

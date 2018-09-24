@@ -3,7 +3,7 @@
 
 /*
  * This file contains:
- * Basic methods to access/talk to the database
+ * Basic methods to access the database
  */
 
 const sqlite3 = require('sqlite3')
