@@ -13,4 +13,6 @@ router.get('/', (req, res) => res.send('Birds home page'))
 // define the about route
 router.get('/about', (req, res) => res.send('About birds'))
 
+router.get('/blub', (req, res) => res.render('audioVideo', { layout: 'materialize' }))
+
 module.exports = router

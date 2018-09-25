@@ -92,7 +92,9 @@ app.use(session(sess))
 // log directory
 const logDirectory = join(__dirname, '../../log')
 // ensure log directory exists
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+if (!fs.existsSync(logDirectory)) {
+  fs.mkdirSync(logDirectory)
+}
 // create a rotating write stream
 // @ts-ignore
 const accessLogStream = rfs('access.log', {
@@ -117,6 +119,9 @@ app.use('/', root)
 // Make a whole directory downloadable (http://localhost:3000/database/tables.json)
 app.use(express.static('./public'))
 app.use('/wavesurfer', express.static('./node_modules/wavesurfer.js/dist/'))
+app.use('/materialize', express.static('./node_modules/materialize-css/dist/'))
+app.use('/material-icons', express.static('./node_modules/material-icons/dist/'))
+app.use('/material-icons', express.static('./node_modules/material-icons/'))
 
 ServerHelper.printAllServerRoutes(app)
 

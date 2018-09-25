@@ -15,7 +15,7 @@ class MetadataMusicFileHelper {
   static getPictureArrayBuffer (filePath) {
     // @ts-ignore
     return new Promise((resolve, reject) => new jsmediatags.Reader(filePath).setTagsToRead(['picture']).read({
-      onSuccess: tag => resolve({base64Type: tag.tags.picture.format, arrayBuffer: tag.tags.picture.data}),
+      onSuccess: tag => resolve({ base64Type: tag.tags.picture.format, arrayBuffer: tag.tags.picture.data }),
       onError: reject
     }))
   }
@@ -49,7 +49,7 @@ class BufferUtilHelper {
    * @returns {{type: string, buffer: Buffer}} file buffer
    */
   static convertBase64StringToBuffer (base64String) {
-    const matches = base64String.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+    const matches = base64String.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/) // eslint-disable-line no-useless-escape
     if (matches.length !== 3) {
       throw new Error('Invalid input string')
     } else {
@@ -79,4 +79,4 @@ class MetadataHelper {
   }
 }
 
-module.exports = {MetadataHelper, BufferUtilHelper, MetadataMusicFileHelper}
+module.exports = { MetadataHelper, BufferUtilHelper, MetadataMusicFileHelper }

@@ -10,6 +10,7 @@ const router = require('express').Router()
 const birds = require('./birds')
 const waveform = require('./waveform')
 const sockets = require('./sockets')
+const videoAudio = require('./videoAudio')
 
 // respond with "hello world" when a GET request is made to the homepage
 router.get('/', (req, res) => res.send('hello world'))
@@ -122,5 +123,6 @@ router.post('/type/status', (req, res) => {
 router.use('/birds', birds)
 router.use('/waveform', waveform)
 router.use('/sockets', sockets)
+router.use('/videoAudio', videoAudio)
 
 module.exports = router
