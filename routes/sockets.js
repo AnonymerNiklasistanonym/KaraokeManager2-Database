@@ -9,6 +9,6 @@
 const router = require('express').Router()
 
 // define the home page route
-router.get('/', (req, res) => res.render('socket_test', { text: 'Socket test' }))
+router.get('/', (req, res) => res.render('socket_test', { socketAddress: req.protocol + '://localhost:' + (req.protocol === 'https' ? '8443' : '8080'), text: 'Socket test' }))
 
 module.exports = router

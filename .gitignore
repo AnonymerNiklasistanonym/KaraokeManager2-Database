@@ -25,6 +25,12 @@ docs
 # ignore https certificates
 https
 
+# ignore test files
+test
+
+# ignore log files
+log
+
 # environments
 # -------------------
 

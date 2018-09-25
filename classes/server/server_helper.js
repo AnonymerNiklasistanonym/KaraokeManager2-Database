@@ -9,12 +9,18 @@
 const { IncomingMessage, OutgoingMessage } = require('http')
 
 /**
- * Documentation helper methods
+ * Contains miscellaneous methods for ease of use of the server
  */
 class ServerHelper {
   /**
    * Returns function for logging requests
    * @returns {function(*,*,function):void}
+   * @example const express = require('express')
+   * const ServerHelper = require('./server_helper')
+   *
+   * const app = express()
+   * // use a logger for *all* paths/connections
+   * app.all('/*', ServerHelper.requestLogger)
    */
   static get requestLogger () {
     return (req, res, next) => {
@@ -31,6 +37,12 @@ class ServerHelper {
   /**
    * Returns function for handling server errors
    * @returns {function({code: string, port: number}):void}
+   * @example const express = require('express')
+   * const http = require('http')
+   * const ServerHelper = require('./server_helper')
+   *
+   * const app = express()
+   * const serverHttp = http.createServer(app).on('error', ServerHelper.serverErrorListener)
    */
   static get serverErrorListener () {
     return error => {
@@ -42,6 +54,52 @@ class ServerHelper {
         console.error(error)
       }
     }
+  }
+  /**
+   * Lists all express routes
+   * https://github.com/expressjs/express/issues/3308#issuecomment-300957572
+   *
+   * @param {*} app (express())
+   * @example const express = require('express')
+   * // optional: import external router
+   * const externalRouteExample = require('./routeExample')
+   *
+   * const app = express()
+   * app.get('/example', (req, res) => res.status(200))
+   * app.use('/', externalRouteExample)
+   *
+   * // print all registered routes
+   * printAllServerRoutes(app)
+   */
+  static printAllServerRoutes (app) {
+    function split (thing) {
+      if (typeof thing === 'string') {
+        return thing.split('/')
+      } else if (thing.fast_slash) {
+        return ''
+      } else {
+        var match = thing.toString()
+          .replace('\\/?', '')
+          .replace('(?=\\/|$)', '$')
+          .match(/^\/\^((?:\\[.*+?^${}()|[\]\\\/]|[^.*+?^${}()|[\]\\\/])*)\$\//) // eslint-disable-line no-useless-escape
+        return match ? match[1].replace(/\\(.)/g, '$1').split('/')
+          : '<complex:' + thing.toString() + '>'
+      }
+    }
+
+    function print (path, layer) {
+      if (layer.route) {
+        layer.route.stack.forEach(print.bind(null, path.concat(split(layer.route.path))))
+      } else if (layer.name === 'router' && layer.handle.stack) {
+        layer.handle.stack.forEach(print.bind(null, path.concat(split(layer.regexp))))
+      } else if (layer.method) {
+        console.log('%s /%s',
+          layer.method.toUpperCase(),
+          path.concat(split(layer.regexp)).filter(Boolean).join('/'))
+      }
+    }
+
+    app._router.stack.forEach(print.bind(null, []))
   }
 }
 

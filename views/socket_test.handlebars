@@ -1,32 +1,21 @@
-<!doctype html>
-<html lang="en">
+<h1>Hello World! - {{text}}</h1>
+<div id="future"></div>
+<form id="form" id="chat_form">
+    <input id="chat_input" type="text">
+    <input type="submit" value="Send">
+</form>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('{{socketAddress}}')
+    socket.on('connect', (data) => {
+        socket.emit('join', 'hello server')
+    })
 
-<head>
-
-</head>
-
-<body>
-    <h1>Hello World! - {{text}}</h1>
-    <div id="future"></div>
-    <form id="form" id="chat_form">
-        <input id="chat_input" type="text">
-        <input type="submit" value="Send">
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io.connect('http://localhost:3000')
-        socket.on('connect', (data) => {
-            socket.emit('join', 'hello server')
-        })
-
-        // overwrite form submission
-        form.onsubmit = (event) => {
-            event.preventDefault()
-            socket.emit('join', document.getElementById('chat_input').value)
-            document.getElementById('chat_input').value = ''
-            return false
-        }
-    </script>
-</body>
-
-</html>
+    // overwrite form submission
+    form.onsubmit = (event) => {
+        event.preventDefault()
+        socket.emit('join', document.getElementById('chat_input').value)
+        document.getElementById('chat_input').value = ''
+        return false
+    }
+</script>

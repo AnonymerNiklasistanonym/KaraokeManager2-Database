@@ -8,6 +8,7 @@
 
 const router = require('express').Router()
 const birds = require('./birds')
+const waveform = require('./waveform')
 const sockets = require('./sockets')
 
 // respond with "hello world" when a GET request is made to the homepage
@@ -79,7 +80,7 @@ router.get('/type/end', (req, res) => {
 router.get('/type/json', (req, res) => {
   // res.setHeader('x-no-compression')
   res.json({
-    json: 'object'.repeat(9999),
+    json: 'object'.repeat(99999),
     first: {
       second: true
     }
@@ -119,6 +120,7 @@ router.post('/type/status', (req, res) => {
  * Other routes
  */
 router.use('/birds', birds)
+router.use('/waveform', waveform)
 router.use('/sockets', sockets)
 
 module.exports = router
