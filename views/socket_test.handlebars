@@ -6,15 +6,17 @@
 </form>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io.connect('{{socketAddress}}')
-    socket.on('connect', (data) => {
+    var socket = io.connect('{{socketAddress}}',{ secure: true })
+    socket.on('connect', data => {
         socket.emit('join', 'hello server')
+        console.log(data)
     })
 
     // overwrite form submission
     form.onsubmit = (event) => {
         event.preventDefault()
         socket.emit('join', document.getElementById('chat_input').value)
+        console.log('emit: "' + document.getElementById('chat_input').value + '"')
         document.getElementById('chat_input').value = ''
         return false
     }

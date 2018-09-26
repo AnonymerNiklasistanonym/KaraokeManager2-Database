@@ -18,10 +18,15 @@ const ioHttp = socketIo(serverHttp)
 const ioHttps = socketIo(serverHttps)
 
 const socketMethod = clientSocket => {
-  console.log('Http > Client connected...', clientSocket.client.id)
+
+  let identifier = 'Socket Unsecured'
+  if (clientSocket.client.request.socket.encrypted) {
+    identifier = 'Socket Secured'
+  }
+  console.log(identifier + ' > Client connected...', clientSocket.client.id)
 
   clientSocket.on('join', (data) => {
-    console.log('Http > client sent data -', clientSocket.client.id, '\n\t', data)
+    console.log(identifier + ' > client sent data -', clientSocket.client.id, '\n\t', data)
   })
 }
 

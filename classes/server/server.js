@@ -8,7 +8,8 @@ const fs = require('fs')
 
 // server > base servers
 const http = require('http')
-const https = require('https')
+const https = require('http2')
+const spdy = require('spdy')
 // server > express and plugins
 const express = require('express')
 const bodyParserJson = require('body-parser').json
@@ -29,18 +30,22 @@ const root = require('../../routes/root')
  */
 
 // load certs/keys
-const serverSecurityDirectory = join(__dirname, '..', '..', 'https')
-const serverSecurityDirectorySSL = join(serverSecurityDirectory, 'ssl')
-const serverSecurityDirectoryDH = join(serverSecurityDirectory, 'dh')
-const sslKey = readFileSync(join(serverSecurityDirectorySSL, 'localhost.key'), 'utf8')
-const sslCert = readFileSync(join(serverSecurityDirectorySSL, 'localhost.crt'), 'utf8')
-const dhParam = readFileSync(join(serverSecurityDirectoryDH, 'dh-strong.pem'), 'utf8')
-const options = { key: sslKey, cert: sslCert, dhparam: dhParam }
+// const serverSecurityDirectory = join(__dirname, '..', '..', 'https')
+const http2serverSecurityDirectory = join(__dirname, '..', '..', 'http2')
+// const serverSecurityDirectorySSL = join(serverSecurityDirectory, 'ssl')
+// const serverSecurityDirectoryDH = join(serverSecurityDirectory, 'dh')
+// const sslKey = readFileSync(join(serverSecurityDirectorySSL, 'localhost.key'), 'utf8')
+// const sslCert = readFileSync(join(serverSecurityDirectorySSL, 'localhost.crt'), 'utf8')
+// const dhParam = readFileSync(join(serverSecurityDirectoryDH, 'dh-strong.pem'), 'utf8')
+// const options = { key: sslKey, cert: sslCert, dhparam: dhParam }
+const http2sslKey = readFileSync(join(http2serverSecurityDirectory, 'server.key'), 'utf8')
+const http2sslCert = readFileSync(join(http2serverSecurityDirectory, 'server.crt'), 'utf8')
+const http2options = { key: http2sslKey, cert: http2sslCert }
 
 // create express server instances
 const app = express()
 const serverHttp = http.createServer(app).on('error', ServerHelper.serverErrorListener)
-const serverHttps = https.createServer(options, app).on('error', ServerHelper.serverErrorListener)
+const serverHttps = spdy.createServer(http2options, app).on('error', ServerHelper.serverErrorListener)
 
 /*
  * Customize express server 'plugins'
