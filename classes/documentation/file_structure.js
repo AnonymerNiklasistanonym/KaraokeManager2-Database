@@ -37,6 +37,7 @@ class DocumentFileStructureHelper {
       // read directory
       readdir(directoryPath)
         .then(fileList => Promise.all(filter(fileList).map(filePath => this.listFile(directoryPath, filePath, filter)))
+          // @ts-ignore
           .then(listOfFiles => resolve({
             path: directoryPath,
             files: listOfFiles
@@ -45,18 +46,18 @@ class DocumentFileStructureHelper {
     })
   }
   /**
-   * @param {*} directoryPath
-   * @param {*} filePath
-   * @param {*} [filter=a=>a]
+   * @param {string} directoryPath
+   * @param {string} filePath
+   * @param {function(): boolean} directoryFilter
    * @returns {Promise<(File|Directory)>}
    */
-  static listFile (directoryPath, filePath, filter = a => a) {
+  static listFile (directoryPath, filePath, directoryFilter = a => a) {
     return new Promise((resolve, reject) => {
       const fileFilePath = path.join(directoryPath, filePath)
       // analyze specifically if file is a directory or a normal file
       stat(fileFilePath).then(status => {
         if (status.isDirectory()) {
-          this.analyzeDirectory(fileFilePath, filter).then(resolve).catch(reject)
+          this.analyzeDirectory(fileFilePath, directoryFilter).then(resolve).catch(reject)
         } else if (status.isFile()) {
           this.analyzeFile(fileFilePath).then(resolve).catch(reject)
         }
@@ -118,41 +119,54 @@ class DocumentFileStructureHelper {
         .then(value => {
           switch (filePath.substring(filePath.lastIndexOf('.') + 1)) {
             case 'js':
-              if (value.indexOf('\n * This file contains:') !== -1) {
-                const fileContentHeader = value.substring(value.indexOf('* This file contains:') + '* This file contains:'.length, value.indexOf('*/')).split('* ').join('').replace(/^\s+|\s+$/g, '')
-                resolve(fileContentHeader)
-              } else {
-                resolve('TODO')
-              }
+              this.getFileContentJavaScript(filePath, value).then(resolve)
               break
             case 'handlebars':
-              if (value.indexOf('{{!--') !== -1) {
-                const fileContentHeader = value.substring(value.indexOf('{{!--') + 7 + ' Description:'.length, value.indexOf('--}}')).split('\n ').join('').replace(/^\s+|\s+$/g, '')
-                resolve(fileContentHeader)
-              } else {
-                resolve('TODO')
-              }
+              this.getFileContentHandlebars(filePath, value).then(resolve)
               break
             case 'json':
-              const explanationFile = filePath.substring(0, filePath.lastIndexOf('.')) + '.md'
-              DocumentationHelper.existsDocumentationFile(explanationFile, false)
-                .then(exists => {
-                  if (exists) {
-                    readFile(explanationFile, 'utf8')
-                      .then(fileContent => resolve(fileContent.substring(fileContent.indexOf('\n')).replace(/^\s+|\s+$/g, '')))
-                      .catch(reject)
-                  } else {
-                    resolve('TODO')
-                  }
-                }).catch(reject)
+              this.getFileContentJson(filePath).then(resolve).catch(reject)
               break
-
             default:
-
-              resolve('TODO')
+              resolve('TODO - NOT SUPPORTED FILE FORMAT')
           }
         })
         .catch(reject)
+    })
+  }
+  static getFileContentJavaScript (filePath, value) {
+    return new Promise(resolve => {
+      if (value.indexOf('\n * This file contains:') !== -1) {
+        const fileContentHeader = value.substring(value.indexOf('* This file contains:') + '* This file contains:'.length, value.indexOf('*/')).split('* ').join('').replace(/^\s+|\s+$/g, '')
+        resolve(fileContentHeader)
+      } else {
+        resolve('TODO')
+      }
+    })
+  }
+  static getFileContentHandlebars (filePath, value) {
+    return new Promise(resolve => {
+      if (value.indexOf('{{!--') !== -1) {
+        const fileContentHeader = value.substring(value.indexOf('{{!--') + 7 + ' Description:'.length, value.indexOf('--}}')).split('\n ').join('').replace(/^\s+|\s+$/g, '')
+        resolve(fileContentHeader)
+      } else {
+        resolve('TODO')
+      }
+    })
+  }
+  static getFileContentJson (filePath) {
+    return new Promise((resolve, reject) => {
+      const explanationFile = filePath.substring(0, filePath.lastIndexOf('.')) + '.md'
+      DocumentationHelper.existsDocumentationFile(explanationFile, false)
+        .then(exists => {
+          if (exists) {
+            readFile(explanationFile, 'utf8')
+              .then(fileContent => resolve(fileContent.substring(fileContent.indexOf('\n')).replace(/^\s+|\s+$/g, '')))
+              .catch(reject)
+          } else {
+            resolve('TODO')
+          }
+        }).catch(reject)
     })
   }
   /**
@@ -165,13 +179,31 @@ class DocumentFileStructureHelper {
     // check if file is not a directory
     if (!fileObject.hasOwnProperty('files')) {
       return '- ' + fileObject.path +
-            (fileObject.info === undefined ? '\n' : '<br>' + fileObject.info + '\n')
+            this.renderFileToMarkdownFileInfo(fileObject.info)
     } else {
       return '\n' + '#'.repeat(depth) + ' ' + fileObject.path + '\n' +
-            (fileObject.info === undefined ? '' : '\n' + fileObject.info + '\n\n') +
+            this.renderFileToMarkdownDirectoryInfo(fileObject.info) +
             // @ts-ignore
             (fileObject.files === undefined ? '' : fileObject.files
               .map(element => this.renderFileToMarkdown(element, depth + 1, filter)).join(''))
+    }
+  }
+  static renderFileToMarkdownDirectoryInfo (fileInfo) {
+    if (fileInfo === undefined) {
+      return ''
+    } else {
+      return '\n' + fileInfo + '\n\n'
+    }
+  }
+  static renderFileToMarkdownFileInfo (fileInfo) {
+    if (fileInfo === undefined) {
+      return '\n'
+    } else {
+      if (fileInfo.split('\n').length > 1) {
+        return '<br>\n```\n' + fileInfo + '\n```\n'
+      } else {
+        return '<br>' + fileInfo + '\n'
+      }
     }
   }
 }

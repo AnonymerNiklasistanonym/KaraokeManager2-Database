@@ -16,7 +16,7 @@ router.get('/', (req, res) => res.send('Birds home page'))
 // define the about route
 router.get('/about', (req, res) => res.send('About birds'))
 
-router.get('/blub', (req, res) => {
+router.get('/test', (req, res) => {
   res.locals = {
     materializeFooterPartial: configuration.getMaterializeFooter(),
     theme: configuration.getTheme()

@@ -99,7 +99,7 @@ class DocumentationHelper {
   }
   static existsDocumentationFile (filePath, useDocumentationDirectoryAsRootPath = true) {
     if (!useDocumentationDirectoryAsRootPath) {
-      return new Promise((resolve, reject) => stat(filePath).then(stat => resolve(true))
+      return new Promise((resolve, reject) => stat(filePath).then(status => resolve(status.isFile() || status.isDirectory()))
         .catch(err => err.code === 'ENOENT' ? resolve(false) : reject(err)))
     } else {
       return new Promise((resolve, reject) =>
