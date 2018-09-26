@@ -30,17 +30,12 @@ const root = require('../../routes/root')
  */
 
 // load certs/keys
-// const serverSecurityDirectory = join(__dirname, '..', '..', 'https')
+const serverSecurityDirectoryDH = join(__dirname, '..', '..', 'dh')
 const http2serverSecurityDirectory = join(__dirname, '..', '..', 'http2')
-// const serverSecurityDirectorySSL = join(serverSecurityDirectory, 'ssl')
-// const serverSecurityDirectoryDH = join(serverSecurityDirectory, 'dh')
-// const sslKey = readFileSync(join(serverSecurityDirectorySSL, 'localhost.key'), 'utf8')
-// const sslCert = readFileSync(join(serverSecurityDirectorySSL, 'localhost.crt'), 'utf8')
-// const dhParam = readFileSync(join(serverSecurityDirectoryDH, 'dh-strong.pem'), 'utf8')
-// const options = { key: sslKey, cert: sslCert, dhparam: dhParam }
+const dhParam = readFileSync(join(serverSecurityDirectoryDH, 'dh-strong.pem'), 'utf8')
 const http2sslKey = readFileSync(join(http2serverSecurityDirectory, 'server.key'), 'utf8')
 const http2sslCert = readFileSync(join(http2serverSecurityDirectory, 'server.crt'), 'utf8')
-const http2options = { key: http2sslKey, cert: http2sslCert }
+const http2options = { key: http2sslKey, cert: http2sslCert, hd: dhParam }
 
 // create express server instances
 const app = express()

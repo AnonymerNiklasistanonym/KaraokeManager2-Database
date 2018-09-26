@@ -22,8 +22,8 @@ karaokemanager2-database-win.exe
 # ignore locally created documentations
 docs
 
-# ignore https certificates
-https
+# ignore https certificates/dh parameter
+dh
 http2
 
 # ignore test files
