@@ -12,6 +12,13 @@
 4. Run in the cloned directory `npm install`
 5. Now start the server with `npm start`
 
+## Setup via Makefile (`make`)
+
+1. Install the latest version of [nodejs](https://nodejs.org/en/download/current/)
+2. Clone the directory via `git clone https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database.git`
+3. Run in the cloned directory `make -f Makefile`
+4. Now start the server with `make -f Makefile server`
+
 ## Commands
 
 - `npm start` Execute main file
