@@ -59,6 +59,8 @@
     "assets": [
       "views/**/*.handlebars",
       "data/**/*.json",
+      "public/css/**/*.css",
+      "public/js/**/*.js",
       "https/ssl/*.crt",
       "https/ssl/*.key",
       "https/dh/*.pem"

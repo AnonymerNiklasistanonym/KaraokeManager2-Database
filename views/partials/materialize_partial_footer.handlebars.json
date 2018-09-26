@@ -1,0 +1,38 @@
+{
+    "materializeFooterPartial": {
+        "bio": {
+            "title": "Bio",
+            "text": "Bio text"
+        },
+        "lists": [{
+            "title": "Link list n",
+            "links": [{
+                "url": "#",
+                "text": "Link m"
+            }]
+        }],
+        "madeBy": {
+            "text": "Made by",
+            "links": [{
+                "url": "http://materializecss.com/",
+                "text": "materialize"
+            }]
+        }
+    },
+    "theme": {
+        "footer": {
+            "mainColor": "orange",
+            "copyright": {
+                "linkColor": "orange"
+            },
+            "links": {
+                "titleColor": "white",
+                "textColor": "white"
+            },
+            "bio": {
+                "titleColor": "white",
+                "textColor": "grey"
+            }
+        }
+    }
+}

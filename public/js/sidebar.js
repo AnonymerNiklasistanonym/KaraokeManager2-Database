@@ -1,6 +1,8 @@
 'use strict'
 
+/* global document, M */
+
 document.addEventListener('DOMContentLoaded', () => {
-  let elems = document.querySelectorAll('.sidenav')
-  M.Sidenav.init(elems, {})
+  const sideBar = document.querySelectorAll('.sidenav')
+  M.Sidenav.init(sideBar, {})
 })

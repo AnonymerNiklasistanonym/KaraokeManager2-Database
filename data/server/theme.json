@@ -1,0 +1,16 @@
+{
+    "footer": {
+        "mainColor": "light-blue",
+        "copyright": {
+            "linkColor": "light-blue"
+        },
+        "links": {
+            "titleColor": "white",
+            "textColor": "white"
+        },
+        "bio": {
+            "titleColor": "white",
+            "textColor": "grey"
+        }
+    }
+}

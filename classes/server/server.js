@@ -82,8 +82,11 @@ app.use(bodyParserJson())
 // session handler
 app.set('trust proxy', 1)
 const sess = {
-  secret: 'keyboard cat',
-  cookie: { secure: true }
+  secret: 'cookie secret',
+  name: 'cookie name',
+  cookie: { secure: true },
+  resave: true,
+  saveUninitialized: true
 }
 
 // @ts-ignore
