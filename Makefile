@@ -28,4 +28,5 @@ clean : ;@echo "Clean ${PROJECT}....."; \
 	rm -rf build; \
 	rm -rf database; \
 	rm -f database.db; \
-	rm -f package-lock.json
+	rm -f package-lock.json; \
+	git clean -f -d

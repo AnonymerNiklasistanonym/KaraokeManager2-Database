@@ -11,13 +11,11 @@ package-lock.json
 # data
 # -------------------
 
-# ignore binary databases
+# ignore databases
 *.db
 
-# ignore binary builds
-karaokemanager2-database-linux
-karaokemanager2-database-macos
-karaokemanager2-database-win.exe
+# ignore builds
+build
 
 # ignore locally created documentations
 docs
@@ -32,9 +30,9 @@ test
 # ignore log files
 log
 
+
 # environments
 # -------------------
 
 # ignore VisualStudioCode
 .vscode
-http2/server.crt

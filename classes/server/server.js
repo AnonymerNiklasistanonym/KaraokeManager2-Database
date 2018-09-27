@@ -8,7 +8,6 @@ const fs = require('fs')
 
 // server > base servers
 const http = require('http')
-const https = require('http2')
 const spdy = require('spdy')
 // server > express and plugins
 const express = require('express')

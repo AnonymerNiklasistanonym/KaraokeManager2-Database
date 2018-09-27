@@ -1,22 +1,30 @@
 {
+    "plugins": ["plugins/markdown"],
+    "recurseDepth": 10,
+    "source": {
+        "exclude": [
+            "node_modules",
+            "docs"
+        ],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "sourceType": "module",
     "tags": {
         "allowUnknownTags": true,
-        "dictionaries": ["jsdoc"]
+        "dictionaries": [
+            "jsdoc",
+            "closure"
+        ]
     },
-    "source": {
-         "include": ["index.js", "package.json", "README.md", "classes/", "data/"],
-        "excludePattern": "(node_modules|docs)"
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true
     },
-    "plugins": [
-        "plugins/markdown"
-    ],
     "linenums": true,
     "opts": {
-        "destination": "./docs/",
         "encoding": "utf8",
-        "private": true,
         "recurse": true,
-        "verbose": true,
-        "template": "./node_modules/@pixi/jsdoc-template"
+        "destination": "./docs/jsdoc/"
     }
 }

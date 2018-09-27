@@ -44,6 +44,48 @@ class DatabaseTablesJsonParser {
         .catch(err => reject(err))
     })
   }
+  static parseDatabaseTablesWithClassTableObjectKeys (parseClass, tableObject) {
+    // parse not null keys if there are any
+    if (tableObject.hasOwnProperty('not_null_keys')) {
+      tableObject.not_null_keys.forEach(tableNotNullProperty => {
+        parseClass.parseTableGetNotNullKey(this.parseDatabaseTableProperty(parseClass, tableNotNullProperty, false, true))
+        parseClass.parseTableGetNotNullKeyReference(tableNotNullProperty.hasOwnProperty('reference') ? this.parseDatabaseTablePropertyReference(parseClass, tableNotNullProperty.name, tableNotNullProperty.reference) : undefined)
+      })
+    }
+    // parse null keys if there are any
+    if (tableObject.hasOwnProperty('null_keys')) {
+      tableObject.null_keys.forEach(tableNullProperty => {
+        parseClass.parseTableGetNullKey(this.parseDatabaseTableProperty(parseClass, tableNullProperty))
+        parseClass.parseTableGetNullKeyReference(tableNullProperty.hasOwnProperty('reference') ? this.parseDatabaseTablePropertyReference(parseClass, tableNullProperty.name, tableNullProperty.reference) : undefined)
+      })
+    }
+  }
+  /**
+   * Get SQLite queries to create all necessary tables
+   *
+   * @param {DatabaseTablesParsingClass} parseClass Class that implements parsing methods
+   * @param {*} tableObject
+   */
+  static parseDatabaseTablesWithClassTableObject (parseClass, tableObject) {
+    // check if name, description and primary key of table exist
+    if (!tableObject.hasOwnProperty('name') || tableObject.name === '') {
+      throw new Error('No table name found!')
+    }
+    if (!tableObject.hasOwnProperty('description') || tableObject.description === '') {
+      throw new Error('No table description found! (' + tableObject.name + ')')
+    }
+    if (!tableObject.hasOwnProperty('primary_key')) {
+      throw new Error('No primary key found! (table = ' + tableObject.name + ')')
+    }
+    // initialize custom parse of table object with name and description
+    parseClass.parseTableBegin(tableObject.name, tableObject.description)
+    // parse the primary key
+    parseClass.parseTableGetPrimaryKey(this.parseDatabaseTableProperty(parseClass, tableObject.primary_key, true))
+    // parse null/non-null keys if there are any
+    this.parseDatabaseTablesWithClassTableObjectKeys(parseClass, tableObject)
+    // parse table before continuing with new table or finishing with all tables
+    parseClass.resolveTable()
+  }
   /**
    * Get SQLite queries to create all necessary tables
    *
@@ -58,53 +100,19 @@ class DatabaseTablesJsonParser {
         // if parsing to JSON object was successful initialize custom parsing
         parseClass.parseEverythingBegin()
         // iterate over all tables of the JSON object
-        jsonArrayObject.forEach(tableObject => {
-          // check if name, description and primary key of table exist
-          if (!tableObject.hasOwnProperty('name') || tableObject.name === '') {
-            throw new Error('No table name found!')
-          }
-          if (!tableObject.hasOwnProperty('description') || tableObject.description === '') {
-            throw new Error('No table description found! (' + tableObject.name + ')')
-          }
-          if (!tableObject.hasOwnProperty('primary_key')) {
-            throw new Error('No primary key found! (table = ' + tableObject.name + ')')
-          }
-          // initialize custom parse of table object with name and description
-          parseClass.parseTableBegin(tableObject.name, tableObject.description)
-          // parse the primary key
-          parseClass.parseTableGetPrimaryKey(this.parseDatabaseTableProperty(parseClass, tableObject.primary_key, true))
-          // parse not null keys if there are any
-          if (tableObject.hasOwnProperty('not_null_keys')) {
-            tableObject.not_null_keys.forEach(tableNotNullProperty => {
-              parseClass.parseTableGetNotNullKey(this.parseDatabaseTableProperty(parseClass, tableNotNullProperty, false, true))
-              parseClass.parseTableGetNotNullKeyReference(tableNotNullProperty.hasOwnProperty('reference') ? this.parseDatabaseTablePropertyReference(parseClass, tableNotNullProperty.name, tableNotNullProperty.reference) : undefined)
-            })
-          }
-          // parse null keys if there are any
-          if (tableObject.hasOwnProperty('null_keys')) {
-            tableObject.null_keys.forEach(tableNullProperty => {
-              parseClass.parseTableGetNullKey(this.parseDatabaseTableProperty(parseClass, tableNullProperty))
-              parseClass.parseTableGetNullKeyReference(tableNullProperty.hasOwnProperty('reference') ? this.parseDatabaseTablePropertyReference(parseClass, tableNullProperty.name, tableNullProperty.reference) : undefined)
-            })
-          }
-          // parse table before continuing with new table or finishing with all tables
-          parseClass.resolveTable()
-        })
+        jsonArrayObject.forEach(tableObject => this.parseDatabaseTablesWithClassTableObject(parseClass, tableObject))
         // parse the last time everything and return the result to the promise
         resolve(parseClass.resolveEverything())
-      })
-      .catch(err => reject(err)))
+      }).catch(reject))
   }
   /**
    * Parse a JSON object table property
    *
-   * @static
    * @param {DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @param {{name: string, description:string, type: string, unique: boolean, default: string}} tableProperty Property object
    * @param {boolean} [isPrimaryKey=false] Property is primary key
    * @param {boolean} [isNotNull=false] Property can not be null
    * @returns {*} Custom parsed table property determined by the given parse class
-   * @memberof DatabaseTablesJsonParser
    */
   static parseDatabaseTableProperty (parseClass, tableProperty, isPrimaryKey = false, isNotNull = false) {
     // check if property has a name and description
@@ -117,6 +125,25 @@ class DatabaseTablesJsonParser {
     // parse table property begin with name and description
     parseClass.parseTablePropertyName(tableProperty.name, tableProperty.description)
     // parse table property type
+    this.parseTablePropertyType(parseClass, tableProperty)
+    // check if table property is a primary key
+    if (isPrimaryKey) {
+      parseClass.parseTablePropertyIsPrimaryKey()
+    }
+    // check if property is a not null key and/or unique
+    parseClass.parseTablePropertyIsNotNullUniqueKey(isNotNull, tableProperty.hasOwnProperty('unique') && tableProperty.unique)
+    // check if property has a default value
+    if (tableProperty.hasOwnProperty('default')) {
+      parseClass.parseTablePropertyDefault(tableProperty.default, tableProperty.type)
+    }
+    // return parsed table property
+    return parseClass.parseTablePropertyReturn()
+  }
+  /**
+   * @param {DatabaseTablesParsingClass} parseClass
+   * @param {{type: string, name: string}} tableProperty
+   */
+  static parseTablePropertyType (parseClass, tableProperty) {
     switch (tableProperty.type) {
       case 'integer':
         parseClass.parseTablePropertyType('integer')
@@ -133,18 +160,6 @@ class DatabaseTablesJsonParser {
       default:
         throw new Error('Undefined property type found (' + tableProperty.name + ' >> ' + tableProperty.type + ')')
     }
-    // check if table property is a primary key
-    if (isPrimaryKey) {
-      parseClass.parseTablePropertyIsPrimaryKey()
-    }
-    // check if property is a not null key and/or unique
-    parseClass.parseTablePropertyIsNotNullUniqueKey(isNotNull, tableProperty.hasOwnProperty('unique') && tableProperty.unique)
-    // check if property has a default value
-    if (tableProperty.hasOwnProperty('default')) {
-      parseClass.parseTablePropertyDefault(tableProperty.default, tableProperty.type)
-    }
-    // return parsed table property
-    return parseClass.parseTablePropertyReturn()
   }
   /**
    * Parse a JSON object table property reference
