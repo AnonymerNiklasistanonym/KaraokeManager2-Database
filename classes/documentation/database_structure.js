@@ -36,29 +36,35 @@ class DocumentDatabaseStructure {
       .catch(err => reject(err)))
   }
   static get documentationFilePath () {
-    return new Promise((resolve, reject) =>
-      this.getDocumentationInformation().then(documentationInformation => resolve(documentationInformation.filePath.join('/'))).catch(reject))
+    return new Promise((resolve, reject) => this.getDocumentationInformation()
+      .then(documentationInformation => resolve(documentationInformation.filePath.join('/')))
+      .catch(reject))
   }
   /**
    * Convenience method that will be executed on `npm run doc`
    * @returns {Promise<string>} Message that contains export info
    */
   static createDocumentation () {
-    return new Promise((resolve, reject) =>
-      DocumentationHelper.createDocumentationDirectory().then(() => {
-        this.createMarkdownDocumentationTables().then(resolve).catch(reject)
-      }).catch(reject))
+    return new Promise((resolve, reject) => DocumentationHelper.createDocumentationDirectory()
+      .then(() => {
+        this.createMarkdownDocumentationTables()
+          .then(resolve)
+          .catch(reject)
+      })
+      .catch(reject))
   }
   /**
      * Create a Markdown document which contains the information of all database tables
      * @returns {Promise}
      */
   static createMarkdownDocumentationTables () {
-    return new Promise((resolve, reject) =>
-      this.documentationFilePath.then(documentationFilePath =>
-        DatabaseHelper.markdownDocumentationTables.then(returnValue =>
-          DocumentationHelper.writeDocumentationFile(documentationFilePath, returnValue)
-            .then(resolve).catch(reject)).catch(reject)).catch(reject))
+    return new Promise((resolve, reject) => this.documentationFilePath
+      .then(documentationFilePath => DatabaseHelper.markdownDocumentationTables
+        .then(returnValue => DocumentationHelper.writeDocumentationFile(documentationFilePath, returnValue)
+          .then(resolve)
+          .catch(reject))
+        .catch(reject))
+      .catch(reject))
   }
 }
 

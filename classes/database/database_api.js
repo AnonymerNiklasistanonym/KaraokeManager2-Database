@@ -6,7 +6,7 @@
  * Basic methods to make get and post requests to the database
  */
 
-const DatabaseQueries = require('./database_queries')
+const DatabaseQueries = require('./database_queries').DatabaseQueries
 const DatabaseParser = require('./database_parser')
 const { PasswordHelper } = require('./../other/security')
 
@@ -55,7 +55,8 @@ class DatabaseApi {
    * .then(() => console.log('successful'))
    * .catch(console.error)
    */
-  static createTable (name, primaryKey, nonNullKeys = [], nullKeys = [], option = null) {
+  static createTable (name, primaryKey, nonNullKeys = [], nullKeys = [], option = undefined) {
+    console.log('>> createTable: ' + name)
     return DatabaseQueries.postRequest(DatabaseParser.createTableQuery(name, primaryKey, nonNullKeys, nullKeys, option))
   }
   /**

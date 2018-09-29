@@ -20,7 +20,8 @@ class PasswordHelper {
    * @returns {string} Salt
    */
   static generateSalt (length = 2048) {
-    return crypto.randomBytes(Math.ceil(length / 2)) // generate random bytes
+    return crypto
+      .randomBytes(Math.ceil(length / 2)) // generate random bytes
       .toString('hex') // convert string into the hexadecimal format
       .slice(0, length) // slice the string to the wanted length of characters
   }
@@ -44,7 +45,10 @@ class PasswordHelper {
    * @returns {string} Hash
    */
   static generateHash (password, salt) {
-    return crypto.createHmac('sha512', salt + this.pepper).update(password).digest('hex')
+    return crypto
+      .createHmac('sha512', salt + this.pepper)
+      .update(password)
+      .digest('hex')
   }
 
   /**

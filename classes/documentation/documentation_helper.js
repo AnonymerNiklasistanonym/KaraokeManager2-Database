@@ -94,17 +94,23 @@ class DocumentationHelper {
       return new Promise((resolve, reject) =>
         this.documentationDirectoryPath.then(documentationDirectoryPath =>
           this.writeDocumentationFile(path.join(documentationDirectoryPath, filePath), content, false)
-            .then(resolve).catch(reject)).catch(reject))
+            .then(resolve)
+            .catch(reject))
+          .catch(reject))
     }
   }
   static existsDocumentationFile (filePath, useDocumentationDirectoryAsRootPath = true) {
     if (!useDocumentationDirectoryAsRootPath) {
-      return new Promise((resolve, reject) => stat(filePath).then(status => resolve(status.isFile() || status.isDirectory()))
+      return new Promise((resolve, reject) => stat(filePath)
+        .then(status => resolve(status.isFile() || status.isDirectory()))
         .catch(err => err.code === 'ENOENT' ? resolve(false) : reject(err)))
     } else {
       return new Promise((resolve, reject) =>
         this.documentationDirectoryPath.then(documentationDirectoryPath =>
-          this.existsDocumentationFile(path.join(documentationDirectoryPath, filePath), false).then(resolve).catch(reject)).catch(reject))
+          this.existsDocumentationFile(path.join(documentationDirectoryPath, filePath), false)
+            .then(resolve)
+            .catch(reject))
+          .catch(reject))
     }
   }
   /**
@@ -113,7 +119,10 @@ class DocumentationHelper {
    */
   static getDocumentationInformationObject (filePath) {
     return new Promise((resolve, reject) => readFile(filePath)
-      .then(jsonContent => jsonContent.toString()).then(JSON.parse).then(resolve).catch(reject))
+      .then(jsonContent => jsonContent.toString())
+      .then(JSON.parse)
+      .then(resolve)
+      .catch(reject))
   }
 }
 

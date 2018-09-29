@@ -8,7 +8,9 @@
     "build": "node_modules/.bin/pkg . --out-path=build",
     "documentation": "node ./classes/documentation/documentation.js",
     "format": "node_modules/.bin/standard --fix ./index.js ./classes/**/*.js ./routes/**/*.js",
-    "test": "node_modules/.bin/jshint -c ./.jshintrc --verbose ./index.js ./classes/ ./routes/",
+    "test": "npm run testTsLint && npm run testJsHint && npm run format",
+    "testJsHint": "node_modules/.bin/jshint -c ./.jshintrc --verbose ./index.js ./classes/ ./routes/",
+    "testTsLint": "node_modules/.bin/tslint  -c ./tslint.json -p ./tsconfig.json",
     "jsdoc": "node_modules/.bin/jsdoc -c .jsdoc.json --verbose -R README.md classes"
   },
   "repository": {
@@ -39,13 +41,15 @@
     "socket.io": "^2.1.1",
     "spdy": "^3.4.7",
     "sqlite3": "^4.0.2",
+    "typescript": "^3.1.1",
     "wavesurfer.js": "^2.0.6"
   },
   "devDependencies": {
     "jsdoc": "^3.5.5",
     "jshint": "^2.9.6",
     "pkg": "^4.3.4",
-    "standard": "^12.0.1"
+    "standard": "^12.0.1",
+    "tslint": "^5.11.0"
   },
   "bin": {
     "pkg": "index.js"

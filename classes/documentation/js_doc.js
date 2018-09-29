@@ -48,16 +48,17 @@ class DocumentJsDoc {
         Promise.all(
           // create all Promises for the HTML documentations
           jsonObject.map(jsDocObject => this.createJsDocHtml(
-            path.join(DocumentationHelper.rootDirectoryPath, path.join.apply(null, jsDocObject.indexFilePath)),
-            path.join.apply(null, jsDocObject.directoryPathJsDoc)))
+            path.join(DocumentationHelper.rootDirectoryPath, path.join.apply(undefined, jsDocObject.indexFilePath)),
+            path.join.apply(undefined, jsDocObject.directoryPathJsDoc)))
           // concatenate these with the
             .concat(
               // create all Promises for the Markdown documentations
               jsonObject.map(jsDocObject => this.createJsDocMarkdown(
-                path.join(DocumentationHelper.rootDirectoryPath, path.join.apply(null, jsDocObject.indexFilePath)),
-                path.join.apply(null, jsDocObject.filePathMdDoc), jsDocObject.name))))
+                path.join(DocumentationHelper.rootDirectoryPath, path.join.apply(undefined, jsDocObject.indexFilePath)),
+                path.join.apply(undefined, jsDocObject.filePathMdDoc), jsDocObject.name))))
         // resolve when all jobs are done
-          .then(resolve).catch(reject))
+          .then(resolve)
+          .catch(reject))
         .catch(reject))
   }
   /**
@@ -71,9 +72,13 @@ class DocumentJsDoc {
       // create documentation in specified destination directory
         documentation.build(indexFile, { external: [] })
         // @ts-ignore
-          .then(documentation.formats.html).catch(reject)
-          .then(output => streamArray(output).pipe(vfs.dest(path.join(documentationDirectoryPath, destinationDirectoryPath)))).catch(reject)
-          .then(resolve).catch(reject))
+          .then(documentation.formats.html)
+          .catch(reject)
+          .then(output => streamArray(output)
+            .pipe(vfs.dest(path.join(documentationDirectoryPath, destinationDirectoryPath))))
+          .catch(reject)
+          .then(resolve)
+          .catch(reject))
         .catch(reject))
   }
   /**
@@ -85,14 +90,16 @@ class DocumentJsDoc {
     // create documentation markdown string
       documentation.build(indexFile, { external: [] })
       // @ts-ignore
-        .then(documentation.formats.md).catch(reject)
+        .then(documentation.formats.md)
+        .catch(reject)
         .then(markdownString =>
         // get the documentation info text
-          DocumentationHelper.getInfoText().then(infoText =>
-          // write string with documentation infos to destination file
-            DocumentationHelper.writeDocumentationFile(destinationFile,
+          DocumentationHelper.getInfoText()
+            // write string with documentation infos to destination file
+            .then(infoText => DocumentationHelper.writeDocumentationFile(destinationFile,
               '# ' + name + '\n\n<!-- ' + infoText + ' -->\n\n' + markdownString)
-              .then(resolve).catch(reject))
+              .then(resolve)
+              .catch(reject))
             .catch(reject))
         .catch(reject))
   }

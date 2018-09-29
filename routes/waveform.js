@@ -6,7 +6,8 @@
  * The waveform external test route of the server
  */
 
-const router = require('express').Router()
+const express = require('express')
+const router = express.Router()
 
 // define the home page route
 // define the home page route

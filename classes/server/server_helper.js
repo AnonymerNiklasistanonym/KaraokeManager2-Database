@@ -82,24 +82,27 @@ class ServerHelper {
           .replace('\\/?', '')
           .replace('(?=\\/|$)', '$')
           .match(/^\/\^((?:\\[.*+?^${}()|[\]\\\/]|[^.*+?^${}()|[\]\\\/])*)\$\//) // eslint-disable-line no-useless-escape
-        return match ? match[1].replace(/\\(.)/g, '$1').split('/')
+        return match ? match[1].replace(/\\(.)/g, '$1')
+          .split('/')
           : '<complex:' + thing.toString() + '>'
       }
     }
 
     function print (path, layer) {
       if (layer.route) {
-        layer.route.stack.forEach(print.bind(null, path.concat(split(layer.route.path))))
+        layer.route.stack.forEach(print.bind(undefined, path.concat(split(layer.route.path))))
       } else if (layer.name === 'router' && layer.handle.stack) {
-        layer.handle.stack.forEach(print.bind(null, path.concat(split(layer.regexp))))
+        layer.handle.stack.forEach(print.bind(undefined, path.concat(split(layer.regexp))))
       } else if (layer.method) {
         console.log('%s /%s',
           layer.method.toUpperCase(),
-          path.concat(split(layer.regexp)).filter(Boolean).join('/'))
+          path.concat(split(layer.regexp))
+            .filter(Boolean)
+            .join('/'))
       }
     }
 
-    app._router.stack.forEach(print.bind(null, []))
+    app._router.stack.forEach(print.bind(undefined, []))
   }
 }
 

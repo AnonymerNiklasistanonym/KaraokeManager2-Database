@@ -1,7 +1,8 @@
 {
-	"admin_account": {
-		"id": "root",
-		"name": "root",
-		"password": "root"
-	}
+	"accounts": [
+		{
+			"name": "root",
+			"password": "root"
+		}
+	]
 }

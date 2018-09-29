@@ -14,10 +14,12 @@ class MetadataMusicFileHelper {
    */
   static getPictureArrayBuffer (filePath) {
     // @ts-ignore
-    return new Promise((resolve, reject) => new jsmediatags.Reader(filePath).setTagsToRead(['picture']).read({
-      onSuccess: tag => resolve({ base64Type: tag.tags.picture.format, arrayBuffer: tag.tags.picture.data }),
-      onError: reject
-    }))
+    return new Promise((resolve, reject) => new jsmediatags.Reader(filePath)
+      .setTagsToRead(['picture'])
+      .read({
+        onSuccess: tag => resolve({ base64Type: tag.tags.picture.format, arrayBuffer: tag.tags.picture.data }),
+        onError: reject
+      }))
   }
 }
 
@@ -31,8 +33,9 @@ class BufferUtilHelper {
    * @returns {string}
    */
   static convertArrayBufferToBase64String (base64Type, arrayBuffer) {
-    const base64DataString = arrayBuffer.map(a => String.fromCharCode(a)).join('')
-    // @ts-ignore
+    const base64DataString = arrayBuffer
+      .map(a => String.fromCharCode(a))
+      .join('')
     return 'data:' + base64Type + ';base64,' + btoa(base64DataString)
   }
   /**
@@ -70,12 +73,14 @@ class MetadataHelper {
    * @returns {Promise<void>} Resolves when image was extracted to a file with the same name
    */
   static extractCoverImageFromAudioFile (filePath) {
-    return new Promise((resolve, reject) =>
-      MetadataMusicFileHelper.getPictureArrayBuffer(filePath).then((result) => {
+    return new Promise((resolve, reject) => MetadataMusicFileHelper.getPictureArrayBuffer(filePath)
+      .then(result => {
         const base64String = BufferUtilHelper.convertArrayBufferToBase64String(result.base64Type, result.arrayBuffer)
         const typeBufferObject = BufferUtilHelper.convertBase64StringToBuffer(base64String)
-        resolve(BufferUtilHelper.writeBufferToFile(typeBufferObject.buffer, filePath.substring(0, filePath.lastIndexOf('.')), typeBufferObject.type.split('/')[1]))
-      }).catch(reject))
+        resolve(BufferUtilHelper.writeBufferToFile(typeBufferObject.buffer,
+          filePath.substring(0, filePath.lastIndexOf('.')), typeBufferObject.type.split('/')[1]))
+      })
+      .catch(reject))
   }
 }
 

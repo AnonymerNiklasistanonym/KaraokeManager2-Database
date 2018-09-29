@@ -44,7 +44,7 @@ class DatabaseParserCreateTable {
    * @param {TableOption} option Table creation option
    * @returns {string} Table header
    */
-  static parseTableHeader (name, option = null) {
+  static parseTableHeader (name, option = undefined) {
     if (option) {
       switch (option) {
         case 'createIfNotAlreadyExisting':
@@ -98,7 +98,7 @@ class DatabaseParserCreateTable {
     if (key.hasOwnProperty('reference')) {
       return { query: query.join(' '), reference: 'FOREIGN KEY (`' + key.name + '`) REFERENCES `' + key.reference.table + '` (`' + key.reference.property + '`)' }
     } else {
-      return { query: query.join(' '), reference: null }
+      return { query: query.join(' '), reference: undefined }
     }
   }
   /**
@@ -154,26 +154,24 @@ class DatabaseParserCreateTable {
    * @returns {string}
    */
   static parseKeyDefault (keyType, keyDefaultValue) {
-    // jshint maxcomplexity:7
+    // jshint maxcomplexity:9
     switch (keyType) {
       case 'date':
-        return keyDefaultValue === 'now' ? "(datetime(CURRENT_TIMESTAMP, 'localtime'))" : '' + keyDefaultValue
+        return keyDefaultValue === 'now' ? '(datetime(CURRENT_TIMESTAMP, \'localtime\'))' : '' + keyDefaultValue
       case 'boolean':
         if (typeof (keyDefaultValue) === typeof (true)) {
           return keyDefaultValue ? '1' : '0'
         } else {
           throw Error('Boolean value is not boolean: "' + keyDefaultValue + '" (' + keyDefaultValue.constructor.name + ')')
-        }
+        } // jshint ignore:line
       case 'integer':
-        // @ts-ignore
         if (typeof (keyDefaultValue) === typeof (1) && Number.isInteger(keyDefaultValue)) {
-          // @ts-ignore
           return '' + Math.round(keyDefaultValue)
         } else {
           throw Error('Integer value is not an even number: "' + keyDefaultValue + '" (' + keyDefaultValue.constructor.name + ')')
-        }
+        } // jshint ignore:line
       case 'text':
-        return "'" + keyDefaultValue + "'"
+        return '\'' + keyDefaultValue + '\''
       default:
         throw Error('Unknown key type: ' + keyType)
     }
@@ -193,14 +191,16 @@ class DatabaseParser {
    * @param {TableOption} option Table creation option
    * @returns {string} Query
    */
-  static createTableQuery (name, primaryKey, notNullKeys = [], nullKeys = [], option = null) {
+  static createTableQuery (name, primaryKey, notNullKeys = [], nullKeys = [], option = undefined) {
     // parse all keys
     const primaryKeyParsed = DatabaseParserCreateTable.parsePrimaryKey(primaryKey)
-    const otherKeysParsed = notNullKeys.map(a => DatabaseParserCreateTable.parseNotNullKey(a)).concat(nullKeys.map(a => DatabaseParserCreateTable.parseKey(a)))
+    const otherKeysParsed = notNullKeys
+      .map(a => DatabaseParserCreateTable.parseNotNullKey(a))
+      .concat(nullKeys.map(a => DatabaseParserCreateTable.parseKey(a)))
     // concat all 'normal' queries
     const queries = [primaryKeyParsed.query, ...otherKeysParsed.map(a => a.query)]
     // concat all 'reference' queries and filter the null entries
-    const references = [primaryKeyParsed.reference, ...otherKeysParsed.map(a => a.reference)].filter(a => a !== null)
+    const references = [primaryKeyParsed.reference, ...otherKeysParsed.map(a => a.reference)].filter(a => a !== undefined)
     // parse the table header
     const tableHeader = DatabaseParserCreateTable.parseTableHeader(name, option)
     // bring everything together

@@ -6,10 +6,12 @@
  * The bird external test route of the server
  */
 
-const router = require('express').Router()
+const express = require('express')
+const router = express.Router()
 let configuration
-require('./../classes/configuration/configuration').then(config => { configuration = config }
-).catch(err => { throw err })
+require('./../classes/configuration/configuration')
+  .then(config => { configuration = config })
+  .catch(err => { throw err })
 
 // define the home page route
 router.get('/', (req, res) => res.send('Birds home page'))

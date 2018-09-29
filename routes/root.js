@@ -6,7 +6,9 @@
  * The root route of the server
  */
 
-const router = require('express').Router()
+const express = require('express')
+const router = express.Router()
+
 const birds = require('./birds')
 const waveform = require('./waveform')
 const sockets = require('./sockets')

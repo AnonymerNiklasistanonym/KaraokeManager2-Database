@@ -36,12 +36,14 @@ class DocumentFileStructureHelper {
     return new Promise((resolve, reject) => {
       // read directory
       readdir(directoryPath)
-        .then(fileList => Promise.all(filter(fileList).map(filePath => this.listFile(directoryPath, filePath, filter)))
+        .then(fileList => Promise.all(filter(fileList)
+          .map(filePath => this.listFile(directoryPath, filePath, filter)))
           // @ts-ignore
           .then(listOfFiles => resolve({
             path: directoryPath,
             files: listOfFiles
-          })).catch(reject))
+          }))
+          .catch(reject))
         .catch(reject)
     })
   }
@@ -55,13 +57,19 @@ class DocumentFileStructureHelper {
     return new Promise((resolve, reject) => {
       const fileFilePath = path.join(directoryPath, filePath)
       // analyze specifically if file is a directory or a normal file
-      stat(fileFilePath).then(status => {
-        if (status.isDirectory()) {
-          this.analyzeDirectory(fileFilePath, directoryFilter).then(resolve).catch(reject)
-        } else if (status.isFile()) {
-          this.analyzeFile(fileFilePath).then(resolve).catch(reject)
-        }
-      }).catch(reject)
+      stat(fileFilePath)
+        .then(status => {
+          if (status.isDirectory()) {
+            this.analyzeDirectory(fileFilePath, directoryFilter)
+              .then(resolve)
+              .catch(reject)
+          } else if (status.isFile()) {
+            this.analyzeFile(fileFilePath)
+              .then(resolve)
+              .catch(reject)
+          }
+        })
+        .catch(reject)
     })
   }
   /**
@@ -69,23 +77,28 @@ class DocumentFileStructureHelper {
      * @returns {Promise<File>} checks if the file contains information about its content
      */
   static analyzeFile (filePath) {
-    return new Promise((resolve, reject) => this.getFileContent(filePath).then(info => resolve({
-      path: filePath,
-      info: info
-    })).catch(reject))
+    return new Promise((resolve, reject) => this.getFileContent(filePath)
+      .then(info => resolve({
+        path: filePath,
+        info: info
+      }))
+      .catch(reject))
   }
   /**
      * @param {string} directoryPath
      * @returns {Promise<Directory>} checks if the directory contains information about its content
      */
   static analyzeDirectory (directoryPath, filter = a => a) {
-    return new Promise((resolve, reject) => this.listFiles(directoryPath, filter).then(fileList =>
-      this.getReadmeContentDirectory(directoryPath, fileList.files)
-        .then(info => resolve({
-          path: directoryPath,
-          info: info,
-          files: fileList.files
-        })).catch(reject)).catch(reject))
+    return new Promise((resolve, reject) => this.listFiles(directoryPath, filter)
+      .then(fileList =>
+        this.getReadmeContentDirectory(directoryPath, fileList.files)
+          .then(info => resolve({
+            path: directoryPath,
+            info: info,
+            files: fileList.files
+          }))
+          .catch(reject))
+      .catch(reject))
   }
   /**
      * @param {string} directoryPath
@@ -100,7 +113,8 @@ class DocumentFileStructureHelper {
         .then(exists => {
           if (exists) {
             readFile(path.join(directoryPath, 'README.md'), 'utf8')
-              .then(value => resolve(value.substring(value.indexOf('\n')).replace(/^\s+|\s+$/g, '')))
+              .then(value => resolve(value.substring(value.indexOf('\n'))
+                .replace(/^\s+|\s+$/g, '')))
               .catch(reject)
           } else {
             resolve('TODO')
@@ -119,13 +133,17 @@ class DocumentFileStructureHelper {
         .then(value => {
           switch (filePath.substring(filePath.lastIndexOf('.') + 1)) {
             case 'js':
-              this.getFileContentJavaScript(filePath, value).then(resolve)
+              this.getFileContentJavaScript(filePath, value)
+                .then(resolve)
               break
             case 'handlebars':
-              this.getFileContentHandlebars(filePath, value).then(resolve)
+              this.getFileContentHandlebars(filePath, value)
+                .then(resolve)
               break
             case 'json':
-              this.getFileContentJson(filePath).then(resolve).catch(reject)
+              this.getFileContentJson(filePath)
+                .then(resolve)
+                .catch(reject)
               break
             default:
               resolve('TODO - NOT SUPPORTED FILE FORMAT')
@@ -137,7 +155,10 @@ class DocumentFileStructureHelper {
   static getFileContentJavaScript (filePath, value) {
     return new Promise(resolve => {
       if (value.indexOf('\n * This file contains:') !== -1) {
-        const fileContentHeader = value.substring(value.indexOf('* This file contains:') + '* This file contains:'.length, value.indexOf('*/')).split('* ').join('').replace(/^\s+|\s+$/g, '')
+        const fileContentHeader = value.substring(value.indexOf('* This file contains:') + '* This file contains:'.length, value.indexOf('*/'))
+          .split('* ')
+          .join('')
+          .replace(/^\s+|\s+$/g, '')
         resolve(fileContentHeader)
       } else {
         resolve('TODO')
@@ -147,7 +168,11 @@ class DocumentFileStructureHelper {
   static getFileContentHandlebars (filePath, value) {
     return new Promise(resolve => {
       if (value.indexOf('{{!--') !== -1) {
-        const fileContentHeader = value.substring(value.indexOf('{{!--') + 7 + ' Description:'.length, value.indexOf('--}}')).split('\n ').join('').replace(/^\s+|\s+$/g, '')
+        const fileContentHeader = value
+          .substring(value.indexOf('{{!--') + 7 + ' Description:'.length, value.indexOf('--}}'))
+          .split('\n ')
+          .join('')
+          .replace(/^\s+|\s+$/g, '')
         resolve(fileContentHeader)
       } else {
         resolve('TODO')
@@ -161,12 +186,14 @@ class DocumentFileStructureHelper {
         .then(exists => {
           if (exists) {
             readFile(explanationFile, 'utf8')
-              .then(fileContent => resolve(fileContent.substring(fileContent.indexOf('\n')).replace(/^\s+|\s+$/g, '')))
+              .then(fileContent => resolve(fileContent.substring(fileContent.indexOf('\n'))
+                .replace(/^\s+|\s+$/g, '')))
               .catch(reject)
           } else {
             resolve('TODO')
           }
-        }).catch(reject)
+        })
+        .catch(reject)
     })
   }
   /**
@@ -185,7 +212,8 @@ class DocumentFileStructureHelper {
             this.renderFileToMarkdownDirectoryInfo(fileObject.info) +
             // @ts-ignore
             (fileObject.files === undefined ? '' : fileObject.files
-              .map(element => this.renderFileToMarkdown(element, depth + 1, filter)).join(''))
+              .map(element => this.renderFileToMarkdown(element, depth + 1, filter))
+              .join(''))
     }
   }
   static renderFileToMarkdownDirectoryInfo (fileInfo) {
@@ -228,7 +256,8 @@ class DocumentFileStructure {
   }
   static markdownFileTitleFilter () {
     return filePath => {
-      const tempAbsoluteFilePath = filePath.path.replace(DocumentationHelper.rootDirectoryPath, '').replace(/\\/g, '/')
+      const tempAbsoluteFilePath = filePath.path.replace(DocumentationHelper.rootDirectoryPath, '')
+        .replace(/\\/g, '/')
       filePath.path = path.basename(filePath.path)
       filePath.path = '[`' + filePath.path + '`](../' + tempAbsoluteFilePath + ')'
       return filePath
@@ -271,13 +300,20 @@ class DocumentFileStructure {
         // add promise for main/index file first
         promiseList.push(this.getDocumentationFileContentTest(path.join(DocumentationHelper.rootDirectoryPath, jsonObject.indexFile.filePath.join('/')), 2, this.markdownFileTitleFilter()))
         // then add for each source directory another promise
-        jsonObject.sourceDirectories.forEach(directoryObject => promiseList.push(this.getDocumentationFileContent(path.join(DocumentationHelper.rootDirectoryPath, directoryObject.filePath.join('/')), 2, this.fileFilter(directoryObject.fileExtensions), this.markdownFileTitleFilter())))
+        jsonObject.sourceDirectories.forEach(directoryObject =>
+          promiseList.push(this.getDocumentationFileContent(
+            path.join(DocumentationHelper.rootDirectoryPath, directoryObject.filePath.join('/')),
+            2, this.fileFilter(directoryObject.fileExtensions), this.markdownFileTitleFilter())))
         // then wait until everything was asynchronously calculated
-        Promise.all(promiseList).then(responses =>
-          DocumentationHelper.writeDocumentationFile(jsonObject.filePath.join('/'),
-            ['# File structure', '## Main method'].join('\n\n') + '\n\n' + responses.join(''))
-            .then(resolve).catch(reject)).catch(reject)
-      }).catch(reject))
+        Promise.all(promiseList)
+          .then(responses =>
+            DocumentationHelper.writeDocumentationFile(jsonObject.filePath.join('/'),
+              ['# File structure', '## Main method'].join('\n\n') + '\n\n' + responses.join(''))
+              .then(resolve)
+              .catch(reject))
+          .catch(reject)
+      })
+      .catch(reject))
   }
   /**
    * Convenience method that will be executed on `npm run doc`
@@ -285,7 +321,10 @@ class DocumentFileStructure {
    */
   static createDocumentation () {
     return new Promise((resolve, reject) => DocumentationHelper.createDocumentationDirectory()
-      .then(() => this.createDocumentationFile().then(resolve).catch(reject)).catch(reject))
+      .then(() => this.createDocumentationFile()
+        .then(resolve)
+        .catch(reject))
+      .catch(reject))
   }
 }
 

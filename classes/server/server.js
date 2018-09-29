@@ -37,8 +37,10 @@ const http2options = { key: http2sslKey, cert: http2sslCert, hd: dhParam }
 
 // create express server instances
 const app = express()
-const serverHttp = http.createServer(app).on('error', ServerHelper.serverErrorListener)
-const serverHttps = spdy.createServer(http2options, app).on('error', ServerHelper.serverErrorListener)
+const serverHttp = http.createServer(app)
+  .on('error', ServerHelper.serverErrorListener)
+const serverHttps = spdy.createServer(http2options, app)
+  .on('error', ServerHelper.serverErrorListener)
 
 /*
  * Customize express server 'plugins'
