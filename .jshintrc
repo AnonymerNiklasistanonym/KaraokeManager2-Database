@@ -9,7 +9,7 @@
     "forin": true,
     "freeze": true,
     "latedef": true,
-    "maxcomplexity": 4,
+    "maxcomplexity": 5,
     "maxdepth": 3,
     "maxstatements": 10,
     "nonew": true,

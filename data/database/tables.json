@@ -13,8 +13,7 @@
 	}, {
 		"name": "password_salt",
 		"description": "salt for hashing the password of the account",
-		"type": "text",
-		"unique": true
+		"type": "text"
 	}, {
 		"name": "is_admin",
 		"description": "indicates if account has elevated admin rights",
@@ -378,7 +377,7 @@
 		"name": "is_private",
 		"description": "indicates if image is private",
 		"type": "boolean",
-		"default": "false"
+		"default": false
 	}],
 	"null_keys": [{
 		"name": "name",

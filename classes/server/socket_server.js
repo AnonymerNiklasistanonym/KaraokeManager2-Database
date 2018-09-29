@@ -18,7 +18,6 @@ const ioHttp = socketIo(serverHttp)
 const ioHttps = socketIo(serverHttps)
 
 const socketMethod = clientSocket => {
-
   let identifier = 'Socket Unsecured'
   if (clientSocket.client.request.socket.encrypted) {
     identifier = 'Socket Secured'

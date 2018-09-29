@@ -27,7 +27,14 @@ class DatabaseAccess {
     return new Promise((resolve, reject) => {
       const db = new sqlite3.Database(this.databasePath,
         (readOnly ? sqlite3.OPEN_READONLY : sqlite3.OPEN_READWRITE) | sqlite3.OPEN_CREATE,
-        err => err ? reject(err) : resolve(db))
+        err => {
+          if (err) {
+            reject(err)
+          } else {
+            // Enable WAL-MODE (Write-Ahead Logging) for concurrent access: https://sqlite.org/wal.html
+            db.run('PRAGMA journal_mode = WAL;', err2 => err2 ? reject(err2) : resolve(db))
+          }
+        })
     })
   }
 }

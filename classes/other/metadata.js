@@ -51,7 +51,7 @@ class BufferUtilHelper {
   static convertBase64StringToBuffer (base64String) {
     const matches = base64String.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/) // eslint-disable-line no-useless-escape
     if (matches.length !== 3) {
-      throw new Error('Invalid input string')
+      throw Error('Invalid input string')
     } else {
       return {
         type: matches[1],

@@ -6,13 +6,8 @@
  * This file contains a parser of the database table JSON file with an class that can be inherited for customized parsing of the JSON file
  */
 
-// Convert callbacks to promises
-const promisify = require('util').promisify
 // Read files asynchronously
-const readFile = require('fs').readFile
-
-// Convert normal async ready file with callback to promise
-const readFilePromise = promisify(readFile)
+const fs = require('fs').promises
 
 /**
  * Parse JSON file to JSON object and the to something else with an additional parser class
@@ -22,24 +17,18 @@ const readFilePromise = promisify(readFile)
  */
 class DatabaseTablesJsonParser {
   /**
-   * @readonly
-   * @static
    * @returns {string} Path of JSON file which contains the database tables
-   * @memberof DatabaseTablesJsonParser
    */
   static get JSON_FILE_DATABASE_TABLES_PATH () {
     return 'data/database/tables.json'
   }
   /**
-   *Parse JSON file to JSON object
-   *
-   * @static
+   * Parse JSON file to JSON object
    * @returns {Promise} Promise that resolves with the parsed JSON object
-   * @memberof DatabaseTablesJsonParser
    */
   static parseDatabaseTables () {
     return new Promise((resolve, reject) => {
-      readFilePromise(this.JSON_FILE_DATABASE_TABLES_PATH)
+      fs.readFile(this.JSON_FILE_DATABASE_TABLES_PATH)
         .then(file => resolve(JSON.parse(file.toString())))
         .catch(err => reject(err))
     })
@@ -62,20 +51,19 @@ class DatabaseTablesJsonParser {
   }
   /**
    * Get SQLite queries to create all necessary tables
-   *
    * @param {DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @param {*} tableObject
    */
   static parseDatabaseTablesWithClassTableObject (parseClass, tableObject) {
     // check if name, description and primary key of table exist
     if (!tableObject.hasOwnProperty('name') || tableObject.name === '') {
-      throw new Error('No table name found!')
+      throw Error('No table name found!')
     }
     if (!tableObject.hasOwnProperty('description') || tableObject.description === '') {
-      throw new Error('No table description found! (' + tableObject.name + ')')
+      throw Error('No table description found! (' + tableObject.name + ')')
     }
     if (!tableObject.hasOwnProperty('primary_key')) {
-      throw new Error('No primary key found! (table = ' + tableObject.name + ')')
+      throw Error('No primary key found! (table = ' + tableObject.name + ')')
     }
     // initialize custom parse of table object with name and description
     parseClass.parseTableBegin(tableObject.name, tableObject.description)
@@ -88,11 +76,8 @@ class DatabaseTablesJsonParser {
   }
   /**
    * Get SQLite queries to create all necessary tables
-   *
-   * @static
    * @param {DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @returns {Promise} Promise that resolves with the complete parsed result
-   * @memberof DatabaseTablesJsonParser
    */
   static parseDatabaseTablesWithClass (parseClass) {
     return new Promise((resolve, reject) => this.parseDatabaseTables()
@@ -102,7 +87,7 @@ class DatabaseTablesJsonParser {
         // iterate over all tables of the JSON object
         jsonArrayObject.forEach(tableObject => this.parseDatabaseTablesWithClassTableObject(parseClass, tableObject))
         // parse the last time everything and return the result to the promise
-        resolve(parseClass.resolveEverything())
+        resolve({ old: parseClass.resolveEverything(), new: jsonArrayObject })
       }).catch(reject))
   }
   /**
@@ -158,18 +143,15 @@ class DatabaseTablesJsonParser {
         parseClass.parseTablePropertyType('date')
         break
       default:
-        throw new Error('Undefined property type found (' + tableProperty.name + ' >> ' + tableProperty.type + ')')
+        throw Error('Undefined property type found (' + tableProperty.name + ' >> ' + tableProperty.type + ')')
     }
   }
   /**
    * Parse a JSON object table property reference
-   *
-   * @static
    * @param {DatabaseTablesParsingClass} parseClass Class that implements parsing methods
    * @param {string} tablePropertyName property of reference name
    * @param {{table: string, property: string}} tablePropertyReference reference object
    * @returns {*} Custom parsed table property reference determined by the given parse class
-   * @memberof DatabaseTablesJsonParser
    */
   static parseDatabaseTablePropertyReference (parseClass, tablePropertyName, tablePropertyReference) {
     return parseClass.parseTablePropertyReference(tablePropertyName, tablePropertyReference.table, tablePropertyReference.property)
@@ -178,8 +160,6 @@ class DatabaseTablesJsonParser {
 
 /**
  * Custom parser class that should be inherited by a custom parser
- *
- * @class DatabaseTablesParsingClass
  */
 class DatabaseTablesParsingClass {
   constructor () {
@@ -187,29 +167,29 @@ class DatabaseTablesParsingClass {
     this.databaseReferences = []
   }
   parseEverythingBegin () {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   parseTableBegin (tableName, tableDescription) {
     this.databaseProperties = []
     this.databaseReferences = []
   }
   parseTablePropertyName (tablePropertyName, tablePropertyDescription) {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   parseTablePropertyType (tablePropertyType) {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   parseTablePropertyIsPrimaryKey () {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   parseTablePropertyIsNotNullUniqueKey (notNull, unique) {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   parseTablePropertyDefault (defaultValue, propertyValue) {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   parseTablePropertyReturn () {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   parseTableGetPrimaryKey (primaryKeyQuery) {
     this.databaseProperties.push(primaryKeyQuery)
@@ -227,13 +207,13 @@ class DatabaseTablesParsingClass {
     this.databaseReferences.push(nullKeyQueryReference)
   }
   parseTablePropertyReference (tableName, referenceTable, referenceProperty) {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   resolveTable () {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
   resolveEverything () {
-    throw new Error('Method needs to be implemented')
+    throw Error('Method needs to be implemented')
   }
 }
 

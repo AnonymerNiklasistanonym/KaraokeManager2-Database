@@ -13,6 +13,8 @@ package-lock.json
 
 # ignore databases
 *.db
+*.db-shm
+*.db-wal
 
 # ignore builds
 build

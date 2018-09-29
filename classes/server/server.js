@@ -3,8 +3,7 @@
 
 // other
 const { join } = require('path')
-const { readFileSync } = require('fs')
-const fs = require('fs')
+const { readFileSync, existsSync, mkdirSync } = require('fs')
 
 // server > base servers
 const http = require('http')
@@ -94,8 +93,8 @@ app.use(session(sess))
 // log directory
 const logDirectory = join(__dirname, '../../log')
 // ensure log directory exists
-if (!fs.existsSync(logDirectory)) {
-  fs.mkdirSync(logDirectory)
+if (!existsSync(logDirectory)) {
+  mkdirSync(logDirectory)
 }
 // create a rotating write stream
 // @ts-ignore

@@ -4,6 +4,7 @@
 // database
 const DatabaseHelper = require('./classes/database/setup/database_helper').DatabaseHelper
 const DatabaseQueries = require('./classes/database/database_queries')
+const DatabaseApi = require('./classes/database/database_api')
 
 /**
  * Express http/https socket-io server
@@ -21,7 +22,7 @@ serverHttps.listen(httpsPort, () => console.log('Example app listening on -> htt
 const createdSetupTables = new Promise((resolve, reject) =>
   DatabaseHelper.setupSQLiteTablesQueries.then(sqlQueries => {
     const promises = []
-    sqlQueries.forEach(sqliteQuery => promises.push(DatabaseQueries.postRequest(sqliteQuery)))
+    sqlQueries.new.forEach(sqliteQuery => promises.push(DatabaseApi.createTable(sqliteQuery.name, sqliteQuery.primary_key, sqliteQuery.not_null_keys, sqliteQuery.null_keys, 'createIfNotAlreadyExisting')))
     Promise.all(promises).then(resolve).catch(reject)
   }).catch(reject))
 
@@ -30,8 +31,12 @@ const createdSetupValues = new Promise((resolve, reject) =>
   createdSetupTables.then(() =>
     DatabaseHelper.setupSQLiteTableValuesQueries.then(sqlQueries => {
       const promises = []
-      sqlQueries.forEach(sqliteQuery => promises.push(DatabaseQueries.postRequest(sqliteQuery)))
+      // sqlQueries.forEach(sqliteQuery => promises.push(DatabaseQueries.postRequest(sqliteQuery)))
       Promise.all(promises).then(resolve).catch(reject)
     }).catch(reject)).catch(reject))
 
-createdSetupValues.then(() => console.log('Table setup completed')).catch(console.error)
+createdSetupValues.then(() => {
+  console.log('Table setup completed')
+  DatabaseApi.createAccount('admin', 'root').then((a) => { console.log('admin', 'RunResult:', JSON.stringify(a)) }).catch(console.error)
+  DatabaseApi.createAccount('niklas', 'niklas').then((a) => { console.log('niklas', 'RunResult:', JSON.stringify(a)) }).catch(console.error)
+}).catch(console.error)

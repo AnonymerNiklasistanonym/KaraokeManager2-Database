@@ -6,13 +6,8 @@
  * This file contains a parser of the database table value JSON file with an class that can be inherited for customized parsing of the JSON file
  */
 
-// Convert callbacks to promises
-const promisify = require('util').promisify
 // Read files asynchronously
-const readFile = require('fs').readFile
-
-// Convert normal async ready file with callback to promise
-const readFilePromise = promisify(readFile)
+const fs = require('fs').promises
 
 /**
  * Parse JSON file to JSON object and then to something else with an additional parser class
@@ -39,7 +34,7 @@ class DatabaseTableValuesJsonParser {
    */
   static parseDatabaseTableValues () {
     return new Promise((resolve, reject) => {
-      readFilePromise(this.JSON_FILE_DATABASE_TABLE_VALUES_PATH)
+      fs.readFile(this.JSON_FILE_DATABASE_TABLE_VALUES_PATH)
         .then(file => resolve(JSON.parse(file.toString())))
         .catch(err => reject(err))
     })
