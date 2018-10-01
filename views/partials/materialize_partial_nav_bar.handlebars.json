@@ -1,0 +1,13 @@
+{
+	"navBar": {
+		"links": [{
+			"text": "Link n",
+			"url": "#"
+		}]
+	},
+	"theme": {
+		"navBar": {
+			"themeColor": "orange"
+		}
+	}
+}

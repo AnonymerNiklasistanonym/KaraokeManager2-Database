@@ -7,6 +7,11 @@
         "outFile": "./build/tsc.js",
         "sourceMap": true,
         "allowJs": true,
+        "checkJs": true,
+        "target": "es2018",
+        "types": [
+            "node"
+        ]
     },
     "include": [
         "./**/*"
@@ -14,6 +19,7 @@
     "exclude": [
         "node_modules",
         "docs",
-        "http2"
+        "http2",
+        "!node_modules/@types"
     ]
 }

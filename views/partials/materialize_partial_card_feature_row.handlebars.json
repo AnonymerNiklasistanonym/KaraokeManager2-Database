@@ -1,0 +1,14 @@
+{
+	"materializeCardFeatureRowPartial": {
+		"featureRowEntries": [{
+			"content": "Content text...",
+			"iconName": "flash_on",
+			"title": "Title"
+		}]
+	},
+	"theme": {
+		"featureRow": {
+			"iconColor": "orange"
+		}
+	}
+}

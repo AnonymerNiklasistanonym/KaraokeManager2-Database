@@ -1,0 +1,16 @@
+{{!--
+Description:
+Materialize feature row (perfect for 3 entries)
+--}}
+
+<div class="row">
+    {{#each materializeCardFeatureRowPartial.featureRowEntries}}
+    <div class="col s12 m4">
+        <div class="icon-block">
+            <h2 class="center {{../theme.featureRow.iconColor}}-text"><i class="material-icons">{{this.iconName}}</i></h2>
+            <h5 class="center">{{this.title}}</h5>
+            <p class="light">{{this.content}}</p>
+        </div>
+    </div>
+    {{/each}}
+</div>

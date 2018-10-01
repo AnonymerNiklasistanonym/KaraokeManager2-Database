@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * This file contains:
@@ -8,22 +11,28 @@
 
 const express = require('express')
 const router = express.Router()
-let configuration
-require('./../classes/configuration/configuration')
-  .then(config => { configuration = config })
-  .catch(err => { throw err })
+let configuration = require('./../classes/configuration/configuration')
 
-// define the home page route
+// Define the home page route
 router.get('/', (req, res) => res.send('Birds home page'))
-// define the about route
+
 router.get('/about', (req, res) => res.send('About birds'))
 
 router.get('/test', (req, res) => {
   res.locals = {
+    materializeCardBannerPartial: configuration.getMaterializeCardBanner(),
     materializeFooterPartial: configuration.getMaterializeFooter(),
+    navBar: configuration.getNavBar(),
     theme: configuration.getTheme()
   }
-  res.render('materialize', { layout: 'materialize' })
+  res.render('materialize', {
+    featureRow: true,
+    featureRowObject: {
+      materializeCardFeatureRowPartial: configuration.getMaterializeFeatureRow(),
+      theme: configuration.getTheme()
+    },
+    layout: 'materialize'
+  })
 })
 
 module.exports = router

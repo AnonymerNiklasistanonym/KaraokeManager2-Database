@@ -1,0 +1,13 @@
+{
+	"big_text": "Big text below title",
+	"links": [{
+			"text": "Get started",
+			"url": "http://materializecss.com/getting-started.html"
+		},
+		{
+			"text": "Just looking",
+			"url": "http://materializecss.com/getting-started.html"
+		}
+	],
+	"title": "Title"
+}

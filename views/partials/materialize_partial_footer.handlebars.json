@@ -1,38 +1,38 @@
 {
-    "materializeFooterPartial": {
-        "bio": {
-            "title": "Bio",
-            "text": "Bio text"
-        },
-        "lists": [{
-            "title": "Link list n",
-            "links": [{
-                "url": "#",
-                "text": "Link m"
-            }]
-        }],
-        "madeBy": {
-            "text": "Made by",
-            "links": [{
-                "url": "http://materializecss.com/",
-                "text": "materialize"
-            }]
-        }
-    },
-    "theme": {
-        "footer": {
-            "mainColor": "orange",
-            "copyright": {
-                "linkColor": "orange"
-            },
-            "links": {
-                "titleColor": "white",
-                "textColor": "white"
-            },
-            "bio": {
-                "titleColor": "white",
-                "textColor": "grey"
-            }
-        }
-    }
+	"materializeFooterPartial": {
+		"bio": {
+			"text": "Bio text",
+			"title": "Bio"
+		},
+		"lists": [{
+			"links": [{
+				"text": "Link m",
+				"url": "#"
+			}],
+			"title": "Link list n"
+		}],
+		"madeBy": {
+			"links": [{
+				"text": "materialize",
+				"url": "http://materializecss.com/"
+			}],
+			"text": "Made by"
+		}
+	},
+	"theme": {
+		"footer": {
+			"bio": {
+				"textColor": "grey",
+				"titleColor": "white"
+			},
+			"copyright": {
+				"linkColor": "orange"
+			},
+			"links": {
+				"textColor": "white",
+				"titleColor": "white"
+			},
+			"mainColor": "orange"
+		}
+	}
 }

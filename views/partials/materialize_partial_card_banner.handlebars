@@ -1,0 +1,20 @@
+{{!--
+Description:
+Materialize banner
+--}}
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center {{theme.banner.titleTextColor}}-text">{{materializeCardBannerPartial.title}}</h1>
+        <div class="row center">
+            <h5 class="header col s12 light">{{materializeCardBannerPartial.big_text}}</h5>
+        </div>
+        {{#each materializeCardBannerPartial.links}}
+        <div class="row center">
+            <a href="{{this.url}}" id="download-button" class="btn-large waves-effect waves-light {{../theme.banner.buttonColor}}">{{this.text}}</a>
+        </div>
+        {{/each}}
+        <br><br>
+    </div>
+</div>

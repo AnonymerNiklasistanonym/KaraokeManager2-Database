@@ -1,0 +1,18 @@
+{
+    "links": [{
+        "text": "Home",
+        "url": "#"
+    },{
+        "text": "Playlist",
+        "url": "#"
+    },{
+        "text": "Songs",
+        "url": "#"
+    },{
+        "text": "Gallery",
+        "url": "#"
+    },{
+        "text": "Account",
+        "url": "#"
+    }]
+}

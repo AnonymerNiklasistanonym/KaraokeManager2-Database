@@ -1,24 +1,22 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * This file contains:
- * The main documentation code. This means in here is everything listed that will be documented on `npm run doc`.
+ * The main documentation code. [Dev]
+ * This means in here is everything listed that will be documented on `npm run doc`.
  */
 
-// Create database structure/content documentation
-const DocumentDatabaseStructure = require('./database_structure').DocumentDatabaseStructure
 // Create file structure/content documentation
-const DocumentFileStructure = require('./file_structure').DocumentFileStructure
+const DocumentFileStructure = require('./fileStructure/fileStructure')
 // Create file structure/content documentation
-const DocumentJsDoc = require('./js_doc').DocumentJsDoc
+const DocumentJsDoc = require('./documentationJsDoc').DocumentJsDoc
 
 // File structure documentation
 DocumentFileStructure.createDocumentation()
-  .catch(console.error)
-
-// Database structure documentation
-DocumentDatabaseStructure.createDocumentation()
   .catch(console.error)
 
 // Source code documentation

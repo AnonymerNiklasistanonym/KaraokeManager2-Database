@@ -6,13 +6,14 @@
 
 /*
  * This file contains:
- * The waveform external test route of the server
+ * TODO
  */
 
-const express = require('express')
-const router = express.Router()
+/**
+ * Login tracker that can authorize account specific possibilities if user is logged in
+ */
+class LoginChecker {
+  // Take the cookie number and let the client send it to you via his socket channel to authorize his channel
+}
 
-// Define the home page route
-router.get('/', (req, res) => { res.render('audioVideo') })
-
-module.exports = router
+module.exports = { LoginChecker }

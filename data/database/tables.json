@@ -1,726 +1,830 @@
 [{
-	"name": "account",
-	"description": "in here all accounts are saved",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id (account name)",
-		"type": "text"
-	},
-	"not_null_keys": [{
-		"name": "password_hash",
-		"description": "hash of the password of the account",
-		"type": "text"
-	}, {
-		"name": "password_salt",
-		"description": "salt for hashing the password of the account",
-		"type": "text"
-	}, {
-		"name": "is_admin",
-		"description": "indicates if account has elevated admin rights",
-		"type": "boolean",
-		"default": false
-	}, {
-		"name": "is_private",
-		"description": "indicates if account should be hidden on public page",
-		"type": "boolean",
-		"default": true
-	}, {
-		"name": "is_banned",
-		"description": "indicates if account is banned",
-		"type": "boolean",
-		"default": false
-	}, {
-		"name": "is_banned_comments",
-		"description": "indicates if account is banned in writing comments",
-		"type": "boolean",
-		"default": false
-	}, {
-		"name": "is_banned_entries",
-		"description": "indicates if account is banned in creating new (playlist) entries",
-		"type": "boolean",
-		"default": false
-	}],
-	"null_keys": [{
-		"name": "name",
-		"description": "real name of account",
-		"type": "text"
-	}, {
-		"name": "server_file_path_profile_picture",
-		"description": "server file path to profile picture of account",
-		"type": "text"
-	}, {
-		"name": "status",
-		"description": "account status text",
-		"type": "text"
-	}]
-}, {
-	"name": "artist",
-	"description": "in here all artist are saved",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
-	},
-	"not_null_keys": [{
-		"name": "name",
-		"description": "name of the artist",
-		"type": "text"
-	}, {
-		"name": "date",
-		"description": "date when artist was added",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "author",
-		"description": "account that added the artist",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
+		"description": "in here all accounts are saved",
+		"name": "account",
+		"not_null_keys": [{
+				"description": "hash of the password of the account",
+				"name": "password_hash",
+				"type": "text"
+			},
+			{
+				"description": "salt for hashing the password of the account",
+				"name": "password_salt",
+				"type": "text"
+			},
+			{
+				"default": false,
+				"description": "indicates if account has elevated admin rights",
+				"name": "is_admin",
+				"type": "boolean"
+			},
+			{
+				"default": true,
+				"description": "indicates if account should be hidden on public page",
+				"name": "is_private",
+				"type": "boolean"
+			},
+			{
+				"default": false,
+				"description": "indicates if account is banned",
+				"name": "is_banned",
+				"type": "boolean"
+			},
+			{
+				"default": false,
+				"description": "indicates if account is banned in writing comments",
+				"name": "is_banned_comments",
+				"type": "boolean"
+			},
+			{
+				"default": false,
+				"description": "indicates if account is banned in creating new (playlist) entries",
+				"name": "is_banned_entries",
+				"type": "boolean"
+			}
+		],
+		"null_keys": [{
+				"description": "real name of account",
+				"name": "name",
+				"type": "text"
+			},
+			{
+				"description": "server file path to profile picture of account",
+				"name": "server_file_path_profile_picture",
+				"type": "text"
+			},
+			{
+				"description": "account status text",
+				"name": "status",
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id (account name)",
+			"name": "id",
+			"type": "text"
 		}
-	}],
-	"null_keys": [{
-		"name": "description",
-		"description": "more information about the artist",
-		"type": "text"
-	}, {
-		"name": "server_file_path_artist_picture",
-		"description": "server file path to a 'profile' picture of the artist",
-		"type": "text"
-	}, {
-		"name": "link_spotify",
-		"description": "link to the Spotify account of the artist",
-		"type": "text"
-	}, {
-		"name": "link_youtube",
-		"description": "link to the YouTube account of the artist",
-		"type": "text"
-	}]
-}, {
-	"name": "song_content_type",
-	"description": "the type of content in the song file (lyric video, music video, audio file, ...)",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "name",
-		"description": "name of the type of content in the song file",
-		"type": "text"
-	}, {
-		"name": "date",
-		"description": "date when song content type was added",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "author",
-		"description": "account that added the song content type",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
+	{
+		"description": "in here all artist are saved",
+		"name": "artist",
+		"not_null_keys": [{
+				"description": "name of the artist",
+				"name": "name",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when artist was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that added the artist",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+				"description": "more information about the artist",
+				"name": "description",
+				"type": "text"
+			},
+			{
+				"description": "server file path to a 'profile' picture of the artist",
+				"name": "server_file_path_artist_picture",
+				"type": "text"
+			},
+			{
+				"description": "link to the Spotify account of the artist",
+				"name": "link_spotify",
+				"type": "text"
+			},
+			{
+				"description": "link to the YouTube account of the artist",
+				"name": "link_youtube",
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}],
-	"null_keys": [{
-		"name": "description",
-		"description": "more information about the song content type",
-		"type": "text"
-	}]
-}, {
-	"name": "song_content_language",
-	"description": "the language of the song",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "name",
-		"description": "name of the song language",
-		"type": "text"
-	}, {
-		"name": "date",
-		"description": "date when song language was added",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "author",
-		"description": "account that added the song language",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "song",
-	"description": "in here all songs are saved",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
-	},
-	"not_null_keys": [{
-		"name": "name",
-		"description": "name of the song",
-		"type": "text"
-	}, {
-		"name": "date",
-		"description": "date when artist was added",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "author",
-		"description": "account that added the artist",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}, {
-		"name": "server_file_path",
-		"description": "server file path to song file",
-		"type": "text"
-	}],
-	"null_keys": [{
-		"name": "release_date",
-		"description": "date of the release of the song",
-		"type": "date"
-	}, {
-		"name": "description",
-		"description": "more information about the song",
-		"type": "text"
-	}, {
-		"name": "lyrics",
-		"description": "lyrics of the song",
-		"type": "text"
-	}, {
-		"name": "local_file_path",
-		"description": "local file path to song file",
-		"type": "text"
-	}, {
+	{
+		"description": "the type of content in the song file (lyric video, music video, audio file, ...)",
 		"name": "song_content_type",
-		"description": "song content type (Music video, audio file, ...)",
-		"type": "integer",
-		"reference": {
-			"table": "song_content_type",
-			"property": "id"
+		"not_null_keys": [{
+				"description": "name of the type of content in the song file",
+				"name": "name",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when song content type was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that added the song content type",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "more information about the song content type",
+			"name": "description",
+			"type": "text"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
+	},
+	{
+		"description": "the language of the song",
 		"name": "song_content_language",
-		"description": "language of the song",
-		"type": "integer",
-		"reference": {
-			"table": "song_content_language",
-			"property": "id"
+		"not_null_keys": [{
+				"description": "name of the song language",
+				"name": "name",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when song language was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that added the song language",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "link_spotify",
-		"description": "link to song on Spotify",
-		"type": "text"
-	}, {
-		"name": "link_youtube",
-		"description": "link to song on YouTube",
-		"type": "text"
-	}]
-}, {
-	"name": "song_tag_artist",
-	"description": "in here artists are connected to songs they sing",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
+	{
+		"description": "in here all songs are saved",
 		"name": "song",
-		"description": "song which the connected artist is in",
-		"type": "integer",
-		"reference": {
-			"table": "song",
-			"property": "id"
+		"not_null_keys": [{
+				"description": "name of the song",
+				"name": "name",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when artist was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that added the artist",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "server file path to song file",
+				"name": "server_file_path",
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+				"description": "date of the release of the song",
+				"name": "release_date",
+				"type": "date"
+			},
+			{
+				"description": "more information about the song",
+				"name": "description",
+				"type": "text"
+			},
+			{
+				"description": "lyrics of the song",
+				"name": "lyrics",
+				"type": "text"
+			},
+			{
+				"description": "local file path to song file",
+				"name": "local_file_path",
+				"type": "text"
+			},
+			{
+				"description": "song content type (Music video, audio file, ...)",
+				"name": "song_content_type",
+				"reference": {
+					"property": "id",
+					"table": "song_content_type"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "language of the song",
+				"name": "song_content_language",
+				"reference": {
+					"property": "id",
+					"table": "song_content_language"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "link to song on Spotify",
+				"name": "link_spotify",
+				"type": "text"
+			},
+			{
+				"description": "link to song on YouTube",
+				"name": "link_youtube",
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "artist",
-		"description": "artist which sings the connected song",
-		"type": "integer",
-		"reference": {
-			"table": "artist",
-			"property": "id"
-		}
-	}, {
-		"name": "date",
-		"description": "date when tag was created",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "author",
-		"description": "account that made this tag",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "playlist_entry",
-	"description": "playlist entry of song where accounts can join as singer",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when playlist_entry was added",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "author",
-		"description": "account that created the playlist entry",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
+	{
+		"description": "in here artists are connected to songs they sing",
+		"name": "song_tag_artist",
+		"not_null_keys": [{
+				"description": "song which the connected artist is in",
+				"name": "song",
+				"reference": {
+					"property": "id",
+					"table": "song"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "artist which sings the connected song",
+				"name": "artist",
+				"reference": {
+					"property": "id",
+					"table": "artist"
+				},
+				"type": "integer"
+			},
+			{
+				"default": "now",
+				"description": "date when tag was created",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that made this tag",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "song",
-		"description": "song that was added to the playlist entry",
-		"type": "integer",
-		"reference": {
-			"table": "song",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "playlist_entry_singer",
-	"description": "account that wants to join a song in the connected playlist entry",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when join to playlist_entry was added",
-		"type": "date",
-		"default": "now"
-	}, {
+	{
+		"description": "playlist entry of song where accounts can join as singer",
 		"name": "playlist_entry",
-		"description": "playlist entry that the author account wants to join",
-		"type": "integer",
-		"reference": {
-			"table": "playlist_entry",
-			"property": "id"
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when playlist_entry was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that created the playlist entry",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "song that was added to the playlist entry",
+				"name": "song",
+				"reference": {
+					"property": "id",
+					"table": "song"
+				},
+				"type": "integer"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "author",
-		"description": "account that created the playlist entry join",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "image_album",
-	"description": "in here image collections are saved",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "name",
-		"description": "name of the album",
-		"type": "text"
-	}, {
-		"name": "date",
-		"description": "date when album was created",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "author",
-		"description": "account that created the album",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
+	{
+		"description": "account that wants to join a song in the connected playlist entry",
+		"name": "playlist_entry_singer",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when join to playlist_entry was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "playlist entry that the author account wants to join",
+				"name": "playlist_entry",
+				"reference": {
+					"property": "id",
+					"table": "playlist_entry"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that created the playlist entry join",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}]
-}, {
-	"name": "image",
-	"description": "in here are all images",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when image was added",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "author",
-		"description": "account that added the image",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
+	{
+		"description": "in here image collections are saved",
+		"name": "image_album",
+		"not_null_keys": [{
+				"description": "name of the album",
+				"name": "name",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when album was created",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that created the album",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "server_file_path",
-		"description": "server file path of image",
-		"type": "text"
-	}, {
-		"name": "is_private",
-		"description": "indicates if image is private",
-		"type": "boolean",
-		"default": false
-	}],
-	"null_keys": [{
-		"name": "name",
-		"description": "name of the image",
-		"type": "text"
-	}, {
-		"name": "description",
-		"description": "description of the image",
-		"type": "date",
-		"default": "now"
-	}]
-}, {
-	"name": "image_tag_song",
-	"description": "indicates that a song was played while an image was taken",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when image was added",
-		"type": "date",
-		"default": "now"
-	}, {
+	{
+		"description": "in here are all images",
 		"name": "image",
-		"description": "image that was taken during a song",
-		"type": "integer",
-		"reference": {
-			"table": "image",
-			"property": "id"
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when image was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that added the image",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "server file path of image",
+				"name": "server_file_path",
+				"type": "text"
+			},
+			{
+				"default": false,
+				"description": "indicates if image is private",
+				"name": "is_private",
+				"type": "boolean"
+			}
+		],
+		"null_keys": [{
+				"description": "name of the image",
+				"name": "name",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "description of the image",
+				"name": "description",
+				"type": "date"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "song",
-		"description": "song that was played while taking this image",
-		"type": "integer",
-		"reference": {
-			"table": "song",
-			"property": "id"
-		}
-	}, {
-		"name": "author",
-		"description": "account that tagged this image",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "image_tag_account",
-	"description": "indicates that an account is in the image",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when image was added",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "image",
-		"description": "image that was taken during a song",
-		"type": "integer",
-		"reference": {
-			"table": "image",
-			"property": "id"
+	{
+		"description": "indicates that a song was played while an image was taken",
+		"name": "image_tag_song",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when image was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "image that was taken during a song",
+				"name": "image",
+				"reference": {
+					"property": "id",
+					"table": "image"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "song that was played while taking this image",
+				"name": "song",
+				"reference": {
+					"property": "id",
+					"table": "song"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that tagged this image",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "account",
-		"description": "account that is in the picture",
-		"type": "integer",
-		"reference": {
-			"table": "account",
-			"property": "text"
-		}
-	}, {
-		"name": "author",
-		"description": "account that added tagged this image",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "artist_comment",
-	"description": "a comment on the page of an artist",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when comment was made",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "artist",
-		"description": "artist page on which the comment was made",
-		"type": "integer",
-		"reference": {
-			"table": "artist",
-			"property": "id"
+	{
+		"description": "indicates that an account is in the image",
+		"name": "image_tag_account",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when image was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "image that was taken during a song",
+				"name": "image",
+				"reference": {
+					"property": "id",
+					"table": "image"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that is in the picture",
+				"name": "account",
+				"reference": {
+					"property": "text",
+					"table": "account"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that added tagged this image",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "author",
-		"description": "account that created this comment",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}, {
-		"name": "message",
-		"description": "comment text",
-		"type": "text"
-	}],
-	"null_keys": [{
-		"name": "reply",
-		"description": "this comment was an answer to another comment",
-		"type": "integer",
-		"reference": {
-			"table": "artist_comment",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "song_comment",
-	"description": "a comment on the page of a song",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when comment was made",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "song",
-		"description": "song page on which the comment was made",
-		"type": "integer",
-		"reference": {
-			"table": "song",
-			"property": "id"
+	{
+		"description": "a comment on the page of an artist",
+		"name": "artist_comment",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when comment was made",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "artist page on which the comment was made",
+				"name": "artist",
+				"reference": {
+					"property": "id",
+					"table": "artist"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that created this comment",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "comment text",
+				"name": "message",
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "this comment was an answer to another comment",
+			"name": "reply",
+			"reference": {
+				"property": "id",
+				"table": "artist_comment"
+			},
+			"type": "integer"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "author",
-		"description": "account that created this comment",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}, {
-		"name": "message",
-		"description": "comment text",
-		"type": "text"
-	}],
-	"null_keys": [{
-		"name": "reply",
-		"description": "this comment was an answer to another comment",
-		"type": "integer",
-		"reference": {
-			"table": "song_comment",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "account_comment",
-	"description": "a comment on the page of an account",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when comment was made",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "account",
-		"description": "account page on which the comment was made",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
+	{
+		"description": "a comment on the page of a song",
+		"name": "song_comment",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when comment was made",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "song page on which the comment was made",
+				"name": "song",
+				"reference": {
+					"property": "id",
+					"table": "song"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that created this comment",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "comment text",
+				"name": "message",
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "this comment was an answer to another comment",
+			"name": "reply",
+			"reference": {
+				"property": "id",
+				"table": "song_comment"
+			},
+			"type": "integer"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "author",
-		"description": "account that created this comment",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}, {
-		"name": "message",
-		"description": "comment text",
-		"type": "text"
-	}],
-	"null_keys": [{
-		"name": "reply",
-		"description": "this comment was an answer to another comment",
-		"type": "integer",
-		"reference": {
-			"table": "account_comment",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "playlist_entry_comment",
-	"description": "a comment on a playlist entry",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when comment was made",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "playlist_entry",
-		"description": "playlist_entry on which the comment was made",
-		"type": "integer",
-		"reference": {
-			"table": "playlist_entry",
-			"property": "id"
+	{
+		"description": "a comment on the page of an account",
+		"name": "account_comment",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when comment was made",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account page on which the comment was made",
+				"name": "account",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "account that created this comment",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "comment text",
+				"name": "message",
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "this comment was an answer to another comment",
+			"name": "reply",
+			"reference": {
+				"property": "id",
+				"table": "account_comment"
+			},
+			"type": "integer"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "author",
-		"description": "account that created this comment",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}, {
-		"name": "message",
-		"description": "comment text",
-		"type": "text"
-	}],
-	"null_keys": [{
-		"name": "reply",
-		"description": "this comment was an answer to another comment",
-		"type": "integer",
-		"reference": {
-			"table": "playlist_entry_comment",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "image_comment",
-	"description": "a comment on an image",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when comment was made",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "image",
-		"description": "image on which the comment was made",
-		"type": "integer",
-		"reference": {
-			"table": "image",
-			"property": "id"
+	{
+		"description": "a comment on a playlist entry",
+		"name": "playlist_entry_comment",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when comment was made",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "playlist_entry on which the comment was made",
+				"name": "playlist_entry",
+				"reference": {
+					"property": "id",
+					"table": "playlist_entry"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that created this comment",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "comment text",
+				"name": "message",
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "this comment was an answer to another comment",
+			"name": "reply",
+			"reference": {
+				"property": "id",
+				"table": "playlist_entry_comment"
+			},
+			"type": "integer"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "author",
-		"description": "account that created this comment",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
-		}
-	}, {
-		"name": "message",
-		"description": "comment text",
-		"type": "text"
-	}],
-	"null_keys": [{
-		"name": "reply",
-		"description": "this comment was an answer to another comment",
-		"type": "integer",
-		"reference": {
-			"table": "image_comment",
-			"property": "id"
-		}
-	}]
-}, {
-	"name": "image_album_comment",
-	"description": "a comment on an album",
-	"primary_key": {
-		"name": "id",
-		"description": "unique id",
-		"type": "integer"
 	},
-	"not_null_keys": [{
-		"name": "date",
-		"description": "date when comment was made",
-		"type": "date",
-		"default": "now"
-	}, {
-		"name": "album",
-		"description": "album on which the comment was made",
-		"type": "integer",
-		"reference": {
-			"table": "album",
-			"property": "id"
+	{
+		"description": "a comment on an image",
+		"name": "image_comment",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when comment was made",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "image on which the comment was made",
+				"name": "image",
+				"reference": {
+					"property": "id",
+					"table": "image"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that created this comment",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "comment text",
+				"name": "message",
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "this comment was an answer to another comment",
+			"name": "reply",
+			"reference": {
+				"property": "id",
+				"table": "image_comment"
+			},
+			"type": "integer"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "author",
-		"description": "account that created this comment",
-		"type": "text",
-		"reference": {
-			"table": "account",
-			"property": "id"
+	},
+	{
+		"description": "a comment on an album",
+		"name": "image_album_comment",
+		"not_null_keys": [{
+				"default": "now",
+				"description": "date when comment was made",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "album on which the comment was made",
+				"name": "album",
+				"reference": {
+					"property": "id",
+					"table": "album"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "account that created this comment",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "comment text",
+				"name": "message",
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "this comment was an answer to another comment",
+			"name": "reply",
+			"reference": {
+				"property": "id",
+				"table": "image_album_comment"
+			},
+			"type": "integer"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
 		}
-	}, {
-		"name": "message",
-		"description": "comment text",
-		"type": "text"
-	}],
-	"null_keys": [{
-		"name": "reply",
-		"description": "this comment was an answer to another comment",
-		"type": "integer",
-		"reference": {
-			"table": "image_album_comment",
-			"property": "id"
-		}
-	}]
-}]
+	}
+]

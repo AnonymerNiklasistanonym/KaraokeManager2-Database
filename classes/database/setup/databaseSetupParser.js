@@ -1,34 +1,17 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * Description:
- * This file contains a parser of the database table JSON file with an class that can be inherited for customized parsing of the JSON file
+ * This file parses the setup data like
+ * - accounts (root account)
  */
 
 // Read files asynchronously
 const fs = require('fs').promises
-
-/**
- * Type definition for a Key object
- * @typedef {{name: string, description?: string, type: KeyType, default?: KeyDefault, reference?: KeyReference, options?: KeyOptions}} Key
- */
-/**
- * Type definition for a KeyType object
- * @typedef {('integer'|'text'|'boolean'|'date')} KeyType
- */
-/**
- * Type definition for a KeyType object
- * @typedef {{table: string, property: string}} KeyReference
- */
-/**
- * Type definition for a KeyType object
- * @typedef {(number|boolean|string|'now')} KeyDefault
- */
-/**
- * Type definition for a KeyOptions object
- * @typedef {{unique?: boolean, notNull?: boolean, primary?: boolean}} KeyOptions
- */
 
 /**
  * Parse JSON file to JSON object and the to something else with an additional parser class
@@ -46,7 +29,7 @@ class DatabaseTablesJsonParser {
   }
   /**
    * Parse JSON file to JSON object
-   * @returns {Promise<{name: string, description?: string, primary_key: Key, not_null_keys: Key[], null_keys: Key[]}[]>} Promise that resolves with the parsed JSON object
+   * @returns {Promise<import('./../databaseTypes').JsonDataTables>} Promise that resolves with the parsed JSON object
    */
   static get setupTables () {
     return new Promise((resolve, reject) =>
@@ -72,7 +55,7 @@ class DatabaseTableValuesJsonParser {
   }
   /**
    * Parse JSON file to JSON object
-   * @returns {Promise<{accounts:{name: string, password: string}[]}>} Promise that resolves with the parsed JSON object
+   * @returns {Promise<import('./../databaseTypes').JsonDataTableDefaultValues>} Promise that resolves with the parsed JSON object
    */
   static get setupTableValues () {
     return new Promise((resolve, reject) =>

@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * This file contains:
@@ -25,16 +28,22 @@ class DatabaseAccess {
    */
   static getSqlite3Database (readOnly = true) {
     return new Promise((resolve, reject) => {
-      const db = new sqlite3.Database(this.databasePath,
-        (readOnly ? sqlite3.OPEN_READONLY : sqlite3.OPEN_READWRITE) | sqlite3.OPEN_CREATE,
-        err => {
-          if (err) {
-            reject(err)
-          } else {
-            // Enable WAL-MODE (Write-Ahead Logging) for concurrent access: https://sqlite.org/wal.html
-            db.run('PRAGMA journal_mode = WAL;', err2 => err2 ? reject(err2) : resolve(db))
-          }
-        })
+      // tslint:disable-next-line:no-bitwise
+      const sqliteNumber = (readOnly ? sqlite3.OPEN_READONLY : sqlite3.OPEN_READWRITE) | sqlite3.OPEN_CREATE
+      const db = new sqlite3.Database(this.databasePath, sqliteNumber, err => {
+        if (err) {
+          reject(err)
+        } else {
+          // Enable WAL-MODE (Write-Ahead Logging) for concurrent access: https://sqlite.org/wal.html
+          db.run('PRAGMA journal_mode = WAL;', err2 => {
+            if (err2) {
+              reject(err2)
+            } else {
+              resolve(db)
+            }
+          })
+        }
+      })
     })
   }
 }
@@ -52,14 +61,16 @@ class DatabaseQueriesErrorHelper {
   static get errorCodes () {
     return Object.freeze({
       /**
+       * Happens when a constraint in the database table structure prevents an action
+       * like an insert of an entry because of a unique key that is already there and
+       * thus the new entry cannot be saved
+       */
+      SQLITE_CONSTRAINT: 19,
+      /**
        * Can be nearly anything like:
        * - Table already exists
-      */
-      SQLITE_ERROR: 1,
-      /**
-       * Happens when a constraint in the database table structure prevents an action like an insert of an entry because of a unique key that is already there and thus the new entry cannot be saved
-      */
-      SQLITE_CONSTRAINT: 19
+       */
+      SQLITE_ERROR: 1
     })
   }
 }
@@ -76,7 +87,7 @@ class DatabaseQueries {
   static databaseWrapper (readOnly = true) {
     return new Promise((resolve, reject) => DatabaseAccess.getSqlite3Database(readOnly)
       .then(database => {
-        // check if the database connection was successfully and then run the query
+        // Check if the database connection was successfully and then run the query
         if (database === undefined || database === null) {
           reject(Error('Database connection was never established!'))
         } else {
@@ -88,16 +99,19 @@ class DatabaseQueries {
   /**
    * Get something from the database
    * @param {string} query Query for the database
-   * @returns {Promise<*[]>} Request list
+   * @param {[]} parameters Parameter for safe query
+   * @returns {Promise<*>} Request list
    */
   static getEachRequest (query, parameters = []) {
     return new Promise((resolve, reject) => this.databaseWrapper(true)
       .then(database => {
-        // create empty list to collect objects that we want
+        // Create empty list to collect objects that we want
+        // @ts-ignore
         let requestedElement
-        // make request for one element
+        // Make request for one element
         database.each(query, parameters,
           (err, row) => err ? reject(err) : (requestedElement = row),
+          // @ts-ignore
           (err, count) => err ? reject(err) : resolve(requestedElement))
       })
       .catch(reject))
@@ -105,16 +119,20 @@ class DatabaseQueries {
   /**
    * Get something from the database
    * @param {string} query Query for the database
+   * @param {[]} parameters Parameter for safe query
    * @returns {Promise<*[]>} Request list
    */
   static getAllRequest (query, parameters = []) {
     return new Promise((resolve, reject) => this.databaseWrapper(true)
       .then(database => {
-        // create empty list to collect objects that we want
-        let requestedList = []
-        // make request for elements
+        // Create empty list to collect objects that we want
+        // @ts-ignore
+        const requestedList = []
+        // Make request for elements
         database.all(query, parameters,
+          // @ts-ignore
           (err, row) => err ? reject(err) : requestedList.push(row),
+          // @ts-ignore
           (err, count) => err ? reject(err) : resolve(requestedList))
       })
       .catch(reject))
@@ -123,23 +141,21 @@ class DatabaseQueries {
    * Edit something in database
    * @param {string} query Query for the database
    * @param {*[]} parameters Query data (for better security)
-   * @returns {Promise<{lastID: number, changes: number}>} Post result
+   * @returns {Promise<({lastID: number, changes: number}|void)>} Post result
    */
   static postRequest (query, parameters = []) {
     return new Promise((resolve, reject) => this.databaseWrapper(false)
-      .then(database => {
+      .then(database => database.run(query, parameters, function (err) {
         // No ES6 style function because of otherwise this would be the class and not the RunResult
-        database.run(query, parameters, function (err) {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(this)
-          }
-        })
+        if (err) {
+          reject(err)
+        } else {
+          resolve(this)
+        }
       })
+      )
       .catch(reject))
   }
 }
 
-// export the static classes to other scripts
 module.exports = { DatabaseAccess, DatabaseQueries, DatabaseQueriesErrorHelper }

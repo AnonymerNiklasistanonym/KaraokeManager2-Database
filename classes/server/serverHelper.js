@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * This file contains:
@@ -24,7 +27,7 @@ class ServerHelper {
    */
   static get requestLogger () {
     return (req, res, next) => {
-      const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl
+      const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
       if (req instanceof IncomingMessage && res instanceof OutgoingMessage) {
         const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
         console.log('Time:', Date.now(), req.method, fullUrl, 'client:', ip)
@@ -72,23 +75,26 @@ class ServerHelper {
    * printAllServerRoutes(app)
    */
   static printAllServerRoutes (app) {
-    function split (thing) {
+    const split = thing => {
       if (typeof thing === 'string') {
         return thing.split('/')
       } else if (thing.fast_slash) {
         return ''
       } else {
-        var match = thing.toString()
+        const match = thing.toString()
           .replace('\\/?', '')
           .replace('(?=\\/|$)', '$')
-          .match(/^\/\^((?:\\[.*+?^${}()|[\]\\\/]|[^.*+?^${}()|[\]\\\/])*)\$\//) // eslint-disable-line no-useless-escape
-        return match ? match[1].replace(/\\(.)/g, '$1')
-          .split('/')
-          : '<complex:' + thing.toString() + '>'
+          .match(/^\/\^((?:\\[.*+?^${}()|[\]\\/]|[^.*+?^${}()|[\]\\/])*)\$\//)
+        if (match) {
+          return match[1]
+            .replace(/\\(.)/g, '$1')
+            .split('/')
+        } else {
+          return `<complex:${thing.toString()}>`
+        }
       }
     }
-
-    function print (path, layer) {
+    const print = (path, layer) => {
       if (layer.route) {
         layer.route.stack.forEach(print.bind(undefined, path.concat(split(layer.route.path))))
       } else if (layer.name === 'router' && layer.handle.stack) {
@@ -101,7 +107,6 @@ class ServerHelper {
             .join('/'))
       }
     }
-
     app._router.stack.forEach(print.bind(undefined, []))
   }
 }

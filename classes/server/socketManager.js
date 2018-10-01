@@ -6,13 +6,14 @@
 
 /*
  * This file contains:
- * The waveform external test route of the server
+ * TODO
  */
 
-const express = require('express')
-const router = express.Router()
+/**
+ * TODO
+ */
+class SocketManager {
 
-// Define the home page route
-router.get('/', (req, res) => { res.render('audioVideo') })
+}
 
-module.exports = router
+module.exports = { SocketManager }

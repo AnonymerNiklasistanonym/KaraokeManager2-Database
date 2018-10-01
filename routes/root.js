@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * This file contains:
@@ -14,7 +17,7 @@ const waveform = require('./waveform')
 const sockets = require('./sockets')
 const videoAudio = require('./videoAudio')
 
-// respond with "hello world" when a GET request is made to the homepage
+// Respond with "hello world" when a GET request is made to the homepage
 router.get('/', (req, res) => res.send('hello world'))
 
 // GET method route
@@ -26,7 +29,7 @@ router.post('/post', (req, res) => res.send('POST request'))
 // Rout middleware functions
 router.all('/secret', (req, res, next) => {
   console.log('Accessing the secret section ...')
-  next() // pass control to the next handler
+  next() // Pass control to the next handler
 })
 
 // GET 'a file'
@@ -36,9 +39,9 @@ router.get('/random.text', (req, res) => res.send('random.text content'))
  * Route parameters
  */
 
-// http://localhost:3000/users/34/books/8989
+// Example: /users/34/books/8989
 router.get('/users/:userId/books/:bookId', (req, res) => res.send(req.params))
-// http://localhost:3000/plantae/Prunus.persica
+// Example: /plantae/Prunus.persica
 router.get('/plantae/:genus.:species', (req, res) => res.send(req.params))
 
 /*
@@ -71,7 +74,7 @@ router.get('/example/c', [cb0, cb1, cb2])
  * Response types
  */
 router.get('/type/download', (req, res) => {
-  res.download('./data/README.md', 'custom_file_name.md', (err) => {
+  res.download('./data/README.md', 'custom_file_name.md', err => {
     if (err) {
       console.error(err)
     }
@@ -81,12 +84,11 @@ router.get('/type/end', (req, res) => {
   res.end() // End the response process
 })
 router.get('/type/json', (req, res) => {
-  // res.setHeader('x-no-compression')
   res.json({
-    json: 'object'.repeat(99999),
     first: {
       second: true
-    }
+    },
+    json: 'object'.repeat(99999)
   }) // Send a JSON response
 })
 router.get('/type/redirect', (req, res) => {
@@ -97,16 +99,15 @@ router.get('/type/send', (req, res) => {
 })
 router.get('/type/render', (req, res) => {
   res.locals = {
-    some_value: 'foo bar',
-    list: ['cat', 'dog']
+    list: ['cat', 'dog'],
+    some_value: 'foo bar'
   }
 
   res.render('home', {
-    showTitle: true,
     array: ['first value', 'second value', 'third value'],
-
     // Override `foo` helper only for this rendering.
-    helpers: { foo: () => 'foo.' }
+    helpers: { foo: () => 'foo.' },
+    showTitle: true
   }) // Render a view template
 })
 router.get('/type/status', (req, res) => {

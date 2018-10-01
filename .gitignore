@@ -3,6 +3,7 @@
 
 # ignore node modules
 node_modules
+node_modules_bak
 
 # ignore large package.json
 package-lock.json

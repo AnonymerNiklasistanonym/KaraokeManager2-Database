@@ -1,8 +1,6 @@
 {
-	"accounts": [
-		{
-			"name": "root",
-			"password": "root"
-		}
-	]
+	"accounts": [{
+		"name": "root",
+		"password": "root"
+	}]
 }

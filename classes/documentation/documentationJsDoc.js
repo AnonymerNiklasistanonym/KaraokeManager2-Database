@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
- * Description:
- * This class helps interacting with the database
+ * This file contains:
+ * The JsDoc documentation code. [Dev]
  */
-
 // Be able to concatenate paths
 const path = require('path')
 // Create JavaScript documentation
@@ -14,12 +16,7 @@ const documentation = require('documentation')
 const streamArray = require('stream-array')
 const vfs = require('vinyl-fs')
 // General documentation helper with useful functions
-const DocumentationHelper = require('./documentation_helper').DocumentationHelper
-
-/**
- * Type definition for a JsDocDocumentationInformation object
- * @typedef {[{name: string, directoryPathJsDoc: [string],filePathMdDoc: [string],indexFilePath: [string]}]} JsDocDocumentationInformation
- */
+const DocumentationHelper = require('./documentationHelper').DocumentationHelper
 
 /**
  * Documentation of the source code
@@ -32,72 +29,70 @@ class DocumentJsDoc {
     return path.join(DocumentationHelper.dataDirectoryPath, 'js_doc.json')
   }
   /**
-   * @returns {Promise<JsDocDocumentationInformation>} Configuration file object
+   * @returns {Promise<import('./documentationTypes').JsDocDocumentationInformation>} Configuration file object
    */
   static get configurationObject () {
     return DocumentationHelper.getDocumentationInformationObject(this.configurationObjectPath)
   }
   /**
    * Convenience method that will be executed on `npm run doc`
-   * @returns {Promise} Empty promise array when everything went right
+   * @returns {Promise<void>} Empty promise array when everything went right
    */
   static createDocumentation () {
     return new Promise((resolve, reject) =>
-    // get configuration file for a list of all documentations that should be created
+      // Get configuration file for a list of all documentations that should be created
       this.configurationObject.then(jsonObject =>
         Promise.all(
-          // create all Promises for the HTML documentations
+          // Create all Promises for the HTML documentations
           jsonObject.map(jsDocObject => this.createJsDocHtml(
             path.join(DocumentationHelper.rootDirectoryPath, path.join.apply(undefined, jsDocObject.indexFilePath)),
             path.join.apply(undefined, jsDocObject.directoryPathJsDoc)))
-          // concatenate these with the
+            // Concatenate these with the
             .concat(
-              // create all Promises for the Markdown documentations
+              // Create all Promises for the Markdown documentations
               jsonObject.map(jsDocObject => this.createJsDocMarkdown(
                 path.join(DocumentationHelper.rootDirectoryPath, path.join.apply(undefined, jsDocObject.indexFilePath)),
                 path.join.apply(undefined, jsDocObject.filePathMdDoc), jsDocObject.name))))
-        // resolve when all jobs are done
-          .then(resolve)
+          // Resolve when all jobs are done
+          .then(a => { resolve() })
           .catch(reject))
         .catch(reject))
   }
   /**
    * Creates a JsDoc in HTML format in a specified directory of an index file and
-   * @returns {Promise} Empty promise when everything went right
+   * @returns {Promise<void>} Empty promise when everything went right
    */
   static createJsDocHtml (indexFile, destinationDirectoryPath) {
     return new Promise((resolve, reject) =>
-    // get the documentation main directory
+    // Get the documentation main directory
       DocumentationHelper.documentationDirectoryPath.then(documentationDirectoryPath =>
-      // create documentation in specified destination directory
+      // Create documentation in specified destination directory
         documentation.build(indexFile, { external: [] })
-        // @ts-ignore
+          // @ts-ignore
           .then(documentation.formats.html)
-          .catch(reject)
           .then(output => streamArray(output)
             .pipe(vfs.dest(path.join(documentationDirectoryPath, destinationDirectoryPath))))
-          .catch(reject)
           .then(resolve)
           .catch(reject))
         .catch(reject))
   }
   /**
    * Creates a JsDoc in Markdown format in a specified file of an index file and
-   * @returns {Promise} Empty promise when everything went right
+   * @returns {Promise<void>} Empty promise when everything went right
    */
   static createJsDocMarkdown (indexFile, destinationFile, name) {
     return new Promise((resolve, reject) =>
-    // create documentation markdown string
+    // Create documentation markdown string
       documentation.build(indexFile, { external: [] })
       // @ts-ignore
         .then(documentation.formats.md)
         .catch(reject)
         .then(markdownString =>
-        // get the documentation info text
+        // Get the documentation info text
           DocumentationHelper.getInfoText()
-            // write string with documentation infos to destination file
+            // Write string with documentation infos to destination file
             .then(infoText => DocumentationHelper.writeDocumentationFile(destinationFile,
-              '# ' + name + '\n\n<!-- ' + infoText + ' -->\n\n' + markdownString)
+              `# ${name}\n\n<!-- ${infoText} -->\n\n${markdownString}`)
               .then(resolve)
               .catch(reject))
             .catch(reject))
@@ -105,4 +100,4 @@ class DocumentJsDoc {
   }
 }
 
-module.exports = { DocumentJsDoc: DocumentJsDoc }
+module.exports = { DocumentJsDoc }

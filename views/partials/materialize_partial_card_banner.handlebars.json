@@ -1,0 +1,16 @@
+{
+	"materializeCardBannerPartial": {
+		"big_text": "Big text below title",
+		"links": [{
+			"text": "Get started",
+			"url": "http://materializecss.com/getting-started.html"
+		}],
+		"title": "Title"
+	},
+	"theme": {
+		"banner": {
+			"buttonColor": "orange",
+			"titleTextColor": "orange"
+		}
+	}
+}

@@ -1,5 +1,13 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
+
+/*
+ * This file contains:
+ * Socket server, the initial binding
+ */
 
 const socketIo = require('socket.io')
 
@@ -24,7 +32,7 @@ const socketMethod = clientSocket => {
   }
   console.log(identifier + ' > Client connected...', clientSocket.client.id)
 
-  clientSocket.on('join', (data) => {
+  clientSocket.on('join', data => {
     console.log(identifier + ' > client sent data -', clientSocket.client.id, '\n\t', data)
   })
 }

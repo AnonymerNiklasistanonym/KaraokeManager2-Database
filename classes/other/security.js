@@ -1,5 +1,13 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
+
+/*
+ * This file contains:
+ * Class with methods to provide password creation/checking possibilities
+ */
 
 const crypto = require('crypto')
 
@@ -12,7 +20,8 @@ class PasswordHelper {
    * @returns {string} Pepper
    */
   static get pepper () {
-    return 'a899f12d640b3cb7aeacfeeaa1d330792f92d50f8e9b54db5c189a7f7c118d62e4487c2ca4fe5b69562db2936f68937d4dab5ae298a6f6cb1c753962fdedc2a0'
+    return 'a899f12d640b3cb7aeacfeeaa1d330792f92d50f8e9b54db5c189a7f7c118d62e4487c2ca4fe5b69562d' +
+      'b2936f68937d4dab5ae298a6f6cb1c753962fdedc2a0'
   }
   /**
    * Generates salt (a random string of characters of the given length)
@@ -21,9 +30,9 @@ class PasswordHelper {
    */
   static generateSalt (length = 2048) {
     return crypto
-      .randomBytes(Math.ceil(length / 2)) // generate random bytes
-      .toString('hex') // convert string into the hexadecimal format
-      .slice(0, length) // slice the string to the wanted length of characters
+      .randomBytes(Math.ceil(length / 2)) // Generate random bytes
+      .toString('hex') // Convert string into the hexadecimal format
+      .slice(0, length) // Slice the string to the wanted length of characters
   }
 
   /**
@@ -34,7 +43,8 @@ class PasswordHelper {
    */
   static generateHashAndSalt (password, saltLength = 2048) {
     const salt = this.generateSalt(saltLength)
-    return { salt: salt, hash: this.generateHash(password, salt) }
+
+    return { salt, hash: this.generateHash(password, salt) }
   }
 
   /**
@@ -63,5 +73,4 @@ class PasswordHelper {
   }
 }
 
-// export the static class to another script
-module.exports = { PasswordHelper }
+module.exports = PasswordHelper

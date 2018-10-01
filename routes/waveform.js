@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * This file contains:
@@ -9,14 +12,13 @@
 const express = require('express')
 const router = express.Router()
 
-// define the home page route
-// define the home page route
+// Define the home page route
 router.get('/', (req, res) => {
   res.locals = {
     waveformContainer: 'waveform_container',
     waveformFilePath: '/test/music/test.mp3',
-    waveformPlayPause: true,
-    waveformPlayOnStart: false
+    waveformPlayOnStart: false,
+    waveformPlayPause: true
   }
 
   res.render('waveform') // Render a view template
@@ -26,8 +28,8 @@ router.get('/autoplay', (req, res) => {
   res.locals = {
     waveformContainer: 'waveform_container',
     waveformFilePath: '/test/music/test.mp3',
-    waveformPlayPause: false,
-    waveformPlayOnStart: true
+    waveformPlayOnStart: true,
+    waveformPlayPause: false
   }
 
   res.render('waveform') // Render a view template

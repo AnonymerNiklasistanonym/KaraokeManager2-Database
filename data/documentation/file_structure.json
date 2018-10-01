@@ -1,19 +1,46 @@
 {
-	"filePath": ["fileStructure.md"],
+	"contentTitle": "Content",
+	"filePath": [
+		"fileStructure.md"
+	],
 	"indexFile": {
-		"filePath": ["index.js"]
+		"filePath": [
+			"index.js"
+		]
 	},
+	"title": "File structure of the whole project",
+	"tocTitle": "Table of contents",
 	"sourceDirectories": [{
-		"filePath": ["classes"],
-		"fileExtensions": ["js"]
-	}, {
-		"filePath": ["routes"],
-		"fileExtensions": ["js"]
-	}, {
-		"filePath": ["data"],
-		"fileExtensions": ["json"]
-	}, {
-		"filePath": ["views"],
-		"fileExtensions": ["handlebars"]
-	}]
+			"fileExtensions": [
+				"js"
+			],
+			"filePath": [
+				"classes"
+			]
+		},
+		{
+			"fileExtensions": [
+				"js"
+			],
+			"filePath": [
+				"routes"
+			]
+		},
+		{
+			"fileExtensions": [
+				"json"
+			],
+			"filePath": [
+				"data"
+			]
+		},
+		{
+			"fileExtensions": [
+				"handlebars"
+			],
+			"filePath": [
+				"views"
+			]
+		}
+	]
 }

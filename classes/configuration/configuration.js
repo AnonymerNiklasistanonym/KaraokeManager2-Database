@@ -1,12 +1,15 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * This file contains:
  * Main configuration interface where all the important data can be got
  */
 
-const fs = require('fs').promises
+const fs = require('fs')
 const path = require('path')
 
 /**
@@ -15,45 +18,63 @@ const path = require('path')
  * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class Configuration {
-  constructor () {
-    this.materializeFooter = 'ERROR'
-    this.theme = 'ERROR'
+  /**
+   * Get JSON object from a `.json` file
+   * @param {string} filePath File path to `.json` file
+   * @returns {*} JSON object
+   */
+  static parseJsonData (filePath) {
+    return JSON.parse(fs
+      .readFileSync(filePath)
+      .toString())
   }
   getTheme () {
     return this.theme
   }
+  getNavBar () {
+    return this.navBar
+  }
   getMaterializeFooter () {
     return this.materializeFooter
   }
-  static parseJsonData (filePath) {
-    return new Promise((resolve, reject) => fs.readFile(filePath)
-      .then(content => resolve(JSON.parse(content.toString())))
-      .catch(reject))
+  getMaterializeCardBanner () {
+    return this.materializeBanner
+  }
+  getMaterializeFeatureRow () {
+    return this.materializeFeatureRow
+  }
+  setupNavBar () {
+    this.navBar = Configuration.parseJsonData(path.join(__dirname, '../../data/server/nav.json'))
+
+    return this
   }
   setupFooter () {
-    return new Promise((resolve, reject) =>
-      Configuration.parseJsonData(path.join(__dirname, '../../data/server/footer.json'))
-        .then(content => {
-          this.materializeFooter = content
-          resolve()
-        })
-        .catch(reject))
+    this.materializeFooter = Configuration.parseJsonData(path.join(__dirname, '../../data/server/footer.json'))
+
+    return this
+  }
+  setupCardBanner () {
+    this.materializeBanner = Configuration.parseJsonData(path.join(__dirname, '../../data/server/banner.json'))
+
+    return this
+  }
+  setupFeatureRow () {
+    this.materializeFeatureRow = Configuration.parseJsonData(path.join(__dirname, '../../data/server/featureRow.json'))
+
+    return this
   }
   setupTheme () {
-    return new Promise((resolve, reject) =>
-      Configuration.parseJsonData(path.join(__dirname, '../../data/server/theme.json'))
-        .then(content => {
-          this.theme = content
-          resolve()
-        })
-        .catch(reject))
+    this.theme = Configuration.parseJsonData(path.join(__dirname, '../../data/server/theme.json'))
+
+    return this
   }
 }
 
 const configuration = new Configuration()
-const waitForThesePromises = Promise.all([configuration.setupFooter(), configuration.setupTheme()])
+  .setupFooter()
+  .setupCardBanner()
+  .setupTheme()
+  .setupFeatureRow()
+  .setupNavBar()
 
-module.exports = new Promise((resolve, reject) =>
-  waitForThesePromises
-    .then(() => resolve(configuration))
-    .catch(reject))
+module.exports = configuration

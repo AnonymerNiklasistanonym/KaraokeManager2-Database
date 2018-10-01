@@ -1,17 +1,16 @@
 #!/usr/bin/env node
-'use strict'
+
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
 
 /*
  * This file contains:
- * The main documentation code. This means in here is everything listed that will be documented.
+ * Documentation helper code. [Dev]
  */
-const path = require('path')
-const { readFile, mkdir, writeFile, stat } = require('fs').promises
 
-/**
- * Type definition for a DocumentationGeneralOptions object
- * @typedef {{directoryPath: string[], infoText: string}} DocumentationGeneralOptions
- */
+const path = require('path')
+const fs = require('fs').promises
 
 /**
  * Documentation helper methods
@@ -45,12 +44,12 @@ class DocumentationHelper {
   }
   /**
    * Get documentation directory file object
-   * @returns {Promise<DocumentationGeneralOptions>} Promise that contains the documentation directory file object
+   * @returns {Promise<import('./documentationTypes').DocumentationGeneralOptions>} Promise that contains the documentation directory file object
    */
   static get documentationDirectoryObject () {
-    return new Promise((resolve, reject) => readFile(this.documentationGeneralOptionsObjectPath)
+    return new Promise((resolve, reject) => fs.readFile(this.documentationGeneralOptionsObjectPath)
       .then(file => resolve(JSON.parse(file.toString())))
-      .catch(err => reject(err)))
+      .catch(reject))
   }
   /**
    * Get documentation directory path
@@ -71,7 +70,7 @@ class DocumentationHelper {
         .then(exists => {
           if (!exists) {
             this.documentationDirectoryPath.then(documentationDirectoryPath =>
-              mkdir(documentationDirectoryPath)
+              fs.mkdir(documentationDirectoryPath)
                 .then(() => resolve('created documentation directory'))
                 .catch(reject))
           } else {
@@ -89,7 +88,7 @@ class DocumentationHelper {
    */
   static writeDocumentationFile (filePath, content, useDocumentationDirectoryAsRootPath = true) {
     if (!useDocumentationDirectoryAsRootPath) {
-      return writeFile(filePath, content)
+      return fs.writeFile(filePath, content)
     } else {
       return new Promise((resolve, reject) =>
         this.documentationDirectoryPath.then(documentationDirectoryPath =>
@@ -101,7 +100,7 @@ class DocumentationHelper {
   }
   static existsDocumentationFile (filePath, useDocumentationDirectoryAsRootPath = true) {
     if (!useDocumentationDirectoryAsRootPath) {
-      return new Promise((resolve, reject) => stat(filePath)
+      return new Promise((resolve, reject) => fs.stat(filePath)
         .then(status => resolve(status.isFile() || status.isDirectory()))
         .catch(err => err.code === 'ENOENT' ? resolve(false) : reject(err)))
     } else {
@@ -118,7 +117,7 @@ class DocumentationHelper {
    * @returns {Promise} TODO
    */
   static getDocumentationInformationObject (filePath) {
-    return new Promise((resolve, reject) => readFile(filePath)
+    return new Promise((resolve, reject) => fs.readFile(filePath)
       .then(jsonContent => jsonContent.toString())
       .then(JSON.parse)
       .then(resolve)
@@ -126,4 +125,4 @@ class DocumentationHelper {
   }
 }
 
-module.exports = { DocumentationHelper: DocumentationHelper }
+module.exports = { DocumentationHelper }

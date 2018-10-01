@@ -1,16 +1,26 @@
 {
-    "footer": {
-        "mainColor": "light-blue",
-        "copyright": {
-            "linkColor": "light-blue"
-        },
-        "links": {
-            "titleColor": "white",
-            "textColor": "white"
-        },
-        "bio": {
-            "titleColor": "white",
-            "textColor": "grey"
-        }
-    }
+	"banner": {
+		"buttonColor": "orange",
+		"titleTextColor": "light-blue"
+	},
+	"featureRow": {
+		"iconColor": "light-blue"
+	},
+	"footer": {
+		"bio": {
+			"textColor": "grey",
+			"titleColor": "white"
+		},
+		"copyright": {
+			"linkColor": "light-blue"
+		},
+		"links": {
+			"textColor": "white",
+			"titleColor": "white"
+		},
+		"mainColor": "light-blue"
+	},
+	"navBar": {
+		"themeColor": "light-blue"
+	}
 }

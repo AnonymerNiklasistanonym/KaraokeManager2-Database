@@ -1,14 +1,22 @@
 #!/usr/bin/env node
-'use strict'
 
-// other
+/***************************************************************************************************************
+ * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
+ ***************************************************************************************************************/
+
+/*
+ * This file contains:
+ * The server setup/build script
+ */
+
+// Other
 const { join } = require('path')
 const { readFileSync, existsSync, mkdirSync } = require('fs')
 
-// server > base servers
+// Server > base servers
 const http = require('http')
 const spdy = require('spdy')
-// server > express and plugins
+// Server > express and plugins
 const express = require('express')
 const bodyParserJson = require('body-parser').json
 const compression = require('compression')
@@ -18,16 +26,16 @@ const session = require('express-session')
 const morgan = require('morgan')
 const rfs = require('rotating-file-stream')
 const helmet = require('helmet')
-// server > server helper static class
-const ServerHelper = require('./server_helper')
-// server > externalized router
+// Server > server helper static class
+const ServerHelper = require('./serverHelper')
+// Server > externalized router
 const root = require('../../routes/root')
 
 /*
  * Create express server (http/https)
  */
 
-// load certs/keys
+// Load certs/keys
 const serverSecurityDirectoryDH = join(__dirname, '..', '..', 'dh')
 const http2serverSecurityDirectory = join(__dirname, '..', '..', 'http2')
 const dhParam = readFileSync(join(serverSecurityDirectoryDH, 'dh-strong.pem'), 'utf8')
@@ -35,7 +43,7 @@ const http2sslKey = readFileSync(join(http2serverSecurityDirectory, 'server.key'
 const http2sslCert = readFileSync(join(http2serverSecurityDirectory, 'server.crt'), 'utf8')
 const http2options = { key: http2sslKey, cert: http2sslCert, hd: dhParam }
 
-// create express server instances
+// Create express server instances
 const app = express()
 const serverHttp = http.createServer(app)
   .on('error', ServerHelper.serverErrorListener)
@@ -46,77 +54,78 @@ const serverHttps = spdy.createServer(http2options, app)
  * Customize express server 'plugins'
  */
 
-// handlebars engine setup
+// Handlebars engine setup
 const hbs = handlebarsCreate({
+  // Specify the default render layout
+  defaultLayout: 'main',
+  // Specify file extensions
+  extname: '.handlebars',
   // Specify helpers which are only registered on this instance.
   helpers: {
-    foo: () => 'FOO!',
-    bar: () => 'BAR!'
+    bar: () => 'BAR!',
+    foo: () => 'FOO!'
   },
-  // specify file extensions
-  extname: '.handlebars',
-  // specify the default render layout
-  defaultLayout: 'main',
-  // specify the directories for view layouts and partials
+  // Specify the directories for view layouts and partials
   layoutsDir: join(__dirname, '../../views/layouts'),
   partialsDir: join(__dirname, '../../views/partials')
 })
-app.engine('handlebars', hbs.engine) // add handlebars engine
-app.set('view engine', 'handlebars') // use handlebars as view engine
-app.set('view cache', true) // cache views for much better performance
+app.engine('handlebars', hbs.engine) // Add handlebars engine
+app.set('view engine', 'handlebars') // Use handlebars as view engine
+app.set('view cache', true) // Cache views for much better performance
 
-app.set('json spaces', 0) // no spaces for minimized JSON requests
+app.set('json spaces', 0) // No spaces for minimized JSON requests
 
-// minify html data
+// Minify html data
 app.use(minifyHTML({ override: true }))
 
-// compress responses before sending them to the client
+// Compress responses before sending them to the client
 app.use(compression())
 
-// use more secure Diffie-Hellman connection buildup
+// Use more secure Diffie-Hellman connection buildup
 app.use(helmet())
 
-// request argument parser (for requests)
+// Request argument parser (for requests)
 app.use(bodyParserJson())
 
-// session handler
+// Session handler
 app.set('trust proxy', 1)
 const sess = {
-  secret: 'cookie secret',
+  cookie: {
+    secure: true
+  },
   name: 'cookie name',
-  cookie: { secure: true },
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  secret: 'cookie secret'
 }
 
-// @ts-ignore
 app.use(session(sess))
 
-// log directory
+// Log directory
 const logDirectory = join(__dirname, '../../log')
-// ensure log directory exists
+// Ensure log directory exists
 if (!existsSync(logDirectory)) {
   mkdirSync(logDirectory)
 }
-// create a rotating write stream
+// Create a rotating write stream
 // @ts-ignore
 const accessLogStream = rfs('access.log', {
-  interval: '1d', // create daily a new access log file
+  interval: '1d', // Create daily a new access log file
   path: logDirectory
 })
-// log only 4xx and 5xx responses to console
+// Log only 4xx and 5xx responses to console
 app.use(morgan('dev', { skip: (req, res) => res.statusCode < 400 }))
-// log all responses to a log file
+// Log all responses to a log file
 app.use(morgan('combined', { stream: accessLogStream }))
 
-// use a logger for all paths/connections
-// app.all('/*', ServerHelper.requestLogger)
+// Use a logger for all paths/connections
+// `app.all('/*', ServerHelper.requestLogger)`
 
 /*
  * Server routes
  */
 
-// route to external file
+// Route to external file
 app.use('/', root)
 
 // Make a whole directory downloadable (http://localhost:3000/database/tables.json)

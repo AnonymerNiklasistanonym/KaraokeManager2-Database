@@ -1,41 +1,50 @@
 {
-    "bio": {
-        "title": "Bio",
-        "text": "We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated."
-    },
-    "lists": [{
-        "title": "Options 1",
-        "links": [{
-            "url": "#",
-            "text": "Link 1"
-        }, {
-            "url": "#",
-            "text": "Link 2"
-        }, {
-            "url": "#",
-            "text": "Link 3"
-        }, {
-            "url": "#",
-            "text": "Link 4"
-        }]
-    }, {
-        "title": "Options 2",
-        "links": [{
-            "url": "#",
-            "text": "Link 1"
-        }, {
-            "url": "#",
-            "text": "Link 2"
-        }, {
-            "url": "#",
-            "text": "Link 3"
-        }]
-    }],
-    "madeBy": {
-        "text": "Made by",
-        "links": [{
-            "url": "http://materializecss.com/",
-            "text": "materialize"
-        }]
-    }
+	"bio": {
+		"text": "We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.",
+		"title": "Bio"
+	},
+	"lists": [{
+			"links": [{
+					"text": "Link 1",
+					"url": "#"
+				},
+				{
+					"text": "Link 2",
+					"url": "#"
+				},
+				{
+					"text": "Link 3",
+					"url": "#"
+				},
+				{
+					"text": "Link 4",
+					"url": "#"
+				}
+			],
+			"title": "Options 1"
+		},
+		{
+			"links": [{
+					"text": "Link 1",
+					"url": "#"
+				},
+				{
+					"text": "Link 2",
+					"url": "#"
+				},
+				{
+					"text": "Link 3",
+					"url": "#"
+				}
+			],
+			"title": "Options 2"
+		}
+	],
+	"madeBy": {
+		"links": [{
+			"text": "materialize",
+			"url": "http://materializecss.com/"
+		}],
+		"text": "Made by"
+	}
 }
