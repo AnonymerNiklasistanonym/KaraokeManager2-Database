@@ -5,7 +5,7 @@ PROJECT = "My KaraokeManager2-Database Node.js project"
 
 all: install test
 
-test: ;@echo "Format ${PROJECT}....."; \
+test: ;@echo "Test ${PROJECT}....."; \
 	npm run test
 
 server : ;@echo "Starting ${PROJECT}....."; \
@@ -29,4 +29,4 @@ clean : ;@echo "Clean ${PROJECT}....."; \
 	rm -rf database; \
 	rm -f database.db; \
 	rm -f package-lock.json; \
-	git clean -f -d
+	git clean -dfx

@@ -21,7 +21,7 @@ class DocumentationHelper {
    */
   static getInfoText () {
     return new Promise((resolve, reject) => this.documentationDirectoryObject
-      .then(jsonObject => resolve(jsonObject.infoText))
+      .then(jsonObject => { resolve(jsonObject.infoText) })
       .catch(reject))
   }
   /**
@@ -48,7 +48,7 @@ class DocumentationHelper {
    */
   static get documentationDirectoryObject () {
     return new Promise((resolve, reject) => fs.readFile(this.documentationGeneralOptionsObjectPath)
-      .then(file => resolve(JSON.parse(file.toString())))
+      .then(file => { resolve(JSON.parse(file.toString())) })
       .catch(reject))
   }
   /**
@@ -101,8 +101,8 @@ class DocumentationHelper {
   static existsDocumentationFile (filePath, useDocumentationDirectoryAsRootPath = true) {
     if (!useDocumentationDirectoryAsRootPath) {
       return new Promise((resolve, reject) => fs.stat(filePath)
-        .then(status => resolve(status.isFile() || status.isDirectory()))
-        .catch(err => err.code === 'ENOENT' ? resolve(false) : reject(err)))
+        .then(status => { resolve(status.isFile() || status.isDirectory()) })
+        .catch(err => { err.code === 'ENOENT' ? resolve(false) : reject(err) }))
     } else {
       return new Promise((resolve, reject) =>
         this.documentationDirectoryPath.then(documentationDirectoryPath =>

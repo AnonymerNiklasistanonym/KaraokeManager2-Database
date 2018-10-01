@@ -7,12 +7,7 @@ export interface IKey {
     type: KeyType;
 }
 
-export enum KeyType {
-    INTEGER = "integer",
-    TEXT = "text",
-    BOOLEAN = "boolean",
-    DATE = "date",
-}
+export type KeyType = "integer" | "text" | "boolean" | "date";
 
 export interface IKeyReference {
     property: string;
@@ -31,7 +26,7 @@ export interface IParsedKey {
     reference: string;
 }
 
-export interface ITableOption {
+export interface IJsonDataTableObject {
     description?: string;
     name: string;
     not_null_keys: IKey[];
@@ -39,10 +34,7 @@ export interface ITableOption {
     primary_key: IKey;
 }
 
-export enum TableOption {
-    CREATE_IF_NOT_EXISTING = "createIfNotAlreadyExisting",
-    CREATE_EVEN_IF_EXISTING = "createEvenIfAlreadyExisting",
-}
+export type TableOption = "createIfNotAlreadyExisting" | "createEvenIfAlreadyExisting";
 
 export interface IJsonDataTableObject {
     description?: string;
@@ -51,6 +43,7 @@ export interface IJsonDataTableObject {
     null_keys: IKey[];
     primary_key: IKey;
 }
+
 export interface IJsonDataTables extends Array<IJsonDataTableObject> {}
 
 export interface ITable {

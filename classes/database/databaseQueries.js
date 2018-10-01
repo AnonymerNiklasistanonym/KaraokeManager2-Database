@@ -110,9 +110,9 @@ class DatabaseQueries {
         let requestedElement
         // Make request for one element
         database.each(query, parameters,
-          (err, row) => err ? reject(err) : (requestedElement = row),
+          (err, row) => { err ? reject(err) : (requestedElement = row) },
           // @ts-ignore
-          (err, count) => err ? reject(err) : resolve(requestedElement))
+          (err, count) => { err ? reject(err) : resolve(requestedElement) })
       })
       .catch(reject))
   }
@@ -131,9 +131,9 @@ class DatabaseQueries {
         // Make request for elements
         database.all(query, parameters,
           // @ts-ignore
-          (err, row) => err ? reject(err) : requestedList.push(row),
+          (err, row) => { err ? reject(err) : requestedList.push(row) },
           // @ts-ignore
-          (err, count) => err ? reject(err) : resolve(requestedList))
+          (err, count) => { err ? reject(err) : resolve(requestedList) })
       })
       .catch(reject))
   }
