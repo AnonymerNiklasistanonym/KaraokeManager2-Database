@@ -23,6 +23,7 @@
 
 - `npm start` Execute main file
 - `npm run build` Creates binary builds of this project via [pkg](https://github.com/zeit/pkg)
+- `npm run typedoc` Creates (for now the best) HTML documentation of the source code
 - `npm run documentation` Creates documentation files (HTML, Markdown) of source code and file/database structure
 - `npm run jsdoc` Creates jsdoc (HTML directory) documentation
 - `npm run format` Automatically fixes JavaScript source code to be in the correct format
