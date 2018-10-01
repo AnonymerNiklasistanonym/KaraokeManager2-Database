@@ -44,7 +44,7 @@ class DocumentationHelper {
   }
   /**
    * Get documentation directory file object
-   * @returns {Promise<import('./documentationTypes').DocumentationGeneralOptions>} Promise that contains the documentation directory file object
+   * @returns {Promise<import('./documentationTypes').IDocumentationGeneralOptions>} Promise that contains the documentation directory file object
    */
   static get documentationDirectoryObject () {
     return new Promise((resolve, reject) => fs.readFile(this.documentationGeneralOptionsObjectPath)

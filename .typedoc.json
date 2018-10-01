@@ -1,0 +1,8 @@
+{
+    "out": "./docs/typedoc/",
+    "readme": "README.md",
+    "includes": "./",
+    "excludeExternals": true,
+    "excludeNotExported": false,
+    "name": "KaraokeManager2-Database"
+}

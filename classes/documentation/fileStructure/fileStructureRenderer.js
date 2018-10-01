@@ -36,6 +36,10 @@ class FileStructureRenderer {
     return `${'#'.repeat(depth)}${isDirectory ? ' ' : ' '} ${filePath}` +
       ` [\`${isDirectory ? 'directory' : 'file'} link\`](${directoryString.replace(/\\/g, '/')})`
   }
+  /**
+   * @param {string} fileInfo
+   * @returns {string}
+   */
   static renderMarkdownFileInfo (fileInfo) {
     if (fileInfo === undefined) {
       return undefined
@@ -43,6 +47,10 @@ class FileStructureRenderer {
 
     return fileInfo
   }
+  /**
+   * @param {object} jsonObject
+   * @returns {string}
+   */
   static renderMarkdownFileJsonHelp (jsonObject) {
     if (jsonObject === undefined) {
       return undefined
@@ -52,11 +60,11 @@ class FileStructureRenderer {
   }
   /**
    * Render a markdown object to string
-   * @param {import('./../documentationTypes').File} fileObject
+   * @param {import('./../documentationTypes').IFile} fileObject
    * @param {number} depth
    * @param {string} directoryPath
    * @param {string} preDirectory
-   * @returns {import('./../documentationTypes').MdFile}
+   * @returns {import('../documentationTypes').IMdFile}
    */
   static renderFileToMarkdownObject (fileObject, depth = 1, directoryPath, preDirectory) {
     const markdownFileInfo = this.renderMarkdownFileInfo(fileObject.info)
@@ -85,7 +93,7 @@ class FileStructureRenderer {
   }
   /**
    * Create Markdown string from a Markdown object
-   * @param {import('./../documentationTypes').MdFile} markdownObject Markdown object
+   * @param {import('../documentationTypes').IMdFile} markdownObject Markdown object
    * @returns {string} Markdown string of object
    */
   static renderFileToMarkdown (markdownObject) {

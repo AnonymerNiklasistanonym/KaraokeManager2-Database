@@ -22,9 +22,9 @@ class DatabaseApi {
   /**
    * Create a database table
    * @param {string} name
-   * @param {import('./databaseTypes').Key} primaryKey
-   * @param {import('./databaseTypes').Key[]} nonNullKeys
-   * @param {import('./databaseTypes').Key[]} nullKeys
+   * @param {import('./databaseTypes').IKey} primaryKey
+   * @param {import('./databaseTypes').IKey[]} nonNullKeys
+   * @param {import('./databaseTypes').IKey[]} nullKeys
    * @param {import('./databaseTypes').TableOption} option
    * @returns {Promise}
    * @example DatabaseApi.createTable('tableName',

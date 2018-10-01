@@ -28,7 +28,7 @@ class DocumentFileStructure {
   }
   /**
    * Get file structure information object
-   * @returns {Promise<import('./../documentationTypes').FileStructureDocumentationInformation>} File structure information object
+   * @returns {Promise<import('./../documentationTypes').IFileStructureDocumentationInformation>} File structure information object
    */
   static getDocumentationInformation () {
     return new Promise((resolve, reject) => fs.readFile(this.JSON_FILE_FILE_STRUCTURE_PATH)
@@ -55,7 +55,7 @@ class DocumentFileStructure {
   }
   /**
    * Get file structure that should be documented
-   * @returns {Promise<import('./../documentationTypes').File[]>}
+   * @returns {Promise<import('./../documentationTypes').IFile[]>}
    */
   static createDocumentation () {
     return new Promise((resolve, reject) => this.getDocumentationInformation()

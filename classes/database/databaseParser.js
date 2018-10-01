@@ -35,24 +35,24 @@ class DatabaseParserCreateTable {
   }
   /**
    * Parse primary table property key
-   * @param {import("./databaseTypes").Key} primaryKey Primary property key
-   * @returns {import("./databaseTypes").ParsedKey} Parsed key object
+   * @param {import("./databaseTypes").IKey} primaryKey Primary property key
+   * @returns {import("./databaseTypes").IParsedKey} Parsed key object
    */
   static parsePrimaryKey (primaryKey) {
     return this.parseKey({ ...primaryKey, options: { unique: true, notNull: true, primary: true } })
   }
   /**
    * Parse not null table property key
-   * @param {import("./databaseTypes").Key} notNullKey Not null property key
-   * @returns {import("./databaseTypes").ParsedKey} Parsed key object
+   * @param {import("./databaseTypes").IKey} notNullKey Not null property key
+   * @returns {import("./databaseTypes").IParsedKey} Parsed key object
    */
   static parseNotNullKey (notNullKey) {
     return this.parseKey({ ...notNullKey, options: { notNull: true } })
   }
   /**
    * Parse table property key
-   * @param {import("./databaseTypes").Key} key Property key
-   * @returns {import("./databaseTypes").ParsedKey} Parsed key object
+   * @param {import("./databaseTypes").IKey} key Property key
+   * @returns {import("./databaseTypes").IParsedKey} Parsed key object
    */
   static parseKey (key) {
     // Get name and type
@@ -98,7 +98,7 @@ class DatabaseParserCreateTable {
     }
   }
   /**
-   * @param {import("./databaseTypes").KeyOptions} keyOptions
+   * @param {import("./databaseTypes").IKeyOptions} keyOptions
    * @returns {string[]}
    */
   static parseKeyOptionsBeforeDefault (keyOptions) {
@@ -106,10 +106,11 @@ class DatabaseParserCreateTable {
     if (keyOptions.hasOwnProperty('notNull') && keyOptions.notNull) {
       options.push('NOT NULL')
     }
+
     return options
   }
   /**
-   * @param {import("./databaseTypes").KeyOptions} keyOptions
+   * @param {import("./databaseTypes").IKeyOptions} keyOptions
    * @returns {string[]}
    */
   static parseKeyOptionsAfterDefault (keyOptions) {
@@ -167,14 +168,14 @@ class DatabaseParser {
   /**
    * Create a database 'create table' query
    * @param {string} name Table name
-   * @param {import("./databaseTypes").Key} primaryKey Primary key object
-   * @param {import("./databaseTypes").Key[]} notNullKeys Not null key objects
-   * @param {import("./databaseTypes").Key[]} nullKeys Null key objects
+   * @param {import("./databaseTypes").IKey} primaryKey Primary key object
+   * @param {import("./databaseTypes").IKey[]} notNullKeys Not null key objects
+   * @param {import("./databaseTypes").IKey[]} nullKeys Null key objects
    * @param {import("./databaseTypes").TableOption} option Table creation option
    * @returns {string} Query
    */
-  static createTableQuery (name, primaryKey, notNullKeys = [], nullKeys = [], option = undefined) {
-    // parse all keys
+  static createTableQuery (name, primaryKey, notNullKeys = [], nullKeys = [], option) {
+    // Parse all keys
     const primaryKeyParsed = DatabaseParserCreateTable.parsePrimaryKey(primaryKey)
     const otherKeysParsed = notNullKeys
       .map(a => DatabaseParserCreateTable.parseNotNullKey(a))
@@ -182,11 +183,13 @@ class DatabaseParser {
     // Concat all 'normal' queries
     const queries = [primaryKeyParsed.query, ...otherKeysParsed.map(a => a.query)]
     // Concat all 'reference' queries and filter the null entries
-    const references = [primaryKeyParsed.reference, ...otherKeysParsed.map(a => a.reference)].filter(a => a !== undefined)
+    const references = [primaryKeyParsed.reference, ...otherKeysParsed.map(a => a.reference)]
+      .filter(a => a !== undefined)
     // Parse the table header
     const tableHeader = DatabaseParserCreateTable.parseTableHeader(name, option)
     // Bring everything together
-    return tableHeader + ' (' + [...queries, ...references].join(', ') + ');'
+
+    return `${tableHeader} (${[...queries, ...references].join(', ')});`
   }
 }
 

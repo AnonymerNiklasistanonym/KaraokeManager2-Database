@@ -25,6 +25,9 @@ const serverHttps = require('./server').ServerHttps
 const ioHttp = socketIo(serverHttp)
 const ioHttps = socketIo(serverHttps)
 
+/**
+ * @param {import('socket.io').ClientSocket} clientSocket Socket.io client socket
+ */
 const socketMethod = clientSocket => {
   let identifier = 'Socket Unsecured'
   if (clientSocket.client.request.socket.encrypted) {

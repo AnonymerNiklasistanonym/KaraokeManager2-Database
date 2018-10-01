@@ -29,7 +29,7 @@ class DatabaseTablesJsonParser {
   }
   /**
    * Parse JSON file to JSON object
-   * @returns {Promise<import('./../databaseTypes').JsonDataTables>} Promise that resolves with the parsed JSON object
+   * @returns {Promise<import('./../databaseTypes').IJsonDataTables>} Promise that resolves with the parsed JSON object
    */
   static get setupTables () {
     return new Promise((resolve, reject) =>
@@ -55,7 +55,7 @@ class DatabaseTableValuesJsonParser {
   }
   /**
    * Parse JSON file to JSON object
-   * @returns {Promise<import('./../databaseTypes').JsonDataTableDefaultValues>} Promise that resolves with the parsed JSON object
+   * @returns {Promise<import('./../databaseTypes').IJsonDataTableDefaultValues>} Promise that resolves with the parsed JSON object
    */
   static get setupTableValues () {
     return new Promise((resolve, reject) =>

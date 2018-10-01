@@ -29,7 +29,7 @@ class DocumentJsDoc {
     return path.join(DocumentationHelper.dataDirectoryPath, 'js_doc.json')
   }
   /**
-   * @returns {Promise<import('./documentationTypes').JsDocDocumentationInformation>} Configuration file object
+   * @returns {Promise<import('./documentationTypes').IJsDocDocumentationInformation>} Configuration file object
    */
   static get configurationObject () {
     return DocumentationHelper.getDocumentationInformationObject(this.configurationObjectPath)

@@ -21,7 +21,7 @@ class FileStructureScanner {
    * List files in a directory
    * @param {string} directoryPath Path of directory
    * @param {function(string): boolean} fileFilter Allowed files filter
-   * @returns {Promise<File[]>} List of files in directory
+   * @returns {Promise<import('../documentationTypes').IFile[]>} List of files in directory
    */
   static listFiles (directoryPath, fileFilter = a => true) {
     return new Promise((resolve, reject) => {
@@ -42,7 +42,7 @@ class FileStructureScanner {
    * Analyze any file
    * @param {string} filePath Path of file
    * @param {function(string): boolean} fileFilter Allowed files filter
-   * @returns {Promise<File>} File object of this file
+   * @returns {Promise<import('../documentationTypes').IFile>} File object of this file
    */
   static analyzeFile (filePath, fileFilter = a => true) {
     return new Promise((resolve, reject) => {
@@ -69,7 +69,7 @@ class FileStructureScanner {
    * Analyze a directory
    * @param {string} directoryPath Path of directory
    * @param {function(string): boolean} fileFilter Allowed files filter
-   * @returns {Promise<File>} File object of this directory
+   * @returns {Promise<import('../documentationTypes').IFile>} File object of this directory
    */
   static analyzeDirectory (directoryPath, fileFilter = a => true) {
     return new Promise((resolve, reject) =>
@@ -83,7 +83,7 @@ class FileStructureScanner {
   /**
    * Analyze single file
    * @param {string} filePath Path of single file
-   * @returns {Promise<File>} checks if the file contains information about its content
+   * @returns {Promise<import('../documentationTypes').IFile>} checks if the file contains information about its content
    */
   static analyzeSingleFile (filePath) {
     return new Promise((resolve, reject) =>
@@ -95,7 +95,7 @@ class FileStructureScanner {
   /**
    * Get information object of a directory
    * @param {string} directoryPath Path of directory
-   * @returns {Promise<FileInformation>} FileInformation object of this directory
+   * @returns {Promise<import('../documentationTypes').IFileInformation>} FileInformation object of this directory
    */
   static getDirectoryInformation (directoryPath) {
     return new Promise((resolve, reject) =>
@@ -110,7 +110,7 @@ class FileStructureScanner {
   /**
    * Get information object of a single file
    * @param {string} filePath Path of single file
-   * @returns {Promise<FileInformation>} FileInformation object of this single file
+   * @returns {Promise<import('../documentationTypes').IFileInformation>} FileInformation object of this single file
    */
   static getFileInformation (filePath) {
     return new Promise((resolve, reject) =>
@@ -292,12 +292,3 @@ class FileStructureScanner {
 }
 
 module.exports = FileStructureScanner
-
-/**
- * Type definition for a File object
- * @typedef {{path: string, info?: string, jsonHelp?: *, files?: File[]}} File
- */
-/**
- * Type definition for a FileInformation object
- * @typedef {{path: string, info?: string, jsonHelp?: *}} FileInformation
- */

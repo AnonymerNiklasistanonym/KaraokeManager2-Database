@@ -24,7 +24,7 @@ class DatabaseAccess {
   }
   /**
    * Get an accessible database object
-   * @returns {Promise<sqlite3.Database>} sqlite database object
+   * @returns {Promise<import('sqlite3').Database>} sqlite database object
    */
   static getSqlite3Database (readOnly = true) {
     return new Promise((resolve, reject) => {
@@ -82,7 +82,7 @@ class DatabaseQueries {
   /**
    * Method wrapper to get the database and check if a connection could be established
    * @param {boolean} readOnly
-   * @returns {Promise<sqlite3.Database>}
+   * @returns {Promise<import('sqlite3').Database>}
    */
   static databaseWrapper (readOnly = true) {
     return new Promise((resolve, reject) => DatabaseAccess.getSqlite3Database(readOnly)
