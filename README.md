@@ -21,13 +21,19 @@
 
 ## Commands
 
+### Production
+
 - `npm start` Execute main file / Start server
+
+### Development
+
 - `npm run build` Creates binary builds of this project via [pkg](https://github.com/zeit/pkg)
 - `npm run typedoc` Creates (for now the best) HTML documentation of the source code
 - `npm run documentation` Creates documentation files (HTML, Markdown) of source code and file structure
 - `npm run jsdoc` Creates jsdoc (HTML directory) documentation
 - `npm run format` Automatically fixes JavaScript source code to be in the correct format (+ additional warnigns)
 - `npm run test` Lints JavaScript source code
+- `npm run previews` Creates HTML (preView) render files of views
 
 ## Dependencies (non-dev)
 
@@ -52,3 +58,21 @@ morgan | 6 | [![install size](https://packagephobia.now.sh/badge?p=morgan)](http
 helmet | 17 | [![install size](https://packagephobia.now.sh/badge?p=helmet)](https://packagephobia.now.sh/result?p=helmet) | 3.13.0 | [![latest-version-helmet](https://badge.fury.io/js/helmet.svg)](https://www.npmjs.com/package/helmet)
 rotating-file-stream | 0 | [![install size](https://packagephobia.now.sh/badge?p=rotating-file-stream)](https://packagephobia.now.sh/result?p=rotating-file-stream) | 1.3.9 | [![latest-version-rotating-file-stream](https://badge.fury.io/js/rotating-file-stream.svg)](https://www.npmjs.com/package/rotating-file-stream)
 **16 modules** | **237 children** | **29.08**
+
+## Codebase
+
+### Source code
+
+The source code of the app itself is 100% Nodejs JavaScript (`.js`) BUT because of there is no way to simply declare recursive or repeating data structures (which can than be set as parameter and return types which then can be linted) those types are externalized in TypeScript (`.ts`) files.
+
+This works because my editor (Visual Studio Code [Insiders]) supports it while editing, and for running the app or packaging it the TypeScript (`.ts`) files simply are left out, because they don't do anything besides giving types and helping linting.
+
+The source code should contain no unnecessary data, preferably only the name of the data or website template files.
+
+### Data structures
+
+The data structures are JSON (`.json`) files.
+
+### Websites
+
+Each website or website element will never be rendered via the source code but by using partials and template handlebars (`.handlebars`) documents.

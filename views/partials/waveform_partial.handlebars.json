@@ -1,0 +1,6 @@
+{
+    "waveformContainer": "waveform_container",
+    "waveformFilePath": "../../public/test/music/test.mp3",
+    "waveformPlayOnStart": true,
+    "waveformPlayPause": false
+}

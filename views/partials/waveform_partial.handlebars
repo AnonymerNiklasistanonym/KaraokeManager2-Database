@@ -61,6 +61,7 @@ wavesurfer.on('ready', () => {
         wavesurfer.play();
     {{/if}}
 })
+{{#if waveformPlayPause}}
 let interval
 const onPlay = () => {
     interval = setInterval(() => document.getElementById('timeButton').innerText = 'Time: ' + wavesurfer.getCurrentTime(), 40)
@@ -69,29 +70,34 @@ const onPause = () => {
     clearInterval(interval)
     document.getElementById('timeButton').innerText = 'Time: [Paused] ' + wavesurfer.getCurrentTime()
 }
+document.getElementById('playPauseButton').addEventListener('click', () => {wavesurfer.playPause()})
+{{/if}}
 
 wavesurfer.on('finish', () => console.log('finish'))
 wavesurfer.on('play', () => {
     console.log('play')
+    {{#if waveformPlayPause}}
     onPlay()
+    {{/if}}
 })
 wavesurfer.on('pause', () => {
     console.log('pause')
+    {{#if waveformPlayPause}}
     onPause()
+    {{/if}}
 })
 wavesurfer.on('seek', () => {
     console.log('seek')
+    {{#if waveformPlayPause}}
     if (wavesurfer.isPlaying()) {
         onPlay()
     } else {
         onPause()
     }
+    {{/if}}
 })
 
-
 wavesurfer.load('{{waveformFilePath}}')
-
-document.getElementById('playPauseButton').addEventListener('click', () => {wavesurfer.playPause()})
 
 })
 </script>

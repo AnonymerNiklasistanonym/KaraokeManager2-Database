@@ -14,7 +14,8 @@
     "testTsLint": "node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json",
     "testStandard": "node_modules/.bin/standard ./index.js ./classes/**/*.js ./routes/**/*.js",
     "jsdoc": "node_modules/.bin/jsdoc -c .jsdoc.json --verbose -R README.md classes",
-    "typedoc": "node_modules/.bin/typedoc --options .typedoc.json --ignoreCompilerErrors"
+    "typedoc": "node_modules/.bin/typedoc --options .typedoc.json --ignoreCompilerErrors",
+    "previews": "node ./classes/views/renderViews.js"
   },
   "repository": {
     "type": "git",
@@ -42,7 +43,7 @@
     "socket.io": "^2.1.1",
     "spdy": "^3.4.7",
     "sqlite3": "^4.0.2",
-    "wavesurfer.js": "^2.0.6"
+    "wavesurfer.js": "^2.1.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
@@ -55,6 +56,7 @@
     "@types/socket.io": "^1.4.38",
     "@types/sqlite3": "^3.1.3",
     "documentation": "^8.1.2",
+    "handlebars": "^4.0.12",
     "jsdoc": "^3.5.5",
     "pkg": "^4.3.4",
     "standard": "^12.0.1",
@@ -68,24 +70,28 @@
     "pkg": "index.js"
   },
   "pkg": {
-    "scripts": [
-      "classes/database/**/*.js",
-      "classes/api/**/*.js",
-      "routes/**/*.js"
-    ],
     "assets": [
-      "views/**/*.handlebars",
       "data/**/*.json",
+      "dh/**/*.pem",
+      "http2/**/*.key",
+      "http2/**/*.crt",
+      "http2/**/*.csr",
       "public/css/**/*.css",
       "public/js/**/*.js",
-      "https/ssl/*.crt",
-      "https/ssl/*.key",
-      "https/dh/*.pem"
+      "views/**/*.handlebars"
+    ],
+    "scripts": [
+      "classes/api/**/*.js",
+      "classes/configuration/**/*.js",
+      "classes/database/**/*.js",
+      "classes/other/**/*.js",
+      "classes/server/**/*.js",
+      "routes/**/*.js"
     ],
     "targets": [
       "latest-linux-x64",
-      "latest-win-x64",
-      "latest-macos-x64"
+      "latest-macos-x64",
+      "latest-win-x64"
     ]
   },
   "standard": {

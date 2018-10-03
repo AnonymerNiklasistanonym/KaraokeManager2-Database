@@ -1,0 +1,84 @@
+[{
+		"layoutFileName": [
+			"layouts",
+			"materialize.handlebars"
+		],
+		"replacePaths": [{
+				"findPath": "/material-icons/",
+				"replaceWith": [
+					"..",
+					"node_modules",
+					"material-icons"
+				]
+			},
+			{
+				"findPath": "/materialize/",
+				"replaceWith": [
+					"..",
+					"node_modules",
+					"materialize-css",
+					"dist"
+				]
+			},
+			{
+				"completePath": true,
+				"findPath": "/js/sidebar.js",
+				"replaceWith": [
+					"..",
+					"public",
+					"js",
+					"sidebar.js"
+				]
+			},
+			{
+				"completePath": true,
+				"findPath": "/css/style.css",
+				"replaceWith": [
+					"..",
+					"public",
+					"css",
+					"style.css"
+				]
+			}
+		],
+		"templateFiles": [
+			[
+				"partials",
+				"materialize_partial_card_banner.handlebars"
+			],
+			[
+				"partials",
+				"materialize_partial_card_feature_row.handlebars"
+			],
+			[
+				"partials",
+				"materialize_partial_footer.handlebars"
+			],
+			[
+				"partials",
+				"materialize_partial_nav_bar.handlebars"
+			]
+		]
+	},
+	{
+		"layoutFileName": [
+			"layouts",
+			"empty.handlebars"
+		],
+		"replacePaths": [{
+			"findPath": "/wavesurfer/",
+			"replaceWith": [
+				"..",
+				"node_modules",
+				"wavesurfer.js",
+				"dist"
+			]
+		}],
+		"templateFiles": [
+			[
+				"partials",
+				"waveform_partial.handlebars"
+			]
+		]
+	}
+]

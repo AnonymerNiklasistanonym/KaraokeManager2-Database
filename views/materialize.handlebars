@@ -7,16 +7,10 @@ Materialize.css/.js landing page body
 
 {{> materialize_partial_card_banner}}
 
-<div class="container">
-  <div class="section">
-
-    <!--   Icon Section   -->
-    {{#if featureRow}}
-    {{> materialize_partial_card_feature_row featureRowObject}}
-    {{/if}}
-  </div>
-  <br><br>
-</div>
+<!--   Icon Section   -->
+{{#if featureRow}}
+{{> materialize_partial_card_feature_row featureRowObject}}
+{{/if}}
 
 
 {{> materialize_partial_footer}}

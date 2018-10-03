@@ -29,4 +29,4 @@ clean : ;@echo "Clean ${PROJECT}....."; \
 	rm -rf database; \
 	rm -f database.db; \
 	rm -f package-lock.json; \
-	git clean -dfx
+	find views -name "*.html" -type f -delete
