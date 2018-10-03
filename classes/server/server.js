@@ -134,6 +134,7 @@ app.use('/wavesurfer', express.static('./node_modules/wavesurfer.js/dist/'))
 app.use('/materialize', express.static('./node_modules/materialize-css/dist/'))
 app.use('/material-icons', express.static('./node_modules/material-icons/dist/'))
 app.use('/material-icons', express.static('./node_modules/material-icons/'))
+app.use('/dropzone', express.static('./node_modules/dropzone/dist/min/'))
 
 ServerHelper.printAllServerRoutes(app)
 

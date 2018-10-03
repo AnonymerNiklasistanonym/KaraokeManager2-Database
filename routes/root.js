@@ -16,6 +16,10 @@ const birds = require('./birds')
 const waveform = require('./waveform')
 const sockets = require('./sockets')
 const videoAudio = require('./videoAudio')
+const upload = require('./upload')
+
+const account = require('./final/account')
+const welcome = require('./final/welcome')
 
 // Respond with "hello world" when a GET request is made to the homepage
 router.get('/', (req, res) => res.send('hello world'))
@@ -127,5 +131,9 @@ router.use('/birds', birds)
 router.use('/waveform', waveform)
 router.use('/sockets', sockets)
 router.use('/videoAudio', videoAudio)
+router.use('/upload', upload)
+
+router.use('/account', account)
+router.use('/welcome', welcome)
 
 module.exports = router
