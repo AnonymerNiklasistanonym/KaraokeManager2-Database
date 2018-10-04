@@ -144,6 +144,9 @@
 		}
 	},
 	"lintOptions": {
-		"typeCheck": true
+		"typeCheck": true,
+		"exclude": [
+			"classes/**/*.ts"
+		]
 	}
 }

@@ -32,7 +32,7 @@ class DocumentFileStructure {
    */
   static getDocumentationInformation () {
     return new Promise((resolve, reject) => fs.readFile(this.JSON_FILE_FILE_STRUCTURE_PATH)
-      .then(file => resolve(JSON.parse(file.toString())))
+      .then(file => { resolve(JSON.parse(file.toString())) })
       .catch(reject))
   }
   /**

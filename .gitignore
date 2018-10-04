@@ -33,8 +33,17 @@ test
 # ignore log files
 log
 
+# ignore upload files
+uploads
+
 # ignore rendered handlebars files
 *.html
+
+# ignore image files
+*.png
+*.jpg
+
+
 
 
 # environments

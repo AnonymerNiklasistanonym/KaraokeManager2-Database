@@ -101,10 +101,12 @@ class FileStructureScanner {
     return new Promise((resolve, reject) =>
       // Get directory info
       Promise.all([this.getDirectoryInformationString(directoryPath)])
-        .then(results => resolve({
-          info: results[0],
-          path: directoryPath.replace(/^.*[\\/]/, '')
-        }))
+        .then(results => {
+          resolve({
+            info: results[0],
+            path: directoryPath.replace(/^.*[\\/]/, '')
+          })
+        })
         .catch(reject))
   }
   /**

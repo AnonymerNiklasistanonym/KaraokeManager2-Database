@@ -11,15 +11,17 @@
         "target": "es2018",
         "types": [
             "node"
-        ]
+        ],
+        "typeRoots": [
+            "./node_modules/@types"
+          ],
     },
-    "include": [
-        "./**/*"
-    ],
     "exclude": [
         "node_modules",
         "docs",
         "http2",
-        "!node_modules/@types"
+        "build",
+        "views",
+        "uploads"
     ]
 }

@@ -1,9 +1,34 @@
 {
 	"navBar": {
-		"links": [{
+		"loggedIn" : true,
+		"account": {
+			"bgPicture": "../../public/test/pictures/bgPicture.jpg",
+			"id": "Id",
+			"name": "Name",
+			"profilePicture": "../../public/test/pictures/profilePicture.jpg"
+		},
+		"navBarLinks": [{
 			"text": "Link n",
 			"url": "#"
-		}]
+		}],
+		"sidebarLinks": [
+			{
+				"isLink": true,
+				"title": "Normal link"
+			},
+			{
+				"isDivider": true
+			},
+			{
+				"isSubHeader": true,
+				"subHeader": "A sub header"
+			},
+			{
+				"isIconLink": true,
+				"icon": "cloud",
+				"title": "Icon link"
+			}
+		]
 	},
 	"theme": {
 		"navBar": {

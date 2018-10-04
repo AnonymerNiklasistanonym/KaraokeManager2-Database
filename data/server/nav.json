@@ -1,5 +1,5 @@
 {
-    "links": [{
+    "navBarLinks": [{
         "text": "Home",
         "url": "#"
     },{
@@ -14,5 +14,45 @@
     },{
         "text": "Account",
         "url": "#"
-    }]
+    }],
+    "sidebarLinks": [
+        {
+            "isSubHeader": true,
+            "subHeader": "Actions"
+        },
+        {
+            "isIconLink": true,
+            "icon": "playlist_play",
+            "title": "Playlist"
+        },
+        {
+            "isIconLink": true,
+            "icon": "playlist_add",
+            "title": "Songs"
+        },
+        {
+            "isDivider": true
+        },
+        {
+            "isSubHeader": true,
+            "subHeader": "Account"
+        },
+        {
+            "isIconLink": true,
+            "icon": "settings",
+            "title": "Settings"
+        },
+        {
+            "isIconLink": true,
+            "icon": "power_settings_new",
+            "title": "Logout"
+        }
+    ],
+    "loggedIn" : true,
+    "account": {
+        "bgPicture": "/test/pictures/bgPicture.jpg",
+        "id": "Id",
+        "name": "Name",
+        "profilePicture": "/test/pictures/profilePicture.jpg"
+    }
 }
