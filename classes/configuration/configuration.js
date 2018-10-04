@@ -43,6 +43,9 @@ class Configuration {
   getMaterializeFeatureRow () {
     return this.materializeFeatureRow
   }
+  getMaterializeFab () {
+    return this.materializeFab
+  }
   setupNavBar () {
     this.navBar = Configuration.parseJsonData(path.join(__dirname, '../../data/server/nav.json'))
 
@@ -68,6 +71,11 @@ class Configuration {
 
     return this
   }
+  setupFab () {
+    this.materializeFab = Configuration.parseJsonData(path.join(__dirname, '../../data/server/fab.json'))
+
+    return this
+  }
 }
 
 const configuration = new Configuration()
@@ -76,5 +84,6 @@ const configuration = new Configuration()
   .setupTheme()
   .setupFeatureRow()
   .setupNavBar()
+  .setupFab()
 
 module.exports = configuration

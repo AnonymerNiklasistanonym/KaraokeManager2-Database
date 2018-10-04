@@ -3,6 +3,9 @@
 		"buttonColor": "orange",
 		"titleTextColor": "light-blue"
 	},
+	"fab": {
+		"buttonColor": "orange"
+	},
 	"featureRow": {
 		"iconColor": "light-blue"
 	},
@@ -21,6 +24,7 @@
 		"mainColor": "light-blue"
 	},
 	"navBar": {
-		"themeColor": "light-blue"
+		"themeColor": "light-blue",
+		"loginButtonColor": "orange"
 	}
 }

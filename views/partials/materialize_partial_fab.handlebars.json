@@ -1,0 +1,32 @@
+{
+	"fab": {
+		"tooltip": true,
+		"tooltipText": "Tooltip",
+		"icon": "add",
+		"actions": [{
+				"color": "blue",
+				"tooltip": true,
+				"tooltipText": "Another tooltip",
+				"icon": "mode_edit"
+			},
+			{
+				"color": "yellow darken-1",
+				"icon": "format_quote"
+			},
+			{
+				"color": "green",
+				"icon": "publish"
+			}, {
+				"color": "purple",
+				"tooltip": true,
+				"tooltipText": "Another tooltip 2",
+				"icon": "attach_file"
+			}
+		]
+	},
+	"theme": {
+		"fab": {
+			"buttonColor": "orange"
+		}
+	}
+}

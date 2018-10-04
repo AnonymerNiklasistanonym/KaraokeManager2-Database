@@ -1,20 +1,25 @@
 {
 	"navBar": {
-		"loggedIn" : true,
 		"account": {
 			"bgPicture": "../../public/test/pictures/bgPicture.jpg",
 			"id": "Id",
 			"name": "Name",
 			"profilePicture": "../../public/test/pictures/profilePicture.jpg"
 		},
+		"button": {
+			"icon": "account_circle",
+			"text": "Logout",
+			"url": "#"
+		},
+		"loggedIn": false,
 		"navBarLinks": [{
 			"text": "Link n",
 			"url": "#"
 		}],
-		"sidebarLinks": [
-			{
+		"sidebarLinks": [{
 				"isLink": true,
-				"title": "Normal link"
+				"title": "Normal link",
+				"url": "#"
 			},
 			{
 				"isDivider": true
@@ -24,14 +29,16 @@
 				"subHeader": "A sub header"
 			},
 			{
-				"isIconLink": true,
 				"icon": "cloud",
-				"title": "Icon link"
+				"isIconLink": true,
+				"title": "Icon link",
+				"url": "#"
 			}
 		]
 	},
 	"theme": {
 		"navBar": {
+			"loginButtonColor": "orange",
 			"themeColor": "orange"
 		}
 	}

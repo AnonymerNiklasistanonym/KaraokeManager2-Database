@@ -1,5 +1,5 @@
 {{!--
- Description:
+Description:
 
 Waveform partial
 -------------------
@@ -10,18 +10,34 @@ Arguments:
 - waveformPlayOnStart: boolean=true (play on start)
 
 --}}
+<div class="container">
 
-<div id="{{waveformContainer}}" style="    max-width:800px;height:128px;"></div>
+    <div id="waveformContainer"></div>
 
-{{#if waveformPlayPause}}
-<p align="center">
-  <button id="playPauseButton">Play/Pause</button><br>
-  <button id="timeButton">Time:</button>
-</p>
-{{/if}}
+    <form action="#">
+        <p class="range-field">
+            <input type="range" id="musicRange" min="0" max="100" />
+        </p>
+        <input type="hidden" id="songFile" value="{{waveformFilePath}}">
+    </form>
+
+    <div class="center-align">
+        <a class="btn-floating btn-large waves-effect waves-light blue" id="fast-rewind-button">
+            <i class="material-icons">fast_rewind</i>
+        </a>
+        <a class="btn-floating btn-large waves-effect waves-light blue" id="play-pause-button">
+            <i id="play-pause-icon" class="material-icons">play_arrow</i>
+        </a>
+        <a class="btn-floating btn-large waves-effect waves-light blue" id="fast-forward-button">
+            <i class="material-icons">fast_forward</i>
+        </a>
+    </div>
+</div>
 
 <script src="/wavesurfer/wavesurfer.min.js"></script>
 <script src="/wavesurfer/plugin/wavesurfer.cursor.min.js"></script>
+<script src="/js/wavesurferAudioHandler.js"></script>
+
 {{!--
 Real source:
 <script src="./../../node_modules/wavesurfer.js/dist/wavesurfer.js"></script>
@@ -32,72 +48,3 @@ WaveSurfer.create(options) = wavesurfer
 - wavesurfer events: http://wavesurfer-js.org/docs/events.html
 
 --}}
-
-<script>
-
-var wavesurfer;
-
-// Init & load
-document.addEventListener('DOMContentLoaded', () => {
-
-wavesurfer = WaveSurfer.create({
-    container: '#{{waveformContainer}}',
-    waveColor: '#808080',
-    progressColor: '#000000',
-    cursorColor: '#000000',
-    splitChannels: false,
-    normalize: true,
-    height: 128,
-    width: 200,
-    cursorWidth: 1,
-    responsive: true,
-    mediaControls: true,
-    fillParent: true,
-    hideScrollbar: true,
-    plugins: [WaveSurfer.cursor.create()]
-})
-wavesurfer.on('ready', () => {
-    {{#if waveformPlayOnStart}}
-        wavesurfer.play();
-    {{/if}}
-})
-{{#if waveformPlayPause}}
-let interval
-const onPlay = () => {
-    interval = setInterval(() => document.getElementById('timeButton').innerText = 'Time: ' + wavesurfer.getCurrentTime(), 40)
-}
-const onPause = () => {
-    clearInterval(interval)
-    document.getElementById('timeButton').innerText = 'Time: [Paused] ' + wavesurfer.getCurrentTime()
-}
-document.getElementById('playPauseButton').addEventListener('click', () => {wavesurfer.playPause()})
-{{/if}}
-
-wavesurfer.on('finish', () => console.log('finish'))
-wavesurfer.on('play', () => {
-    console.log('play')
-    {{#if waveformPlayPause}}
-    onPlay()
-    {{/if}}
-})
-wavesurfer.on('pause', () => {
-    console.log('pause')
-    {{#if waveformPlayPause}}
-    onPause()
-    {{/if}}
-})
-wavesurfer.on('seek', () => {
-    console.log('seek')
-    {{#if waveformPlayPause}}
-    if (wavesurfer.isPlaying()) {
-        onPlay()
-    } else {
-        onPause()
-    }
-    {{/if}}
-})
-
-wavesurfer.load('{{waveformFilePath}}')
-
-})
-</script>

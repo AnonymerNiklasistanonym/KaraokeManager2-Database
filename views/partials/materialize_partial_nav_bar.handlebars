@@ -28,6 +28,12 @@ Materialize nav bar
             <a href="#email"><span class="white-text email">{{navBar.account.id}}</span></a>
         </div>
     </li>
+    {{else}}
+    <br>
+    <div class="center-align">
+        <a class="waves-effect waves-light btn-large {{theme.navBar.loginButtonColor}}" href="{{navBar.button.url}}"><i class="material-icons right">{{navBar.button.icon}}</i>{{navBar.button.text}}</a>
+    </div>
+    <br>
     {{/if}}
 
     {{#each navBar.sidebarLinks}}

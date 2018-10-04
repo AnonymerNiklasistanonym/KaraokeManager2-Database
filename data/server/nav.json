@@ -1,58 +1,66 @@
 {
-    "navBarLinks": [{
-        "text": "Home",
-        "url": "#"
-    },{
-        "text": "Playlist",
-        "url": "#"
-    },{
-        "text": "Songs",
-        "url": "#"
-    },{
-        "text": "Gallery",
-        "url": "#"
-    },{
-        "text": "Account",
-        "url": "#"
-    }],
-    "sidebarLinks": [
-        {
-            "isSubHeader": true,
-            "subHeader": "Actions"
-        },
-        {
-            "isIconLink": true,
-            "icon": "playlist_play",
-            "title": "Playlist"
-        },
-        {
-            "isIconLink": true,
-            "icon": "playlist_add",
-            "title": "Songs"
-        },
-        {
-            "isDivider": true
-        },
-        {
-            "isSubHeader": true,
-            "subHeader": "Account"
-        },
-        {
-            "isIconLink": true,
-            "icon": "settings",
-            "title": "Settings"
-        },
-        {
-            "isIconLink": true,
-            "icon": "power_settings_new",
-            "title": "Logout"
-        }
-    ],
-    "loggedIn" : true,
-    "account": {
-        "bgPicture": "/test/pictures/bgPicture.jpg",
-        "id": "Id",
-        "name": "Name",
-        "profilePicture": "/test/pictures/profilePicture.jpg"
-    }
+	"account": {
+		"bgPicture": "/test/pictures/bgPicture.jpg",
+		"id": "Id",
+		"name": "Name",
+		"profilePicture": "/test/pictures/profilePicture.jpg"
+	},
+	"loggedIn": false,
+	"navBarLinks": [{
+			"text": "Home",
+			"url": "#"
+		},
+		{
+			"text": "Playlist",
+			"url": "#"
+		},
+		{
+			"text": "Songs",
+			"url": "#"
+		},
+		{
+			"text": "Gallery",
+			"url": "#"
+		},
+		{
+			"text": "Account",
+			"url": "#"
+		}
+	],
+	"sidebarLinks": [{
+			"isSubHeader": true,
+			"subHeader": "Actions"
+		},
+		{
+			"icon": "playlist_play",
+			"isIconLink": true,
+			"title": "Playlist",
+			"url": "#"
+		},
+		{
+			"icon": "playlist_add",
+			"isIconLink": true,
+			"title": "Songs",
+			"url": "#"
+		},
+		{
+			"isDivider": true
+		},
+		{
+			"isSubHeader": true,
+			"subHeader": "Account"
+		},
+		{
+			"icon": "settings",
+			"isIconLink": true,
+			"title": "Settings",
+			"url": "#"
+		},
+		{
+			"icon": "power_settings_new",
+			"isIconLink": true,
+			"title": "Logout",
+			"url": "#"
+		}
+	]
 }

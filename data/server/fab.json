@@ -1,0 +1,26 @@
+{
+	"actions": [{
+			"color": "blue",
+			"icon": "mode_edit",
+			"tooltip": true,
+			"tooltipText": "Another tooltip"
+		},
+		{
+			"color": "yellow darken-1",
+			"icon": "format_quote"
+		},
+		{
+			"color": "green",
+			"icon": "publish"
+		},
+		{
+			"color": "purple",
+			"icon": "attach_file",
+			"tooltip": true,
+			"tooltipText": "Another tooltip 2"
+		}
+	],
+	"icon": "add",
+	"tooltip": true,
+	"tooltipText": "Tooltip"
+}

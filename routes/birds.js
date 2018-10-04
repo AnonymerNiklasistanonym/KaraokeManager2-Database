@@ -23,7 +23,8 @@ router.get('/test', (req, res) => {
     materializeCardBannerPartial: configuration.getMaterializeCardBanner(),
     materializeFooterPartial: configuration.getMaterializeFooter(),
     navBar: configuration.getNavBar(),
-    theme: configuration.getTheme()
+    theme: configuration.getTheme(),
+    fab: configuration.getMaterializeFab()
   }
   res.render('materialize', {
     featureRow: true,

@@ -57,6 +57,10 @@
 			[
 				"partials",
 				"materialize_partial_nav_bar.handlebars"
+			],
+			[
+				"partials",
+				"materialize_partial_fab.handlebars"
 			]
 		]
 	},
