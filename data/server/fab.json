@@ -22,5 +22,9 @@
 	],
 	"icon": "add",
 	"tooltip": true,
-	"tooltipText": "Tooltip"
+	"tooltipText": "Tooltip",
+	"highlightText": {
+		"title": "Highlight text",
+		"content": "Highlight content"
+	}
 }

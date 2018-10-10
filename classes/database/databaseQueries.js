@@ -133,7 +133,7 @@ class DatabaseQueries {
    * Edit something in database
    * @param {string} query Query for the database
    * @param {*[]} parameters Query data (for better security)
-   * @returns {Promise<({lastID: number, changes: number}|void)>} Post result
+   * @returns {Promise<{lastID: number, changes: number}>} Post result
    */
   static postRequest (query, parameters = []) {
     return new Promise((resolve, reject) => this.databaseWrapper(false)

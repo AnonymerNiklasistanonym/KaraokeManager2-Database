@@ -6,10 +6,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize sidebar navigation for small devices/windows
   M.Sidenav.init(document.querySelector('.sidenav'), {
-    inDuration: 350,
-    outDuration: 350,
+    closeOnClick: true,
     edge: 'left',
-    closeOnClick: true
+    inDuration: 350,
+    outDuration: 350
   })
   // Toast demo
   M.toast({ html: 'I am a toast!' })
@@ -21,4 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
   M.Tooltip.init(document.querySelectorAll('.tooltipped'), {})
   // Setup popup for images
   M.Materialbox.init(document.querySelectorAll('.materialboxed'), {})
+  // Tap target feature
+  const instance = M.TapTarget.init(document.querySelectorAll('.tap-target'), {})
+  if (instance !== undefined && instance.length >= 1) {
+    instance[0].open()
+  }
+  // Collapsible elements
+  M.Collapsible.init(document.querySelectorAll('.collapsible'), {})
 })

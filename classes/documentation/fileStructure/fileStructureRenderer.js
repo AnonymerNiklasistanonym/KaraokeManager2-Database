@@ -166,8 +166,7 @@ class FileStructureRenderer {
       .map(line => {
         const length = line
           .match(/^(#)*\s/)[0]
-          .trim()
-          .length
+          .trim().length
         const title = line
           .match(/\s(\S)*(\s\[)/)[0]
           .slice(0, -1)

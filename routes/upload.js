@@ -50,7 +50,8 @@ router.post('/image', upload.single('file'), (req, res, next) => {
     })
   }
 
-  fs.copyFile(`${fileRequestInfo.destination}\\${fileRequestInfo.filename}`, `${fileRequestInfo.destination}\\${fileRequestInfo.originalname}`)
+  fs.copyFile(`${fileRequestInfo.destination}\\${fileRequestInfo.filename}`,
+    `${fileRequestInfo.destination}\\${fileRequestInfo.originalname}`)
     .catch(console.error)
 
   // Change the profile picture

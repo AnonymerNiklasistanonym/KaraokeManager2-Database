@@ -136,6 +136,30 @@ app.use('/material-icons', express.static('./node_modules/material-icons/dist/')
 app.use('/material-icons', express.static('./node_modules/material-icons/'))
 app.use('/dropzone', express.static('./node_modules/dropzone/dist/min/'))
 
+/*
+ * Error catcher
+ */
+// Catch every 404 and forward to the error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found')
+  err.status = 404
+  next(err)
+})
+
+// @ts-ignore
+app.use((err, req, res, next) => {
+  res.locals.message = err.message
+  res.locals.error = req.app.get('env') === 'development' ? err : {}
+  res.locals.displayError = req.app.get('env') === 'development'
+
+  // Render the error page
+  res.status(err.status || 500)
+  res.render('error', {
+    layout: 'materialize',
+    title: `Error ${err.status} - ${err.message}`
+  })
+})
+
 ServerHelper.printAllServerRoutes(app)
 
 module.exports = { ServerHttp: serverHttp, ServerHttps: serverHttps }

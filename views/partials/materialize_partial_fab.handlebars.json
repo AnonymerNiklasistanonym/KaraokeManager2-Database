@@ -1,5 +1,9 @@
 {
 	"fab": {
+		"highlightText": {
+			"title": "Highlight text",
+			"content": "Highlight content"
+		},
 		"tooltip": true,
 		"tooltipText": "Tooltip",
 		"icon": "add",
@@ -26,7 +30,9 @@
 	},
 	"theme": {
 		"fab": {
-			"buttonColor": "orange"
+			"buttonColor": "orange",
+			"tapTargetColor": "blue",
+			"tapTargetTextColor": "white"
 		}
 	}
 }

@@ -10,16 +10,11 @@
  * - Resize an image (crop/letterbox)
  */
 
-/**
- * @type {import("./mediaHelper").IJimp}
- */
 const Jimp = require('jimp')
 const fs = require('fs').promises
 
 /**
- * Static class that has methods to do things with images and co:
- * - methods to log website/cookie parameters in one command
- * - methods to get specific variables like the reti blue color
+ * Static class that has methods to do things with images and co
  */
 class MediaHelper {
   /**

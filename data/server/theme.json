@@ -1,10 +1,11 @@
 {
 	"banner": {
-		"buttonColor": "orange",
-		"titleTextColor": "light-blue"
+		"buttonColor": "orange"
 	},
 	"fab": {
-		"buttonColor": "orange"
+		"buttonColor": "orange",
+		"tapTargetColor": "blue",
+		"tapTargetTextColor": "white"
 	},
 	"featureRow": {
 		"iconColor": "light-blue"

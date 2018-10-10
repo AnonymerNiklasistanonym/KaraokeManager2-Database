@@ -5,7 +5,12 @@
 		"name": "Name",
 		"profilePicture": "/test/pictures/profilePicture.jpg"
 	},
-	"loggedIn": false,
+	"button": {
+		"icon": "account_circle",
+		"text": "Login",
+		"url": "#"
+	},
+	"loggedIn": true,
 	"navBarLinks": [{
 			"text": "Home",
 			"url": "#"
