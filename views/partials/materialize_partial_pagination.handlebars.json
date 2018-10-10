@@ -1,0 +1,38 @@
+{
+	"pagination": {
+		"arrows": {
+			"left": {
+				"disabled": true,
+				"exists": true,
+				"link": "#"
+			},
+			"right": {
+				"exists": true,
+				"link": "#"
+			}
+		},
+		"pages": [{
+				"active": true,
+				"link": "#",
+				"number": 1
+			},
+			{
+				"link": "#",
+				"number": 2
+			},
+			{
+				"link": "#",
+				"number": 3
+			},
+			{
+				"link": "#",
+				"number": 4
+			},
+			{
+				"disabled": true,
+				"link": "#",
+				"number": 5
+			}
+		]
+	}
+}

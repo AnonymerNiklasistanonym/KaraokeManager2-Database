@@ -15,12 +15,9 @@
  *    - interactive
  */
 
-const {
-  DatabaseTablesJsonParser,
-  DatabaseTableValuesJsonParser
-} = require('./classes/database/setup/databaseSetupParser')
 const { DatabaseQueriesErrorHelper } = require('./classes/database/databaseQueries')
 const DatabaseApi = require('./classes/database/databaseApi')
+const DatabaseSetup = require('./classes/database/setup/databaseSetup')
 
 /**
  * Express http/https socket-io server
@@ -34,32 +31,7 @@ const httpsPort = 8443
 serverHttp.listen(httpPort, () => { console.log(`Example app listening on -> http://localhost:${httpPort}`) })
 serverHttps.listen(httpsPort, () => { console.log(`Example app listening on -> https://localhost:${httpsPort}`) })
 
-// Create tables (if not existing)
-const createdSetupTables = new Promise((resolve, reject) => DatabaseTablesJsonParser.setupTables
-  .then(dbTablesJson => {
-    Promise.all(dbTablesJson
-      .map(dbTableJson => DatabaseApi.createTable(
-        dbTableJson.name, dbTableJson.primary_key, dbTableJson.not_null_keys, dbTableJson.null_keys,
-        'createIfNotAlreadyExisting')))
-      .then(resolve)
-      .catch(reject)
-  })
-  .catch(reject))
-
-// Create default values (if not existing)
-const createdSetupValues = new Promise((resolve, reject) => createdSetupTables
-  .then(() =>
-    DatabaseTableValuesJsonParser.setupTableValues
-      .then(dbTableValuesJson => {
-        Promise.all(dbTableValuesJson.accounts
-          .map(sqliteQuery => DatabaseApi.createAccount(sqliteQuery.name, sqliteQuery.password)))
-          .then(resolve)
-          .catch(reject)
-      })
-      .catch(reject))
-  .catch(reject))
-
-createdSetupValues
+DatabaseSetup.createEverything()
   .then(() => {
     console.log('Table setup completed')
     DatabaseApi.createAccount('admin', 'root')
@@ -76,5 +48,45 @@ createdSetupValues
           console.log(`SQLITE_CONSTRAINT error detected: ${err.message}`)
         }
       })
+    DatabaseApi.getAccount('niklas')
+      .then(a => { console.log('niklas', 'getAccount:', JSON.stringify(a)) })
+      .catch(console.error)
+    DatabaseApi.getAccountExists('not_existing')
+      .then(a => { console.log('not_existing', 'getAccountExists:', JSON.stringify(a)) })
+      .catch(console.error)
+    DatabaseApi.getAccountExists('niklas')
+      .then(a => { console.log('niklas', 'getAccountExists:', JSON.stringify(a)) })
+      .catch(console.error)
+    DatabaseApi.authorizeAccount('niklas', 'niklas')
+      .then(a => { console.log('niklas', 'authorizeAccount:', a) })
+      .catch(console.error)
+    DatabaseApi.authorizeAccount('niklas', 'niklas_wrong_password')
+      .then(a => { console.log('niklas', 'authorizeAccount: [wrong password]', a) })
+      .catch(console.error)
+    DatabaseApi.authorizeAccount('admin', 'niklas')
+      .then(a => { console.log('admin', 'authorizeAccount: [wrong password]', a) })
+      .catch(console.error)
+    DatabaseApi.getSongs()
+      .then(a => { console.log('getSongs', a) })
+      .catch(console.error)
+    DatabaseApi.getSongs(1)
+      .then(a => { console.log('getSongs [page: 1]', a) })
+      .catch(console.error)
+    DatabaseApi.getSongs(0, 2, 'Levitate')
+      .then(a => { console.log('getSongs [page: 0, "Levitate"]', a) })
+      .catch(console.error)
+    DatabaseApi.getArtists('Linkin Park')
+      .then(a => { console.log('getArtists', 'Linkin Park', a) })
+      .catch(console.error)
+    DatabaseApi.getArtists('Linkin Park')
+      .then(a => a.forEach(b => DatabaseApi.getArtist(b)
+        .then(result => { console.log(`artist["${b}"]`, result) })
+        .catch(console.error)))
+      .catch(console.error)
+    DatabaseApi.getArtists('Linkin Park')
+      .then(a => a.forEach(b => DatabaseApi.deleteArtist(b)
+        .then(result => { console.log(`delete artist["${b}"]`, result) })
+        .catch(console.error)))
+      .catch(console.error)
   })
   .catch(console.error)

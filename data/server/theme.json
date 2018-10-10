@@ -24,7 +24,21 @@
 		"mainColor": "light-blue"
 	},
 	"navBar": {
-		"themeColor": "light-blue",
-		"loginButtonColor": "orange"
+		"loginButtonColor": "orange",
+		"themeColor": "light-blue"
+	},
+	"search": {
+		"artist": {
+			"color": "green",
+			"icon": "person"
+		},
+		"audio": {
+			"color": "blue",
+			"icon": "music_note"
+		},
+		"video": {
+			"color": "red",
+			"icon": "movie"
+		}
 	}
 }

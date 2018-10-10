@@ -49,12 +49,14 @@ const renderTemplate = object => new Promise((resolve, reject) => {
   let templateData = {}
   const layoutDataPromise = new Promise((resolve, reject) => getFileExists(layoutDataPath)
     .then(exists => exists ? getFileJsonContent(layoutDataPath)
-      .then(fileContent => { layoutData = fileContent }).then(resolve)
+      .then(fileContent => { layoutData = fileContent })
+      .then(resolve)
       .catch(reject) : resolve())
     .catch(reject))
   const templateDataPromise = new Promise((resolve, reject) => getFileExists(templateDataPath)
     .then(exists => exists ? getFileJsonContent(templateDataPath)
-      .then(fileContent => { templateData = fileContent }).then(resolve)
+      .then(fileContent => { templateData = fileContent })
+      .then(resolve)
       .catch(reject) : resolve())
     .catch(reject))
 

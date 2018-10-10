@@ -15,9 +15,6 @@ const fs = require('fs').promises
 
 /**
  * Parse JSON file to JSON object and the to something else with an additional parser class
- *
- * @class DatabaseTablesJsonParser
- * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class DatabaseTablesJsonParser {
   /**
@@ -29,7 +26,7 @@ class DatabaseTablesJsonParser {
   }
   /**
    * Parse JSON file to JSON object
-   * @returns {Promise<import('./../databaseTypes').IJsonDataTables>} Promise that resolves with the parsed JSON object
+   * @returns {Promise<import('../databaseTypes').IJsonDataTables>} The parsed JSON object
    */
   static get setupTables () {
     return new Promise((resolve, reject) =>
@@ -41,9 +38,6 @@ class DatabaseTablesJsonParser {
 
 /**
  * Parse JSON file to JSON object and then to something else with an additional parser class
- *
- * @class DatabaseTableValuesJsonParser
- * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class DatabaseTableValuesJsonParser {
   /**
@@ -55,7 +49,7 @@ class DatabaseTableValuesJsonParser {
   }
   /**
    * Parse JSON file to JSON object
-   * @returns {Promise<import('./../databaseTypes').IJsonDataTableDefaultValues>} Promise that resolves with the parsed JSON object
+   * @returns {Promise<import('../databaseTypes').IJsonDataTableDefaultValues>} The parsed JSON object
    */
   static get setupTableValues () {
     return new Promise((resolve, reject) =>

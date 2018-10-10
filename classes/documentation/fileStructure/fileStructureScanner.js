@@ -117,11 +117,13 @@ class FileStructureScanner {
   static getFileInformation (filePath) {
     return new Promise((resolve, reject) =>
       // Get file info, get file JSON info
-      Promise.all([this.getFileInformationString(filePath), this.getFileInformationJson(filePath)])
+      Promise.all([this.getFileInformationHtml(filePath), this.getFileInformationString(filePath),
+        this.getFileInformationJson(filePath)])
         .then(results => {
           resolve({
-            info: results[0],
-            jsonHelp: results[1],
+            htmlExample: results[0],
+            info: results[1],
+            jsonHelp: results[2],
             path: filePath.replace(/^.*[\\/]/, '')
           })
         })
@@ -189,6 +191,25 @@ class FileStructureScanner {
         .then(content => {
           if (content !== undefined) {
             resolve(JSON.parse(content))
+          } else {
+            resolve(undefined)
+          }
+        })
+        .catch(reject)
+    })
+  }
+  /**
+   * Get if html example exists
+   * @param {string} filePath Path of single file
+   * @returns {Promise<boolean>} True if yes
+   */
+  static getFileInformationHtml (filePath) {
+    return new Promise((resolve, reject) => {
+      const htmlFile = filePath + '.html'
+      this.helpIfFileExistsReturnContentElseUndefined(htmlFile)
+        .then(content => {
+          if (content !== undefined) {
+            resolve(true)
           } else {
             resolve(undefined)
           }

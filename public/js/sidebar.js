@@ -19,4 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
   M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {})
   // Setup tooltipps
   M.Tooltip.init(document.querySelectorAll('.tooltipped'), {})
+  // Setup popup for images
+  M.Materialbox.init(document.querySelectorAll('.materialboxed'), {})
 })

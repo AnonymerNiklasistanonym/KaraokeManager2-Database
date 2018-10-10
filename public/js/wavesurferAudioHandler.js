@@ -11,10 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const playPause = document.getElementById('play-pause-button')
   const playPauseIcon = document.getElementById('play-pause-icon')
   const fastRewind = document.getElementById('fast-rewind-button')
+  const timeStamp = document.getElementById('timeStamp')
 
   // Define global variables
   let isSliderDragged = false
   let interval
+  let completeTime
 
   // Define global constants
   const wavesurfer = WaveSurfer.create({
@@ -34,20 +36,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const context = new AudioContext()
 
   // Define constant anonymous functions
+  const parseTime = time => {
+    const minutes = Math.floor(time / 60)
+    const minutesString = '00' + minutes
+    const seconds = Math.floor(time % 60)
+    const secondsString = '00' + seconds
+    return minutesString.slice(minutesString.length - 2, minutesString.length) + ':' + secondsString.slice(secondsString.length - 2, secondsString.length)
+  }
+  const displayCurrentTime = () => {
+    timeStamp.innerHTML = parseTime(wavesurfer.getCurrentTime()) + ' / ' + completeTime
+  }
   const updateRange = () => {
     musicRange.value = Math.round(wavesurfer.getCurrentTime())
   }
   const onPlay = () => {
     interval = setInterval(() => {
-      console.log('onplay')
-      // Document.getElementById('timeButton').innerText = 'Time: ' + wavesurfer.getCurrentTime()
+      displayCurrentTime()
       if (isSliderDragged === false) { updateRange() }
     }, 100)
   }
   const onPause = () => {
-    console.log('onpause')
     clearInterval(interval)
-    // Document.getElementById('timeButton').innerText = 'Time: [Paused] ' + wavesurfer.getCurrentTime()
+    displayCurrentTime()
   }
   const updatePlayPause = () => {
     if (wavesurfer.isPlaying()) {
@@ -68,6 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set the range from 0 to maximum seconds
     musicRange.min = Math.round(0)
     musicRange.max = Math.round(wavesurfer.getDuration())
+    // Calculate maximum time
+    completeTime = parseTime(wavesurfer.getDuration())
     // Update UI elements
     updatePlayPause()
   })

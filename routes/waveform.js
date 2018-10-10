@@ -15,10 +15,29 @@ const router = express.Router()
 // Define the home page route
 router.get('/', (req, res) => {
   res.locals = {
-    waveformContainer: 'waveform_container',
-    waveformFilePath: '/test/music/test.mp3',
-    waveformPlayOnStart: false,
-    waveformPlayPause: true
+    musicChips: [{
+      chipUrl: '#',
+      picturePath: '/test/music/test.jpeg',
+      pictureTag: true,
+      title: 'Twenty One Pilots'
+    }, {
+      chipUrl: '#',
+      title: 'Cool songs'
+    }, {
+      chipUrl: '#',
+      title: 'Duett'
+    }, {
+      chipUrl: '#',
+      title: 'Rap'
+    }, {
+      chipUrl: '#',
+      title: '2010'
+    }],
+    musicDescription: 'This is a description of the music file with cool information...',
+    musicFileCoverPath: '/test/music/test.jpeg',
+    musicFilePath: '/test/music/test.mp3',
+    musicTitle: 'TestTitle',
+    musicUrl: '#'
   }
 
   res.render('waveform') // Render a view template

@@ -1,6 +1,65 @@
 {
 	"accounts": [{
-		"name": "root",
-		"password": "root"
+			"id": "root",
+			"options": {
+				"isAdmin": true,
+				"name": "Root",
+				"server_file_path_profile_picture": "root",
+				"status": "is admin"
+			},
+			"password": "root"
+		},
+		{
+			"id": "user",
+			"options": {
+				"name": "User"
+			},
+			"password": "user"
+		},
+		{
+			"id": "private_user",
+			"options": {
+				"isPrivate": true,
+				"name": "Private User"
+			},
+			"password": "private_user"
+		}
+	],
+	"artists": [{
+			"author": "root",
+			"name": "Unknown",
+			"options": {
+				"description": "Unknown artist",
+				"server_file_path": "unknown"
+			}
+		},
+		{
+			"author": "root",
+			"name": "Linkin Park",
+			"options": {
+				"link_spotify": "https://open.spotify.com/track/2uBhGx3m5iJrtsql8Qk00j?si=-yZlFZ4DRoy7VEUQsrl-EQ",
+				"link_youtube": "https://www.youtube.com/watch?v=uv_1AKKKJnk",
+				"server_file_path": "linkinpark"
+			}
+		},
+		{
+			"author": "root",
+			"name": "Queen",
+			"options": {
+				"link_spotify": "https://open.spotify.com/track/2uBhGx3m5iJrtsql8Qk00j?si=-yZlFZ4DRoy7VEUQsrl-EQ",
+				"link_youtube": "https://www.youtube.com/watch?v=uv_1AKKKJnk",
+				"server_file_path": "queen"
+			}
+		}
+	],
+	"songs": [{
+		"author": "root",
+		"name": "Levitate",
+		"options": {
+			"description": "Cool song",
+			"link_spotify": "https://open.spotify.com/track/2uBhGx3m5iJrtsql8Qk00j?si=-yZlFZ4DRoy7VEUQsrl-EQ",
+			"link_youtube": "https://www.youtube.com/watch?v=uv_1AKKKJnk"
+		},
+		"server_file_path": "levitate.mp3"
 	}]
 }

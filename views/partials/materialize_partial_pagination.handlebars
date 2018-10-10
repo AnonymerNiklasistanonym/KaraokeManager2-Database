@@ -1,0 +1,13 @@
+<div class="center-align">
+    <ul class="pagination">
+        {{#if pagination.arrows.left.exists}}
+        <li class="{{#if pagination.arrows.left.disabled}}disabled{{else}}waves-effect{{/if}}"><a href="{{pagination.arrows.left.link}}"><i class="material-icons">chevron_left</i></a></li>
+        {{/if}}
+        {{#each pagination.pages}}
+        <li class="{{#if this.disabled}}disabled{{else if this.active}}active{{else}}waves-effect{{/if}}"><a href="{{this.link}}">{{this.number}}</a></li>
+        {{/each}}
+        {{#if pagination.arrows.right.exists}}
+        <li class="{{#if pagination.arrows.right.disabled}}disabled{{else}}waves-effect{{/if}}"><a href="{{pagination.arrows.right.link}}"><i class="material-icons">chevron_right</i></a></li>
+        {{/if}}
+    </ul>
+</div>

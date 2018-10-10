@@ -1,0 +1,19 @@
+<div class="container">
+    <ul class="collection">
+        {{#each materializeSearchResults.results}}
+        <li class="collection-item avatar">
+            <a href="{{this.url}}">
+                <i class="material-icons circle {{#if this.isArtist}}{{../theme.search.artist.color}}{{else if this.isVideo}}{{../theme.search.video.color}}{{else if this.isAudio}}{{../theme.search.audio.color}}{{/if}}">{{#if
+                    this.isArtist}}{{../theme.search.artist.icon}}{{else if
+                    this.isVideo}}{{../theme.search.video.icon}}{{else if
+                    this.isAudio}}{{../theme.search.audio.icon}}{{/if}}</i>
+            </a>
+            <span class="title">{{this.title}}</span>
+            <p>{{this.firstLine}}<br>{{this.secondLine}}</p>
+            <a href="{{this.url}}" class="secondary-content"><i class="material-icons">playlist_add</i></a>
+        </li>
+        {{/each}}
+    </ul>
+    <br><br>
+</div>
+<br><br>

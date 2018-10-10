@@ -49,14 +49,48 @@ class FileStructureRenderer {
   }
   /**
    * @param {object} jsonObject
+   * @param {string} filePath
+   * @param {string} directory
+   * @param {string} preDirectory
    * @returns {string}
    */
-  static renderMarkdownFileJsonHelp (jsonObject) {
+  static renderMarkdownFileJsonHelp (jsonObject, filePath, directory, preDirectory) {
     if (jsonObject === undefined) {
       return undefined
     }
 
-    return `\`\`\`json\n${JSON.stringify(jsonObject, undefined, 2)}\n\`\`\``
+    let directoryString = filePath
+    if (directory !== undefined) {
+      directoryString = path.join(directory, directoryString)
+    }
+    if (preDirectory !== undefined) {
+      directoryString = path.join(preDirectory, directoryString)
+    }
+
+    // tslint:disable-next-line:prefer-template
+    return `[> JSON example template](${directoryString.replace(/\\/g, '/')}.json)\n\n` +
+      `\`\`\`json\n${JSON.stringify(jsonObject, undefined, 2)}\n\`\`\``
+  }
+  /**
+   * @param {boolean} render
+   * @param {string} filePath
+   * @param {string} directory
+   * @param {string} preDirectory
+   * @returns {string}
+   */
+  static renderMarkdownFileExample (render, filePath, directory, preDirectory) {
+    if (render === undefined) {
+      return undefined
+    }
+    let directoryString = filePath
+    if (directory !== undefined) {
+      directoryString = path.join(directory, directoryString)
+    }
+    if (preDirectory !== undefined) {
+      directoryString = path.join(preDirectory, directoryString)
+    }
+
+    return `[> HTML example](${directoryString.replace(/\\/g, '/')}.html)`
   }
   /**
    * Render a markdown object to string
@@ -70,7 +104,10 @@ class FileStructureRenderer {
     const markdownFileInfo = this.renderMarkdownFileInfo(fileObject.info)
     const markdownFileHeader = this.renderMarkdownFileHeader(fileObject.path, depth,
       fileObject.hasOwnProperty('files'), directoryPath, preDirectory)
-    const markdownFileJsonHelp = this.renderMarkdownFileJsonHelp(fileObject.jsonHelp)
+    const markdownFileJsonHelp = this.renderMarkdownFileJsonHelp(fileObject.jsonHelp, fileObject.path,
+      directoryPath, preDirectory)
+    const markdownFileHtmlExample = this.renderMarkdownFileExample(fileObject.htmlExample,
+      fileObject.path, directoryPath, preDirectory)
 
     if (fileObject.hasOwnProperty('files')) {
       const directoryPathNew = directoryPath ? path.join(directoryPath, fileObject.path) : fileObject.path
@@ -81,12 +118,14 @@ class FileStructureRenderer {
         description: markdownFileInfo,
         files: fileArray,
         header: markdownFileHeader,
+        htmlExample: markdownFileHtmlExample,
         jsonHelp: markdownFileJsonHelp
       }
     } else {
       return {
         description: markdownFileInfo,
         header: markdownFileHeader,
+        htmlExample: markdownFileHtmlExample,
         jsonHelp: markdownFileJsonHelp
       }
     }
@@ -101,6 +140,9 @@ class FileStructureRenderer {
     let walkingString = markdownObject.header + '\n\n'
     if (markdownObject.hasOwnProperty('description') && markdownObject.description !== undefined) {
       walkingString += markdownObject.description + '\n\n'
+    }
+    if (markdownObject.hasOwnProperty('htmlExample') && markdownObject.htmlExample !== undefined) {
+      walkingString += markdownObject.htmlExample + '\n\n'
     }
     if (markdownObject.hasOwnProperty('jsonHelp') && markdownObject.jsonHelp !== undefined) {
       walkingString += markdownObject.jsonHelp + '\n\n'

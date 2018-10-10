@@ -29,7 +29,7 @@ class DatabaseAccess {
   static getSqlite3Database (readOnly = true) {
     return new Promise((resolve, reject) => {
       // tslint:disable-next-line:no-bitwise
-      const sqliteNumber = (readOnly ? sqlite3.OPEN_READONLY : sqlite3.OPEN_READWRITE) | sqlite3.OPEN_CREATE
+      const sqliteNumber = (readOnly ? sqlite3.OPEN_READONLY : sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE)
       const db = new sqlite3.Database(this.databasePath, sqliteNumber, err => {
         if (err) {
           reject(err)
@@ -99,7 +99,7 @@ class DatabaseQueries {
   /**
    * Get something from the database
    * @param {string} query Query for the database
-   * @param {[]} parameters Parameter for safe query
+   * @param {*[]} parameters Parameter for safe query
    * @returns {Promise<*>} Request list
    */
   static getEachRequest (query, parameters = []) {
@@ -119,22 +119,14 @@ class DatabaseQueries {
   /**
    * Get something from the database
    * @param {string} query Query for the database
-   * @param {[]} parameters Parameter for safe query
+   * @param {*[]} parameters Parameter for safe query
    * @returns {Promise<*[]>} Request list
    */
   static getAllRequest (query, parameters = []) {
     return new Promise((resolve, reject) => this.databaseWrapper(true)
-      .then(database => {
-        // Create empty list to collect objects that we want
+      .then(database => database.all(query, parameters,
         // @ts-ignore
-        const requestedList = []
-        // Make request for elements
-        database.all(query, parameters,
-          // @ts-ignore
-          (err, row) => { err ? reject(err) : requestedList.push(row) },
-          // @ts-ignore
-          (err, count) => { err ? reject(err) : resolve(requestedList) })
-      })
+        (err, rows) => { err ? reject(err) : resolve(rows) }))
       .catch(reject))
   }
   /**
@@ -147,11 +139,7 @@ class DatabaseQueries {
     return new Promise((resolve, reject) => this.databaseWrapper(false)
       .then(database => database.run(query, parameters, function (err) {
         // No ES6 style function because of otherwise this would be the class and not the RunResult
-        if (err) {
-          reject(err)
-        } else {
-          resolve(this)
-        }
+        err ? reject(err) : resolve(this)
       })
       )
       .catch(reject))

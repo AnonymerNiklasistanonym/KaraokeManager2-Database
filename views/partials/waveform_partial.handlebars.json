@@ -1,3 +1,31 @@
 {
-    "waveformFilePath": "../../public/test/music/test.mp3"
+    "musicFileCoverPath": "../../public/test/music/test.jpeg",
+    "musicFilePath": "../../public/test/music/test.mp3",
+    "musicTitle": "TestTitle",
+    "musicUrl": "#",
+    "musicDescription": "This is a description of the music file with cool information...",
+    "musicChips": [
+        {
+            "pictureTag": true,
+            "picturePath": "../../public/test/music/test.jpeg",
+            "title": "Twenty One Pilots",
+            "chipUrl": "#"
+        },
+        {
+            "title": "Cool songs",
+            "chipUrl": "#"
+        },
+        {
+            "title": "Duett",
+            "chipUrl": "#"
+        },
+        {
+            "title": "Rap",
+            "chipUrl": "#"
+        },
+        {
+            "title": "2010",
+            "chipUrl": "#"
+        }
+    ]
 }

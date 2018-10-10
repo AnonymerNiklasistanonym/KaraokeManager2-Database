@@ -2,6 +2,7 @@ export interface IMdFile {
   description?: string;
   files?: IMdFile[];
   header: string;
+  htmlExample?: string;
   jsonHelp?: string;
 }
 
@@ -21,6 +22,7 @@ export interface IJsDocDocumentationInformation extends Array<IJsDocDocumentatio
 
 export interface IFile {
   files?: IFile[];
+  htmlExample?: boolean;
   info?: string;
   jsonHelp?: object;
   path: string;
@@ -41,6 +43,7 @@ export interface IFileStructureDocumentationInformation {
 }
 
 export interface IFileInformation {
+  htmlExample?: boolean;
   info?: string;
   jsonHelp?: object;
   path: string;

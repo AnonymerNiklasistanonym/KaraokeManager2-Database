@@ -61,6 +61,14 @@
 			[
 				"partials",
 				"materialize_partial_fab.handlebars"
+			],
+			[
+				"partials",
+				"materialize_partial_search_results.handlebars"
+			],
+			[
+				"partials",
+				"materialize_partial_pagination.handlebars"
 			]
 		]
 	},
@@ -70,14 +78,25 @@
 			"empty.handlebars"
 		],
 		"replacePaths": [{
-			"findPath": "/wavesurfer/",
-			"replaceWith": [
-				"..",
-				"node_modules",
-				"wavesurfer.js",
-				"dist"
-			]
-		}],
+				"findPath": "/wavesurfer/",
+				"replaceWith": [
+					"..",
+					"node_modules",
+					"wavesurfer.js",
+					"dist"
+				]
+			},
+			{
+				"completePath": true,
+				"findPath": "/js/wavesurferAudioHandler.js",
+				"replaceWith": [
+					"..",
+					"public",
+					"js",
+					"wavesurferAudioHandler.js"
+				]
+			}
+		],
 		"templateFiles": [
 			[
 				"partials",
