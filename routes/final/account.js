@@ -27,7 +27,7 @@ router.get('/page/:id', (req, res, next) => {
   res.sendStatus(200)
 })
 
-router.get('/action', action)
-router.get('/settings', settings)
+router.use('/action', action)
+router.use('/settings', settings)
 
 module.exports = router

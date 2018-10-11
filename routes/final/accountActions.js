@@ -9,37 +9,72 @@
  * The routing paths for the route `/account/action`.
  */
 
+const API = require('../../classes/api/api')
+const configuration = require('../../classes/configuration/configuration')
 const express = require('express')
 const router = express.Router()
 
+/*
+ * Redirect if already logged in else render login/register page
+ */
 router.get('/login_register', (req, res, next) => {
-  // If logged in find out the account id and redirect to user account
-  // If not logged in render login/register template
-  res.sendStatus(200)
+  if (API.checkIfLoggedIn(req.session.authorized)) {
+    next(Error('You are already logged in!'))
+  } else {
+    res.locals = { ...res.locals, ...configuration.getLocals() }
+    res.render('loginRegister', {
+      layout: 'materialize',
+      title: 'Login/Register'
+    })
+  }
 })
 
+/*
+ * Redirect if already logged in else try to log in the user
+ */
 router.post('/login', (req, res, next) => {
-  // If logged in show error message
-  // If not logged in try to login
-  // If login was not successful redirect back to the login_register page and display there an error message (snackbar?)
-  res.sendStatus(200)
+  if (API.checkIfLoggedIn(req.session.authorized)) {
+    next(Error('You are already logged in!'))
+  } else {
+    API.login(req.body.account_id, req.body.account_password)
+      .then(registeredId => {
+        req.session.authorized = registeredId
+        res.redirect('/birds/test')
+        // TODO - Redirect to custom home page
+      })
+      .catch(next)
+  }
 })
 
+/*
+ * Redirect if already logged in else try to register the user
+ */
 router.post('/register', (req, res, next) => {
-  // If logged in show error message
-  // If account id already exists redirect back to the login_register page and display there an error message (snackbar?)
-  // If account id is unused try to create account
-  // If creation of account was not successful redirect back to the login_register page and display there an error message (snackbar?)
-  // If creation of account was successful redirect back to a welcome screen that lists the features
-  res.sendStatus(200)
+  if (API.checkIfLoggedIn(req.session.authorized)) {
+    next(Error('You are already logged in!'))
+  } else {
+    API.register(req.body.account_id, req.body.account_password)
+      .then(registeredId => {
+        req.session.authorized = registeredId
+        res.redirect('/birds/test')
+        // TODO - Redirect to welcome page
+      })
+      .catch(next)
+  }
 })
 
+/*
+ * Redirect if not logged in else try to log out the user
+ */
 router.post('/logout', (req, res, next) => {
-  // If logged in try to log out
-  // If not logged in redirect to error message page
-  // If logout was not successful redirect to error message page
-  // If logout was successful redirect to home page
-  res.sendStatus(200)
+  if (!API.checkIfLoggedIn(req.session.authorized)) {
+    next(Error('You are not logged in!'))
+  } else {
+    API.logout(req.session.authorized)
+    req.session.authorized = undefined
+    res.redirect('/birds/test')
+    // TODO - Redirect to home page
+  }
 })
 
 module.exports = router

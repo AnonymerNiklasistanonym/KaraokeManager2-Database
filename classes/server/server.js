@@ -18,7 +18,7 @@ const http = require('http')
 const spdy = require('spdy')
 // Server > express and plugins
 const express = require('express')
-const bodyParserJson = require('body-parser').json
+const bodyParser = require('body-parser')
 const compression = require('compression')
 const handlebarsCreate = require('express-handlebars').create
 const minifyHTML = require('express-minify-html')
@@ -85,21 +85,22 @@ app.use(compression())
 app.use(helmet())
 
 // Request argument parser (for requests)
-app.use(bodyParserJson())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // Session handler
 app.set('trust proxy', 1)
-const sess = {
+app.use(session({
   cookie: {
-    secure: true
+    // Setting secure: true only creates persistent data on https
+    secure: false,
+    maxAge: 60000 * 5
   },
   name: 'cookie name',
   resave: true,
   saveUninitialized: true,
   secret: 'cookie secret'
-}
-
-app.use(session(sess))
+}))
 
 // Log directory
 const logDirectory = join(__dirname, '../../log')
@@ -161,6 +162,6 @@ app.use((err, req, res, next) => {
 })
 
 // Uncomment to view server route tree
-// ServerHelper.printAllServerRoutes(app)
+ServerHelper.printAllServerRoutes(app)
 
 module.exports = { ServerHttp: serverHttp, ServerHttps: serverHttps }

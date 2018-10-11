@@ -9,11 +9,88 @@
  * Api functions to interact with anything as fast, short and easy as possible
  */
 
+const DatabaseApi = require('../database/databaseApi')
+const LoginManager = require('../communication/loginManager')
+
 /**
  * Class that contains all methods to easily and fast get all necessary/important stuff.
  * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class API {
+  /**
+   * Register an account
+   * @param {string} accountId Unique account id
+   * @param {string} password Account password
+   * @returns {Promise<string>} Authorized id
+   */
+  static register (accountId, password) {
+    return new Promise((resolve, reject) => {
+      DatabaseApi.getAccountExists(accountId)
+        .then(exists => {
+          if (exists) {
+            reject(Error('Account already exists!'))
+          } else {
+            DatabaseApi.createAccount(accountId, password)
+              .then(() => {
+                this.login(accountId, password)
+                  .then(resolve)
+                  .catch(reject)
+              })
+              .catch(reject)
+          }
+        })
+        .catch(reject)
+    })
+  }
+  /**
+   * Log in to an account
+   * @param {string} accountId Unique account id
+   * @param {string} password Account password
+   * @returns {Promise<string>} Authorized id
+   */
+  static login (accountId, password) {
+    return new Promise((resolve, reject) => {
+      DatabaseApi.getAccountExists(accountId)
+        .then(exists => {
+          if (!exists) {
+            reject(Error('Account does not exist!'))
+          } else {
+            DatabaseApi.authorizeAccount(accountId, password)
+              .then(authorized => {
+                if (!authorized) {
+                  reject(Error('Account password is wrong!'))
+                }
+                resolve(LoginManager.registerAuthorizedAccount(accountId))
+              })
+              .catch(reject)
+          }
+        })
+        .catch(reject)
+    })
+  }
+  /**
+   * Log out a registered account
+   * @param {string} authorizedId
+   */
+  static logout (authorizedId) {
+    if (authorizedId === undefined) {
+      return false
+    }
+
+    return LoginManager.removeAuthorizedAccount(authorizedId)
+  }
+  /**
+   * Check if the authorized id is registered
+   * @param {string} authorizedId
+   * @returns {boolean} True if authorized id is registered
+   */
+  static checkIfLoggedIn (authorizedId) {
+    if (authorizedId === undefined) {
+      return false
+    }
+
+    return LoginManager.checkIfAccountAuthorized(authorizedId)
+  }
   /**
    * Get 'Create table' SQLite queries
    * @returns {Promise<boolean>} Which resolves with an string array of SQLite queries

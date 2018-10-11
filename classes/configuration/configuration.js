@@ -28,6 +28,16 @@ class Configuration {
       .readFileSync(filePath)
       .toString())
   }
+  getLocals () {
+    return {
+      applicationName: 'KaraokeManager v2',
+      fab: this.materializeFab,
+      materializeCardBannerPartial: this.materializeBanner,
+      materializeFooterPartial: this.materializeFooter,
+      navBar: this.navBar,
+      theme: this.theme
+    }
+  }
   getTheme () {
     return this.theme
   }

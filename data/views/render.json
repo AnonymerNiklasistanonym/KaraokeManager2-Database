@@ -21,13 +21,20 @@
 				]
 			},
 			{
-				"completePath": true,
-				"findPath": "/js/sidebar.js",
+				"findPath": "/socket.io/",
+				"replaceWith": [
+					"..",
+					"node_modules",
+					"socket.io-client",
+					"dist"
+				]
+			},
+			{
+				"findPath": "/js/",
 				"replaceWith": [
 					"..",
 					"public",
-					"js",
-					"sidebar.js"
+					"js"
 				]
 			},
 			{
@@ -38,6 +45,13 @@
 					"public",
 					"css",
 					"style.css"
+				]
+			},{
+				"findPath": "/favicons/",
+				"replaceWith": [
+					"..",
+					"public",
+					"favicons"
 				]
 			}
 		],
