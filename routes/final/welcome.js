@@ -15,7 +15,9 @@ const router = express.Router()
 router.get('/', (req, res, next) => {
   console.log(req.sessionID)
   // Render the features of this website and what an account is able to do
-  res.sendStatus(200)
+  res.render('loginRegister', {
+    layout: 'materialize'
+  })
 })
 
 module.exports = router

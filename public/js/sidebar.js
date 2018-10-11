@@ -11,10 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     inDuration: 350,
     outDuration: 350
   })
-  // Toast demo
-  M.toast({ html: 'I am a toast!' })
-  // Toast with content demo
-  M.toast({ html: '<span>I am toast content</span><button class="btn-flat toast-action">Undo</button>' })
   // Initialize FAB demo
   M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {})
   // Setup tooltipps

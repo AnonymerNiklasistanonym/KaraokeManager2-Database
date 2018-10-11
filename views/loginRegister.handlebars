@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row valign-wrapper">
+        <div class="col s12 m10 l8 offset-s0 offset-m1 offset-l2 valign">
+
+            <div class="card">
+                <div class="card-content black-text">
+                    <div class="row">
+                        <span class="card-title">Login/Register</span>
+                    </div>
+
+                    <form class="valign">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">account_circle</i>
+                                <input class="validate" id="input_account_id" name="account_id" placeholder="Your account id..." pattern="^\w{4,16}$" maxlength="16" title="The user name needs to be unique and at least 4 but maximal 16 characters long and contain only word characters (no spaces or /#*+...)" autocomplete="username" type="text" required>
+                                <label for="input_account_id">Account id</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">vpn_key</i>
+                                <input class="validate" id="input_account_password" name="account_password" placeholder="Your account password..." pattern=".{6,}" title="The password needs to be at least 6 characters long" autocomplete="current-password" type="password" required>
+                                <label for="input_account_password">Password</label>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <a href="#">Login</a>
+                    <a href="#">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

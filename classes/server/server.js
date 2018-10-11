@@ -114,6 +114,7 @@ const accessLogStream = rfs('access.log', {
   path: logDirectory
 })
 // Log only 4xx and 5xx responses to console
+// @ts-ignore
 app.use(morgan('dev', { skip: (req, res) => res.statusCode < 400 }))
 // Log all responses to a log file
 app.use(morgan('combined', { stream: accessLogStream }))
@@ -141,25 +142,25 @@ app.use('/dropzone', express.static('./node_modules/dropzone/dist/min/'))
  */
 // Catch every 404 and forward to the error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found')
+  const err = Error('Not Found')
   err.status = 404
   next(err)
 })
 
 // @ts-ignore
 app.use((err, req, res, next) => {
-  res.locals.message = err.message
+  res.locals.message = err.message + ` ("${req.url}")`
+  res.locals.jsonBody = JSON.stringify(req.body)
   res.locals.error = req.app.get('env') === 'development' ? err : {}
   res.locals.displayError = req.app.get('env') === 'development'
-
-  // Render the error page
   res.status(err.status || 500)
-  res.render('error', {
-    layout: 'materialize',
-    title: `Error ${err.status} - ${err.message}`
-  })
+    .render('error', {
+      layout: 'materialize',
+      title: `Error ${err.status} - ${err.message}`
+    })
 })
 
-ServerHelper.printAllServerRoutes(app)
+// Uncomment to view server route tree
+// ServerHelper.printAllServerRoutes(app)
 
 module.exports = { ServerHttp: serverHttp, ServerHttps: serverHttps }

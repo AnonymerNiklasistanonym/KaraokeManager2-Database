@@ -359,7 +359,7 @@ class DatabaseApi {
     let query = 'SELECT * FROM song '
     const data = []
     if (searchQuery !== undefined) {
-      query += 'WHERE song MATCH ? '
+      query += 'WHERE song LIKE ? '
       data.push(searchQuery)
     }
     data.push(limit, limit * page)
@@ -377,7 +377,7 @@ class DatabaseApi {
       let query = 'SELECT count(*) FROM song'
       const data = []
       if (searchQuery !== undefined) {
-        query += ' WHERE song MATCH ?'
+        query += ' WHERE song LIKE ?'
         data.push(searchQuery)
       }
       DatabaseQueries.getEachRequest(query + ';', data)

@@ -118,6 +118,12 @@ router.get('/type/status', (req, res) => {
   res.sendStatus(200) // Set the response status code and send its string representation as the response body
 })
 
+router.get('/type/fail', (req, res, next) => {
+  const err = Error('FAIL')
+  err.status = 500
+  next(err)
+})
+
 // Post interface
 router.post('/type/status', (req, res) => {
   console.log(req.body)
