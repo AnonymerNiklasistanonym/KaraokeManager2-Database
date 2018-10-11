@@ -7,36 +7,61 @@ Materialize main template
 <html lang="en">
 
 <head>
-  <style>
-    header, main, footer {
-      padding-left: 300px;
-    }
 
-    @media only screen and (max-width : 992px) {
-      header, main, footer {
-        padding-left: 0;
-      }
-    }
-  </style>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-  <title>Starter Template - Materialize</title>
+	{{!-- Meta data --}}
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
 
-  <!-- CSS  -->
-  <link rel="stylesheet" href="/material-icons/css/material-icons.min.css">
-  <link rel="stylesheet" href="/material-icons/iconfont/material-icons.css">
-  <link href="/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	{{!-- Title and more --}}
+	<title>{{title}}</title>
+
+	{{!-- Special Chrome tags --}}
+	<meta name="application-name" content="{{applicationName}}" />
+	<meta name="theme-color" content="{{theme.themeColor}}" />
+
+	{{!-- SVG and ICO icons --}}
+	<link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.ico" />
+	<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
+
+	{{!-- Apple icons/information --}}
+	<meta name="apple-mobile-web-app-title" content="{{applicationName}}">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<link rel="mask-icon" href="/favicons/favicon.svg" color="{{theme.themeColor}}" />
+	<link rel="apple-touch-icon" href="/favicons/favicon_180.png" />
+
+	{{!-- Normal png favicons --}}
+	<link rel="icon" type="image/png" href="/favicons/favicon_16.png" sizes="16x16" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_64.png" sizes="64x64" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_94.png" sizes="94x94" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_128.png" sizes="128x128" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_160.png" sizes="160x160" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_180.png" sizes="180x180" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_194.png" sizes="194x194" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_256.png" sizes="256x256" />
+	<link rel="icon" type="image/png" href="/favicons/favicon_512.png" sizes="512x512" />
+
+	{{!-- CSS --}}
+	<link rel="stylesheet" href="/material-icons/css/material-icons.min.css">
+	<link rel="stylesheet" href="/material-icons/iconfont/material-icons.css">
+	<link href="/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	<link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
 </head>
 
 <body>
 
-  {{{body}}}
+	{{!-- Body --}}
+	{{{body}}}
 
-  <!--  Scripts-->
-  <script src="/materialize/js/materialize.min.js"></script>
-  <script src="/js/sidebar.js"></script>
-  <script src="/js/notifications.js"></script>
+	{{!-- Scripts --}}
+	<script src="/materialize/js/materialize.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/js/sidebar.js"></script>
+	<script src="/js/notifications.js"></script>
+	<script src="/js/miscellaneous.js"></script>
+	<script src="/js/sockets.js"></script>
 
 </body>
 

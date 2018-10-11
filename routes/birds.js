@@ -24,7 +24,8 @@ router.get('/test', (req, res) => {
     materializeFooterPartial: configuration.getMaterializeFooter(),
     navBar: configuration.getNavBar(),
     theme: configuration.getTheme(),
-    fab: configuration.getMaterializeFab()
+    fab: configuration.getMaterializeFab(),
+    applicationName: 'KaraokeManager v2'
   }
   res.render('materialize', {
     featureRow: true,
@@ -32,7 +33,8 @@ router.get('/test', (req, res) => {
       materializeCardFeatureRowPartial: configuration.getMaterializeFeatureRow(),
       theme: configuration.getTheme()
     },
-    layout: 'materialize'
+    layout: 'materialize',
+    title: 'Home page'
   })
 })
 

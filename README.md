@@ -31,9 +31,10 @@
 - `npm run typedoc` Creates (for now the best) HTML documentation of the source code
 - `npm run documentation` Creates documentation files (HTML, Markdown) of source code and file structure
 - `npm run jsdoc` Creates jsdoc (HTML directory) documentation
-- `npm run format` Automatically fixes JavaScript source code to be in the correct format (+ additional warnigns)
+- `npm run format` Automatically fixes JavaScript source code to be in the correct format (+ additional warnings)
 - `npm run test` Lints JavaScript source code
 - `npm run previews` Creates HTML (preView) render files of views
+- `npm run images` Create images (to run this command you need to install [inkscape](https://inkscape.org/en/release/0.92.3/) first)
 
 ## Dependencies (non-dev)
 
@@ -46,7 +47,7 @@ sqlite3 | 124 | [![install size](https://packagephobia.now.sh/badge?p=sqlite3)](
 express-handlebars | 31 | [![install size](https://packagephobia.now.sh/badge?p=express-handlebars)](https://packagephobia.now.sh/result?p=express-handlebars) | 3.0.0 | [![latest-version-express-handlebars](https://badge.fury.io/js/express-handlebars.svg)](https://www.npmjs.com/package/express-handlebars)
 express-minify-html | 18 | [![install size](https://packagephobia.now.sh/badge?p=express-minify-html)](https://packagephobia.now.sh/result?p=express-minify-html) | 0.12.0 | [![latest-version-express-minify-html](https://badge.fury.io/js/express-minify-html.svg)](https://www.npmjs.com/package/express-minify-html)
 socket.io | 57 | [![install size](https://packagephobia.now.sh/badge?p=socket.io)](https://packagephobia.now.sh/result?p=socket.io) | 2.1.1 | [![latest-version-socket.io](https://badge.fury.io/js/socket.io.svg)](https://www.npmjs.com/package/socket.io)
-express | 74 | [![install size](https://packagephobia.now.sh/badge?p=express)](https://packagephobia.now.sh/result?p=express) | 4.16.3 | [![latest-version-express](https://badge.fury.io/js/express.svg)](https://www.npmjs.com/package/express)
+express | 74 | [![install size](https://packagephobia.now.sh/badge?p=express)](https://packagephobia.now.sh/result?p=express) | 4.16.4 | [![latest-version-express](https://badge.fury.io/js/express.svg)](https://www.npmjs.com/package/express)
 multer | 33 | [![install size](https://packagephobia.now.sh/badge?p=multer)](https://packagephobia.now.sh/result?p=multer) | 1.4.0 | [![latest-version-multer](https://badge.fury.io/js/multer.svg)](https://www.npmjs.com/package/multer)
 wavesurfer.js | 0 | [![install size](https://packagephobia.now.sh/badge?p=wavesurfer.js)](https://packagephobia.now.sh/result?p=wavesurfer.js) | 2.1.0 | [![latest-version-wavesurfer.js](https://badge.fury.io/js/wavesurfer.js.svg)](https://www.npmjs.com/package/wavesurfer.js)
 materialize-css | 0 | [![install size](https://packagephobia.now.sh/badge?p=materialize-css)](https://packagephobia.now.sh/result?p=materialize-css) | 1.0.0 | [![latest-version-materialize-css](https://badge.fury.io/js/materialize-css.svg)](https://www.npmjs.com/package/materialize-css)

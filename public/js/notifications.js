@@ -3,7 +3,8 @@
  ***************************************************************************************************************/
 
 /*
- * Make notifications
+ * This file contains:
+ * Make notifications of all kinds.
  */
 
 /**
@@ -74,8 +75,6 @@ class NotificationHelper {
   }
   /**
    * Returns if the browser 'Notifications_API' can be used
-   * https://notifications.spec.whatwg.org/#dom-notification-actions,
-   * https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification,
    * https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API
    * @returns {Promise<boolean>} True when supported
    */
@@ -135,6 +134,36 @@ class NotificationHelper {
             notification.onclick = onclick
           }
         }
-      }).catch(console.error)
+      })
+      .catch(console.error)
+  }
+  /**
+   * Dialog for sharing something
+   * IMPORTANT:
+   * - Only works in some browsers
+   * - Only when using HTTPS and
+   * - Only works if it happens in reaction to a user interaction (button click)
+   * https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share
+   * @param {string} title Title
+   * @param {string} text Text
+   * @param {string} url URL
+   * @example document.getElementById('buttonToCLick').addEventListener('click',
+   *   event => { NotificationHelper.share('Title', 'Text',
+   *   'https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share') })
+   */
+  static share (title, text, url) {
+    // Check if web share api is supported
+    if (window.navigator.share) {
+      // If yes try to show dialog
+      window.navigator.share({ title, text, url })
+        .catch(err => {
+          console.error('Sharing error: ', err)
+          // Else show a simple popup with the url for sharing
+          window.prompt(`${title}\n${text}`, url)
+        })
+    } else {
+      // Else show a simple popup with the url for sharing
+      window.prompt(`${title}\n${text}`, url)
+    }
   }
 }

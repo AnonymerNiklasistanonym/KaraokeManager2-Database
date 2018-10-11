@@ -1,0 +1,92 @@
+<svg width="750pt" height="750pt" version="1.2" viewBox="0 0 750 750" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<clipPath id="c">
+			<path d="m69 69h612v612h-612z"/>
+		</clipPath>
+		<clipPath id="b">
+			<path d="m69.2 375c0-169 137-306 306-306s306 137 306 306-137 306-306 306-306-137-306-306z"/>
+		</clipPath>
+		<linearGradient id="a" x1="69.2" x2="681" y1="681" y2="69.2" gradientTransform="matrix(1,0,0,-1,0,750)" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#00aff0" offset="0"/>
+			<stop stop-color="#00aff0" offset=".125"/>
+			<stop stop-color="#00afef" offset=".188"/>
+			<stop stop-color="#00aeee" offset=".195"/>
+			<stop stop-color="#00adee" offset=".203"/>
+			<stop stop-color="#00aced" offset=".211"/>
+			<stop stop-color="#00abec" offset=".219"/>
+			<stop stop-color="#00aaec" offset=".227"/>
+			<stop stop-color="#00a9eb" offset=".234"/>
+			<stop stop-color="#00a8ea" offset=".242"/>
+			<stop stop-color="#00a7e9" offset=".25"/>
+			<stop stop-color="#00a6e9" offset=".258"/>
+			<stop stop-color="#00a5e8" offset=".266"/>
+			<stop stop-color="#00a4e7" offset=".273"/>
+			<stop stop-color="#00a4e7" offset=".281"/>
+			<stop stop-color="#00a3e6" offset=".289"/>
+			<stop stop-color="#00a2e5" offset=".297"/>
+			<stop stop-color="#00a1e4" offset=".305"/>
+			<stop stop-color="#00a0e4" offset=".312"/>
+			<stop stop-color="#009fe3" offset=".32"/>
+			<stop stop-color="#009ee2" offset=".328"/>
+			<stop stop-color="#009de1" offset=".336"/>
+			<stop stop-color="#009ce1" offset=".344"/>
+			<stop stop-color="#009be0" offset=".352"/>
+			<stop stop-color="#009adf" offset=".359"/>
+			<stop stop-color="#0099df" offset=".367"/>
+			<stop stop-color="#0098de" offset=".375"/>
+			<stop stop-color="#0097dd" offset=".383"/>
+			<stop stop-color="#0096dc" offset=".391"/>
+			<stop stop-color="#0095dc" offset=".398"/>
+			<stop stop-color="#0094db" offset=".406"/>
+			<stop stop-color="#0093da" offset=".414"/>
+			<stop stop-color="#0092da" offset=".422"/>
+			<stop stop-color="#0091d9" offset=".43"/>
+			<stop stop-color="#0090d8" offset=".438"/>
+			<stop stop-color="#008fd7" offset=".445"/>
+			<stop stop-color="#008ed7" offset=".453"/>
+			<stop stop-color="#008dd6" offset=".461"/>
+			<stop stop-color="#008cd5" offset=".469"/>
+			<stop stop-color="#008bd4" offset=".477"/>
+			<stop stop-color="#008bd4" offset=".484"/>
+			<stop stop-color="#008ad3" offset=".492"/>
+			<stop stop-color="#0089d2" offset=".5"/>
+			<stop stop-color="#0088d2" offset=".5"/>
+			<stop stop-color="#0087d1" offset=".508"/>
+			<stop stop-color="#0087d1" offset=".516"/>
+			<stop stop-color="#0086d0" offset=".523"/>
+			<stop stop-color="#0085cf" offset=".531"/>
+			<stop stop-color="#0084cf" offset=".539"/>
+			<stop stop-color="#0083ce" offset=".547"/>
+			<stop stop-color="#0082cd" offset=".555"/>
+			<stop stop-color="#0081cd" offset=".562"/>
+			<stop stop-color="#0080cc" offset=".57"/>
+			<stop stop-color="#007fcb" offset=".578"/>
+			<stop stop-color="#007eca" offset=".586"/>
+			<stop stop-color="#007dca" offset=".594"/>
+			<stop stop-color="#007cc9" offset=".602"/>
+			<stop stop-color="#007bc8" offset=".609"/>
+			<stop stop-color="#007ac8" offset=".617"/>
+			<stop stop-color="#0079c7" offset=".625"/>
+			<stop stop-color="#0078c6" offset=".633"/>
+			<stop stop-color="#0077c5" offset=".641"/>
+			<stop stop-color="#0076c5" offset=".648"/>
+			<stop stop-color="#0075c4" offset=".656"/>
+			<stop stop-color="#0074c3" offset=".664"/>
+			<stop stop-color="#0073c2" offset=".672"/>
+			<stop stop-color="#0072c2" offset=".68"/>
+			<stop stop-color="#0072c1" offset=".688"/>
+			<stop stop-color="#0071c0" offset=".695"/>
+			<stop stop-color="#0070c0" offset=".703"/>
+			<stop stop-color="#006fbf" offset=".719"/>
+			<stop stop-color="#006fbf" offset=".75"/>
+			<stop stop-color="#006fbf" offset="1"/>
+		</linearGradient>
+	</defs>
+	<path d="m0 375c0-207 168-375 375-375s375 168 375 375-168 375-375 375-375-168-375-375z" fill="#fff" fill-rule="evenodd"/>
+	<g clip-path="url(#c)">
+		<g clip-path="url(#b)" clip-rule="evenodd">
+			<path d="m69.2 681v-612h612v612z" fill="url(#a)"/>
+		</g>
+	</g>
+	<path d="m426 237c29.6 1.35 56.7 13.1 77.6 31.8 23.9 21.3 39.6 51.8 41.5 86.3 3.84 69-49 128-118 132l-0.359 0.0195 0.719 1.21c4.6 9.76 3.24 21.7-4.4 30.3-10.2 11.4-27.7 12.4-39.1 2.17l-4.23-3.79c-35.1 39.2-107 119-164 182l-6.72 7.45-9.45-4.84c-37.2-20.2-70.6-46.5-98.8-77.6l-6.36-7.34 177-197-4.23-3.79c-11.4-10.2-12.4-27.7-2.17-39.1 7.64-8.54 19.4-11.2 29.6-7.74l1.29 0.59-0.0195-0.371c-3.83-69 49-128 118-132 4.31-0.242 8.59-0.262 12.8-0.0703z" fill="#fff" fill-rule="evenodd"/>
+</svg>

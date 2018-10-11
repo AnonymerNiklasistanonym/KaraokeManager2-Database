@@ -67,5 +67,6 @@
 			"title": "Logout",
 			"url": "#"
 		}
-	]
+	],
+	"title": "KaraokeManager"
 }

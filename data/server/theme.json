@@ -1,10 +1,11 @@
 {
+	"themeColor": "#29b6f6",
 	"banner": {
 		"buttonColor": "orange"
 	},
 	"fab": {
 		"buttonColor": "orange",
-		"tapTargetColor": "blue",
+		"tapTargetColor": "light-blue",
 		"tapTargetTextColor": "white"
 	},
 	"featureRow": {

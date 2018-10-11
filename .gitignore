@@ -43,7 +43,8 @@ uploads
 *.png
 *.jpg
 
-
+# ignore rendered image files
+public/favicons
 
 
 # environments

@@ -3,9 +3,10 @@ Description:
 Materialize nav bar
 --> Add more features: https://materializecss.com/sidenav
 --}}
+
 <header>
     <nav class="{{theme.navBar.themeColor}} lighten-1" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+        <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">{{navBar.title}}</a>
             <ul class="right hide-on-med-and-down">
                 {{#each navBar.navBarLinks}}
                 <li><a href="{{this.url}}">{{this.text}}</a></li>

@@ -34,7 +34,8 @@
 				"title": "Icon link",
 				"url": "#"
 			}
-		]
+		],
+		"title": "Title"
 	},
 	"theme": {
 		"navBar": {

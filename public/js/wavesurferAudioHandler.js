@@ -4,7 +4,6 @@
 
 // Wait till all content is loaded
 document.addEventListener('DOMContentLoaded', () => {
-
   // Define all HTML elements
   const musicRange = document.getElementById('musicRange')
   const fastForward = document.getElementById('fast-forward-button')

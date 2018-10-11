@@ -2,8 +2,25 @@
  * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
  ***************************************************************************************************************/
 
- /*
-  * Custom Stylesheet */
+/*
+ * This file contains:
+ * Custom Stylesheet
+ */
+
+header,
+main,
+footer {
+    padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+    header,
+    main,
+    footer {
+        padding-left: 0;
+    }
+}
+
 /**
  * Use this file to override Materialize files so you can update
  * the core Materialize files in the future
