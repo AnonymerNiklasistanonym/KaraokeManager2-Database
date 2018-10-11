@@ -1,23 +1,32 @@
 #!/usr/bin/env make -f
 
 # I am a comment
-PROJECT = "My KaraokeManager2-Database Node.js project"
+PROJECT = "KaraokeManager2"
 
-all: install test
+all: install
 
 test: ;@echo "Test ${PROJECT}....."; \
 	npm run test
+
+format: ;@echo "Format ${PROJECT}....."; \
+	npm run format
 
 server : ;@echo "Starting ${PROJECT}....."; \
 	npm start
 
 install: ;@echo "Installing ${PROJECT}....."; \
 	./setup.sh; \
-	npm install
+	npm install; \
+	npm run createImages
 
 update: ;@echo "Updating ${PROJECT}....."; \
 	git pull; \
 	npm install
+
+document: ;@echo "Creating docs ${PROJECT}....."; \
+	npm run documentation; \
+	npm run jsdoc; \
+	npm run typedoc;
 
 clean : ;@echo "Clean ${PROJECT}....."; \
 	rm -rf node_modules; \
@@ -25,6 +34,7 @@ clean : ;@echo "Clean ${PROJECT}....."; \
 	rm -rf log; \
 	rm -rf http2; \
 	rm -rf dh; \
+	rm -rf uploads; \
 	rm -rf build; \
 	rm -rf database; \
 	rm -f database.db; \
