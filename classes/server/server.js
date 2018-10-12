@@ -92,9 +92,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('trust proxy', 1)
 app.use(session({
   cookie: {
+    // Age of cookie in ms
+    maxAge: 1000 * 60 * 30,
     // Setting secure: true only creates persistent data on https
-    secure: false,
-    maxAge: 60000 * 5
+    secure: false
   },
   name: 'cookie name',
   resave: true,

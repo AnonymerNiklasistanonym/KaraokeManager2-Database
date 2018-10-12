@@ -41,12 +41,12 @@
 Calculated using the tool [`cost-of-modules`](https://github.com/siddharthkp/cost-of-modules):
 
 name | children | size | version | latest version
----- | -------- | --------- | ------- | ---------------
+---- | -------- | ---- | ------- | --------------
 jimp | 123 | [![install size](https://packagephobia.now.sh/badge?p=jimp)](https://packagephobia.now.sh/result?p=jimp) | 0.5.3 | [![latest-version-jimp](https://badge.fury.io/js/jimp.svg)](https://www.npmjs.com/package/jimp)
 sqlite3 | 124 | [![install size](https://packagephobia.now.sh/badge?p=sqlite3)](https://packagephobia.now.sh/result?p=sqlite3) | 4.0.2 | [![latest-version-sqlite3](https://badge.fury.io/js/sqlite3.svg)](https://www.npmjs.com/package/sqlite3)
 express-handlebars | 31 | [![install size](https://packagephobia.now.sh/badge?p=express-handlebars)](https://packagephobia.now.sh/result?p=express-handlebars) | 3.0.0 | [![latest-version-express-handlebars](https://badge.fury.io/js/express-handlebars.svg)](https://www.npmjs.com/package/express-handlebars)
 express-minify-html | 18 | [![install size](https://packagephobia.now.sh/badge?p=express-minify-html)](https://packagephobia.now.sh/result?p=express-minify-html) | 0.12.0 | [![latest-version-express-minify-html](https://badge.fury.io/js/express-minify-html.svg)](https://www.npmjs.com/package/express-minify-html)
-png-to-ico | 3 | [![install size](https://packagephobia.now.sh/badge?p=png-to-ico)](https://packagephobia.now.sh/result?p=png-to-ico) | 0.12.0 | [![latest-version-express-minify-html](https://badge.fury.io/js/png-to-ico.svg)](https://www.npmjs.com/package/png-to-ico)
+png-to-ico | 3 | [![install size](https://packagephobia.now.sh/badge?p=png-to-ico)](https://packagephobia.now.sh/result?p=png-to-ico) | 2.0.1| [![latest-version-png-to-ico](https://badge.fury.io/js/png-to-ico.svg)](https://www.npmjs.com/package/png-to-ico)
 socket.io | 57 | [![install size](https://packagephobia.now.sh/badge?p=socket.io)](https://packagephobia.now.sh/result?p=socket.io) | 2.1.1 | [![latest-version-socket.io](https://badge.fury.io/js/socket.io.svg)](https://www.npmjs.com/package/socket.io)
 multer | 33 | [![install size](https://packagephobia.now.sh/badge?p=multer)](https://packagephobia.now.sh/result?p=multer) | 1.4.1 | [![latest-version-multer](https://badge.fury.io/js/multer.svg)](https://www.npmjs.com/package/multer)
 wavesurfer.js | 0 | [![install size](https://packagephobia.now.sh/badge?p=wavesurfer.js)](https://packagephobia.now.sh/result?p=wavesurfer.js) | 2.1.0 | [![latest-version-wavesurfer.js](https://badge.fury.io/js/wavesurfer.js.svg)](https://www.npmjs.com/package/wavesurfer.js)

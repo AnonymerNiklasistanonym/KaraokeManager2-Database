@@ -27,7 +27,7 @@ const createDirectories = directories => Promise.all(
  * @param {function(number):string} imagePathPng
  */
 const createPngFavicons = (imagePathSvg, imagePathPng) => Promise.all(
-  [16, 32, 64, 128, 160, 180, 194, 256, 512]
+  [16, 32, 64, 94, 128, 160, 180, 194, 256, 512]
     .map(size => ImageLibrary.convertSvgToPng(imagePathSvg, imagePathPng(size), { width: size, height: size })))
 /**
  * @param {string} imagePathSvg
