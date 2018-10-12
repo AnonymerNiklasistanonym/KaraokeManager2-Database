@@ -31,6 +31,21 @@ const createPngFavicons = (imagePathSvg, imagePathPng) => Promise.all(
     .map(size => ImageLibrary.convertSvgToPng(imagePathSvg, imagePathPng(size), { width: size, height: size })))
 /**
  * @param {string} imagePathSvg
+ * @param {function(number):string} imagePathJpg
+ */
+const createJpgAccountFg = (imagePathSvg, imagePathJpg) => Promise.all(
+  [64, 1000]
+    .map(size => ImageLibrary.convertSvgToJpg(imagePathSvg, imagePathJpg(size), { width: size, height: size })))
+/**
+ * @param {string} imagePathSvg
+ * @param {function(number[]):string} imagePathJpg
+ */
+const createJpgAccountBg = (imagePathSvg, imagePathJpg) => Promise.all(
+  [[300, 176]]
+    .map(size => ImageLibrary.convertSvgToJpg(imagePathSvg, imagePathJpg(size), { width: size[0], height: size[1] })))
+
+/**
+ * @param {string} imagePathSvg
  * @param {string} imagePathIco
  */
 const createIcoFavicon = (imagePathSvg, imagePathIco) => {
@@ -46,19 +61,48 @@ const createIcoFavicon = (imagePathSvg, imagePathIco) => {
 }
 
 // Declare file paths
-const imageDirectories = [path.join(__dirname, '..', '..', 'public', 'favicons')]
-const imageFilePathSvg = path.join(__dirname, '..', '..', 'images', 'logo.svg')
-const imageFilePathIco = path.join(__dirname, '..', '..', 'public', 'favicons', 'favicon.ico')
-const imageFilePathSvgCopy = path.join(__dirname, '..', '..', 'public', 'favicons', 'favicon.svg')
-
+const imageDirectories = [path.join(__dirname, '..', '..', 'public', 'favicons'),
+  path.join(__dirname, '..', '..', 'public', 'accounts')]
+const imageFilePathFaviconSvg = path.join(__dirname, '..', '..', 'images', 'logo.svg')
+const imageFilePathFaviconIco = path.join(__dirname, '..', '..', 'public', 'favicons', 'favicon.ico')
+const imageFilePathFaviconSvgCopy = path.join(__dirname, '..', '..', 'public', 'favicons', 'favicon.svg')
+const imageFilePathAccountFgSvg = path.join(__dirname, '..', '..', 'images', 'accountFg.svg')
+const imageFilePathAccountBgSvg = path.join(__dirname, '..', '..', 'images', 'accountBg.svg')
+const imageFilePathRootFgSvg = path.join(__dirname, '..', '..', 'images', 'rootFg.svg')
+const imageFilePathRootBgSvg = path.join(__dirname, '..', '..', 'images', 'rootBg.svg')
 /**
  * @param {number} size
  */
-const imageFilePathPng = size => `${path.join(__dirname, '..', '..', 'public', 'favicons', 'favicon')}_${size}.png`
+const imageFilePathFaviconPng = size =>
+  `${path.join(__dirname, '..', '..', 'public', 'favicons', 'favicon')}_${size}.png`
+/**
+ * @param {number} size
+ */
+const imageFilePathJpgAccountFg = size =>
+  `${path.join(__dirname, '..', '..', 'public', 'accounts', 'defaultAccountFg')}_${size}x${size}.jpg`
+/**
+ * @param {number[]} sizes
+ */
+const imageFilePathJpgAccountBg = sizes =>
+  `${path.join(__dirname, '..', '..', 'public', 'accounts', 'defaultAccountBg')}_${sizes[0]}x${sizes[1]}.jpg`
+/**
+ * @param {number} size
+ */
+const imageFilePathJpgRootFg = size =>
+  `${path.join(__dirname, '..', '..', 'public', 'accounts', 'defaultRootFg')}_${size}x${size}.jpg`
+/**
+ * @param {number[]} sizes
+ */
+const imageFilePathJpgRootBg = sizes =>
+  `${path.join(__dirname, '..', '..', 'public', 'accounts', 'defaultRootBg')}_${sizes[0]}x${sizes[1]}.jpg`
 
 // Run everything
 createDirectories(imageDirectories)
-  .then(() => Promise.all([createPngFavicons(imageFilePathSvg, imageFilePathPng),
-    createIcoFavicon(imageFilePathSvg, imageFilePathIco),
-    fs.copyFile(imageFilePathSvg, imageFilePathSvgCopy)]))
+  .then(() => Promise.all([createPngFavicons(imageFilePathFaviconSvg, imageFilePathFaviconPng),
+    createIcoFavicon(imageFilePathFaviconSvg, imageFilePathFaviconIco),
+    fs.copyFile(imageFilePathFaviconSvg, imageFilePathFaviconSvgCopy),
+    createJpgAccountFg(imageFilePathAccountFgSvg, imageFilePathJpgAccountFg),
+    createJpgAccountBg(imageFilePathAccountBgSvg, imageFilePathJpgAccountBg),
+    createJpgAccountFg(imageFilePathRootFgSvg, imageFilePathJpgRootFg),
+    createJpgAccountBg(imageFilePathRootBgSvg, imageFilePathJpgRootBg)]))
   .catch(console.error)

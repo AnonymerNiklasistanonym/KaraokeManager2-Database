@@ -53,6 +53,11 @@
 				"type": "text"
 			},
 			{
+				"description": "server file path to background picture of account",
+				"name": "server_file_path_bg_picture",
+				"type": "text"
+			},
+			{
 				"description": "account status text",
 				"name": "status",
 				"type": "text"

@@ -1,5 +1,5 @@
 {
-	"materializeFooterPartial": {
+	"footer": {
 		"bio": {
 			"text": "Bio text",
 			"title": "Bio"

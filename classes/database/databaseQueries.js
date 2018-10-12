@@ -115,8 +115,6 @@ class DatabaseQueries {
           (err, count) => {
             if (err) {
               reject(err)
-            } else if (count === 0) {
-              reject(Error('No results found!'))
             } else {
               resolve(requestedElement)
             }

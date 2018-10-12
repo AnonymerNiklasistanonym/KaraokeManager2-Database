@@ -4,7 +4,8 @@
 			"options": {
 				"isAdmin": true,
 				"name": "Root",
-				"server_file_path_profile_picture": "root",
+				"server_file_path_bg_picture": "defaultRootBg",
+				"server_file_path_profile_picture": "defaultRootFg",
 				"status": "is admin"
 			},
 			"password": "root"

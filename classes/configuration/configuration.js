@@ -9,8 +9,26 @@
  * Main configuration interface where all the important data can be got
  */
 
-const fs = require('fs')
+const ConfigurationReader = require('./configurationReader')
+const DatabaseApi = require('../database/databaseApi')
+const LoginManager = require('../communication/loginManager')
 const path = require('path')
+
+// Globals
+const applicationName = ConfigurationReader.parseJsonData('applicationName.json').name
+const navBar = ConfigurationReader.parseJsonData('navBar.json')
+const navBarLoggedIn = ConfigurationReader.parseJsonData('navBarLoggedIn.json')
+const theme = ConfigurationReader.parseJsonData('theme.json')
+const footer = ConfigurationReader.parseJsonData('footer.json')
+// Welcome page
+const welcomeBanner = ConfigurationReader.parseJsonData('welcome/banner.json')
+const welcomeFeatures = ConfigurationReader.parseJsonData('welcome/features.json')
+// Accounts image directory
+const accountsPath = path.join('accounts')
+// LoginRegister page
+const loginRegisterCard = ConfigurationReader.parseJsonData('loginRegister/card.json')
+// Fab button
+const fab = ConfigurationReader.parseJsonData('fab.json')
 
 /**
  * Main configuration interface where all the important data can be got
@@ -19,81 +37,58 @@ const path = require('path')
  */
 class Configuration {
   /**
-   * Get JSON object from a `.json` file
-   * @param {string} filePath File path to `.json` file
-   * @returns {*} JSON object
+   * @param {string} authorizedId
    */
-  static parseJsonData (filePath) {
-    return JSON.parse(fs
-      .readFileSync(filePath)
-      .toString())
+  static generateNavBarContent (authorizedId) {
+    return new Promise((resolve, reject) => {
+      if (LoginManager.checkIfAccountAuthorized(authorizedId)) {
+        const accountId = LoginManager.getAuthorizedAccount(authorizedId)
+        DatabaseApi.getAccountNavBar(accountId)
+          .then(accountObject =>
+            resolve({
+              ...navBarLoggedIn,
+              ...accountObject,
+              account: {
+                bgPicture: ['', accountsPath, accountObject.server_file_path_bg_picture + '_300x176.jpg'].join('/'),
+                id: accountObject.id,
+                name: accountObject.name,
+                profilePicture: ['', accountsPath,
+                  accountObject.server_file_path_profile_picture + '_64x64.jpg'].join('/'),
+                profilePictureBig: ['', accountsPath,
+                  accountObject.server_file_path_profile_picture + '_1000x1000.jpg'].join('/')
+              },
+              title: applicationName
+            }))
+          .catch(reject)
+      } else {
+        resolve({ ...navBar, title: applicationName })
+      }
+    })
   }
-  getLocals () {
-    return {
-      applicationName: 'KaraokeManager v2',
-      fab: this.materializeFab,
-      materializeCardBannerPartial: this.materializeBanner,
-      materializeFooterPartial: this.materializeFooter,
-      navBar: this.navBar,
-      theme: this.theme
-    }
+  static get fabContent () {
+    return { fab }
   }
-  getTheme () {
-    return this.theme
+  /**
+   * Content that can be merged with `res.locals`
+   */
+  static get generalContent () {
+    return { applicationName, theme, footer }
   }
-  getNavBar () {
-    return this.navBar
+  /**
+   * Content that can be merged with `res.locals`
+   */
+  static get welcomeContent () {
+    return { banner: welcomeBanner, featureRow: welcomeFeatures }
   }
-  getMaterializeFooter () {
-    return this.materializeFooter
+  /**
+   * Content that can be merged with `res.locals`
+   */
+  static get navBar () {
+    return { loggedIn: {}, loggedOut: {} }
   }
-  getMaterializeCardBanner () {
-    return this.materializeBanner
-  }
-  getMaterializeFeatureRow () {
-    return this.materializeFeatureRow
-  }
-  getMaterializeFab () {
-    return this.materializeFab
-  }
-  setupNavBar () {
-    this.navBar = Configuration.parseJsonData(path.join(__dirname, '../../data/server/nav.json'))
-
-    return this
-  }
-  setupFooter () {
-    this.materializeFooter = Configuration.parseJsonData(path.join(__dirname, '../../data/server/footer.json'))
-
-    return this
-  }
-  setupCardBanner () {
-    this.materializeBanner = Configuration.parseJsonData(path.join(__dirname, '../../data/server/banner.json'))
-
-    return this
-  }
-  setupFeatureRow () {
-    this.materializeFeatureRow = Configuration.parseJsonData(path.join(__dirname, '../../data/server/featureRow.json'))
-
-    return this
-  }
-  setupTheme () {
-    this.theme = Configuration.parseJsonData(path.join(__dirname, '../../data/server/theme.json'))
-
-    return this
-  }
-  setupFab () {
-    this.materializeFab = Configuration.parseJsonData(path.join(__dirname, '../../data/server/fab.json'))
-
-    return this
+  static get loginRegisterContent () {
+    return { loginRegisterCard }
   }
 }
 
-const configuration = new Configuration()
-  .setupFooter()
-  .setupCardBanner()
-  .setupTheme()
-  .setupFeatureRow()
-  .setupNavBar()
-  .setupFab()
-
-module.exports = configuration
+module.exports = Configuration

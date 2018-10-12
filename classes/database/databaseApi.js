@@ -20,6 +20,19 @@ const PasswordHelper = require('../other/security')
  */
 class DatabaseApi {
   /**
+   * Get user account information fro navBar
+   * @param {string} name Unique account name
+   * @returns {Promise<import('./databaseTypes').IGetAccountObjectNavBar>}
+   * @example DatabaseApi.getAccountNavBar('unique account name')
+   *   .then(console.log)
+   *   .catch(console.error)
+   */
+  static getAccountNavBar (name) {
+    return DatabaseQueries.getEachRequest('SELECT id, is_admin, is_private, ' +
+      'name, server_file_path_profile_picture, server_file_path_bg_picture ' +
+      'FROM account WHERE id=?;', [name])
+  }
+  /**
    * Create a song
    * @param {string} name Song name
    * @param {string} authorId Author id of song entry
@@ -142,8 +155,20 @@ class DatabaseApi {
   static createAccount (id, password, options) {
     // tslint:disable-next-line:cyclomatic-complexity
     const hashAndSalt = PasswordHelper.generateHashAndSalt(password)
-    const columns = ['id', 'password_hash', 'password_salt']
+    const columns = ['id', 'password_hash', 'password_salt',
+      'server_file_path_profile_picture', 'server_file_path_bg_picture']
     const data = [id, hashAndSalt.hash, hashAndSalt.salt]
+
+    if (options !== undefined && options.server_file_path_profile_picture !== undefined) {
+      data.push(options.server_file_path_profile_picture)
+    } else {
+      data.push('defaultAccountFg')
+    }
+    if (options !== undefined && options.server_file_path_bg_picture !== undefined) {
+      data.push(options.server_file_path_bg_picture)
+    } else {
+      data.push('defaultAccountBg')
+    }
 
     if (options !== undefined) {
       if (options.isAdmin !== undefined) {
@@ -155,10 +180,6 @@ class DatabaseApi {
         columns.push('is_private')
         // @ts-ignore
         data.push(options.isPrivate ? 1 : 0)
-      }
-      if (options.server_file_path_profile_picture !== undefined) {
-        columns.push('server_file_path_profile_picture')
-        data.push(options.server_file_path_profile_picture)
       }
       if (options.name !== undefined) {
         columns.push('name')
@@ -206,18 +227,21 @@ class DatabaseApi {
       'is_banned_comments, is_banned_entries, server_file_path_profile_picture, status ' +
       'FROM account WHERE id=?;', [name])
         .then(object => {
-          console.log(object)
-          resolve({
-            id: object.id,
-            is_admin: object.is_admin === 1,
-            is_banned: object.is_banned === 1,
-            is_banned_comments: object.is_banned_comments === 1,
-            is_banned_entries: object.is_banned_entries === 1,
-            is_private: object.is_private === 1,
-            name: object.name,
-            server_file_path_profile_picture: object.server_file_path_profile_picture,
-            status: object.status
-          })
+          if (object.id === undefined) {
+            reject(Error('No account was found!'))
+          } else {
+            resolve({
+              id: object.id,
+              is_admin: object.is_admin === 1,
+              is_banned: object.is_banned === 1,
+              is_banned_comments: object.is_banned_comments === 1,
+              is_banned_entries: object.is_banned_entries === 1,
+              is_private: object.is_private === 1,
+              name: object.name,
+              server_file_path_profile_picture: object.server_file_path_profile_picture,
+              status: object.status
+            })
+          }
         })
         .catch(reject)
     })

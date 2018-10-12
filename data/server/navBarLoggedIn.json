@@ -1,37 +1,5 @@
 {
-	"account": {
-		"bgPicture": "/test/pictures/bgPicture.jpg",
-		"id": "Id",
-		"name": "Name",
-		"profilePicture": "/test/pictures/profilePicture.jpg"
-	},
-	"button": {
-		"icon": "account_circle",
-		"text": "Login",
-		"url": "#"
-	},
 	"loggedIn": true,
-	"navBarLinks": [{
-			"text": "Home",
-			"url": "#"
-		},
-		{
-			"text": "Playlist",
-			"url": "#"
-		},
-		{
-			"text": "Songs",
-			"url": "#"
-		},
-		{
-			"text": "Gallery",
-			"url": "#"
-		},
-		{
-			"text": "Account",
-			"url": "#"
-		}
-	],
 	"sidebarLinks": [{
 			"isSubHeader": true,
 			"subHeader": "Actions"
@@ -67,6 +35,5 @@
 			"title": "Logout",
 			"url": "#"
 		}
-	],
-	"title": "KaraokeManager"
+	]
 }

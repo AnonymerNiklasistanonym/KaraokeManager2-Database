@@ -7,10 +7,10 @@ Materialize footer
     <div class="container">
         <div class="row">
             <div class="col l6 s12">
-                <h5 class="{{theme.footer.bio.titleColor}}-text">{{materializeFooterPartial.bio.title}}</h5>
-                <p class="{{theme.footer.bio.textColor}}-text text-lighten-4">{{materializeFooterPartial.bio.text}}</p>
+                <h5 class="{{theme.footer.bio.titleColor}}-text">{{footer.bio.title}}</h5>
+                <p class="{{theme.footer.bio.textColor}}-text text-lighten-4">{{footer.bio.text}}</p>
             </div>
-            {{#each materializeFooterPartial.lists}}
+            {{#each footer.lists}}
             <div class="col l3 s12">
                 <h5 class="{{../theme.footer.links.titleColor}}-text">{{this.title}}</h5>
                 <ul>
@@ -24,7 +24,7 @@ Materialize footer
     </div>
     <div class="footer-copyright">
         <div class="container">
-            {{materializeFooterPartial.madeBy.text}} {{#each materializeFooterPartial.madeBy.links}}<a class="{{../theme.footer.copyright.linkColor}}-text text-lighten-3"
+            {{footer.madeBy.text}} {{#each footer.madeBy.links}}<a class="{{../theme.footer.copyright.linkColor}}-text text-lighten-3"
                 href="{{this.url}}">{{this.text}}</a>{{/each}}
         </div>
     </div>

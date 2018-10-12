@@ -6,11 +6,11 @@ Materialize banner
 <div class="section no-pad-bot" id="index-banner">
     <div class="container">
         <br><br>
-        <h1 class="header center {{theme.banner.titleTextColor}}-text">{{materializeCardBannerPartial.title}}</h1>
+        <h1 class="header center {{theme.banner.titleTextColor}}-text">{{banner.title}}</h1>
         <div class="row center">
-            <h5 class="header col s12 light">{{materializeCardBannerPartial.big_text}}</h5>
+            <h5 class="header col s12 light">{{banner.big_text}}</h5>
         </div>
-        {{#each materializeCardBannerPartial.links}}
+        {{#each banner.links}}
         <div class="row center">
             <a href="{{this.url}}" id="download-button" class="btn-large waves-effect waves-light {{../theme.banner.buttonColor}}">{{this.text}}</a>
         </div>

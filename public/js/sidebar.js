@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Tap target feature
   const instance = M.TapTarget.init(document.querySelectorAll('.tap-target'), {})
   if (instance !== undefined && instance.length >= 1) {
-    instance[0].open()
+    // Uncomment to enable: instance[0].open()
   }
   // Collapsible elements
   M.Collapsible.init(document.querySelectorAll('.collapsible'), {})

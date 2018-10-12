@@ -1,5 +1,5 @@
 {
-	"materializeCardBannerPartial": {
+	"banner": {
 		"big_text": "Big text below title",
 		"links": [{
 			"text": "Get started",

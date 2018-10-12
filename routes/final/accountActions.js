@@ -11,7 +11,7 @@
 
 const API = require('../../classes/api/api')
 const ErrorPage = require('../../classes/server/errorPage')
-const configuration = require('../../classes/configuration/configuration')
+const Configuration = require('../../classes/configuration/configuration')
 const express = require('express')
 const router = express.Router()
 
@@ -23,33 +23,13 @@ router.get('/login_register', (req, res, next) => {
     res.locals.customLinks = ErrorPage.createErrorLinks()
     next(Error('You are already logged in!'))
   } else {
-    res.locals = { ...res.locals, ...configuration.getLocals() }
+    res.locals = {
+      ...res.locals,
+      ...Configuration.generalContent,
+      ...Configuration.loginRegisterContent
+    }
     res.render('loginRegister', {
       layout: 'materialize',
-      loginRegisterCard: {
-        accountIdInput: {
-          maxInputLength: 16,
-          pattern: '^\\w{4,16}$',
-          patternWrongTitle: 'The user name needs to be unique and at least 4 but maximal 16 characters long' +
-           'and contain only word characters (no spaces or /#*+...)',
-          placeholder: 'Your account id...',
-          title: 'Account id'
-        },
-        accountPasswordInput: {
-          maxInputLength: 6,
-          pattern: '^.{6,}',
-          patternWrongTitle: 'The password needs to be at least 6 characters long',
-          placeholder: 'Your account password...',
-          title: 'Password'
-        },
-        loginButton: {
-          title: 'Login'
-        },
-        registerButton: {
-          title: 'Register'
-        },
-        title: 'Login/Register'
-      },
       title: 'Login/Register'
     })
   }

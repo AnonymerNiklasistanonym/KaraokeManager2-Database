@@ -58,6 +58,7 @@ export interface ICreateAccountOptions {
     isAdmin?: boolean;
     isPrivate?: boolean;
     name?: string;
+    server_file_path_bg_picture?: string;
     server_file_path_profile_picture?: string;
     status?: string;
 }
@@ -114,6 +115,15 @@ export interface IGetAccountObject {
     name: string;
     server_file_path_profile_picture: boolean;
     status: string;
+}
+
+export interface IGetAccountObjectNavBar {
+    id: string;
+    is_admin: boolean;
+    is_private: boolean;
+    name: string;
+    server_file_path_bg_picture: string;
+    server_file_path_profile_picture: string;
 }
 
 export interface IGetArtistObject {

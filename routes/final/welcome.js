@@ -10,6 +10,7 @@
  */
 
 const API = require('../../classes/api/api')
+const Configuration = require('../../classes/configuration/configuration')
 const express = require('express')
 const router = express.Router()
 
@@ -17,12 +18,18 @@ const router = express.Router()
  * Show features/options of this web app if logged in else redirect to login/register
  */
 router.get('/', (req, res, next) => {
-  if (API.checkIfLoggedIn(req.session.authorized)) {
-    // TODO: Render welcome page (modify template that explains features/options)
-    res.render('loginRegister', { layout: 'materialize' })
-  } else {
-    res.redirect('/account/action/login_register')
-  }
+  Configuration.generateNavBarContent(req.session.authorized)
+    .then(navBar => {
+      res.locals = {
+        ...res.locals,
+        ...Configuration.generalContent,
+        ...Configuration.welcomeContent,
+        ...Configuration.fabContent,
+        navBar
+      }
+      res.render('welcome', { layout: 'materialize', title: 'Welcome :)' })
+    })
+    .catch(next)
 })
 
 module.exports = router

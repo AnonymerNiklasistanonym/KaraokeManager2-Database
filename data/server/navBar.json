@@ -1,0 +1,25 @@
+{
+	"button": {
+		"icon": "account_circle",
+		"text": "Login/Register",
+		"url": "/account/action/login_register"
+	},
+	"loggedIn": false,
+	"sidebarLinks": [{
+			"isSubHeader": true,
+			"subHeader": "Actions"
+		},
+		{
+			"icon": "playlist_play",
+			"isIconLink": true,
+			"title": "Playlist",
+			"url": "#"
+		},
+		{
+			"icon": "playlist_add",
+			"isIconLink": true,
+			"title": "Songs",
+			"url": "#"
+		}
+	]
+}

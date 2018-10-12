@@ -29,6 +29,13 @@ const authorizationTimeMs = 1000 * 60 * 30
  */
 class LoginManager {
   /**
+   * @param {string} authorizedId
+   * @returns {string}
+   */
+  static getAuthorizedAccount (authorizedId) {
+    return registeredAccounts.get(authorizedId).accountId
+  }
+  /**
    * Extend authorization time
    * @param {string} authorizedId
    */
@@ -68,8 +75,8 @@ class LoginManager {
     do {
       tempId = PasswordHelper.generateSalt(512)
     } while (registeredAccounts.has(tempId))
-    registeredAccounts.set(tempId, accountId)
-    // TODO: Remove entries after a specific time to not kill RAM
+    registeredAccounts.set(tempId, { accountId })
+    this.extendAccountAuthorization(tempId)
 
     return tempId
   }
