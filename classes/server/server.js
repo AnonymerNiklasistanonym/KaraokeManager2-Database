@@ -162,7 +162,7 @@ app.use((err, req, res, next) => {
   // Error message to display
   res.locals.customError = {
     message: err.message,
-    stack: err.card,
+    stack: err.stack,
     status: errorStatus
   }
   // Links to other pages

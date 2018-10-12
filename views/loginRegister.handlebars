@@ -1,52 +1,70 @@
 {{!--
 Description:
 Login/Register page template (Needs materialize css, js)
+Post parameter ([Test regex here](https://regex101.com/)):
+- *account_id* (string) [Regex: `^\w{4,16}$`]
+- *account_password* (string) [Regex: `.{6,}`]
 --}}
 
-<div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
+{{!-- Center content vertically and horizontally --}}
+<div class="valign-wrapper" style="width:100%;min-height:100%;position: absolute;">
 	<div class="valign" style="width:100%;">
 
+		{{!-- Create a responsive materialize.css card --}}
 		<div class="container">
 			<div class="col s12 m10 l8 offset-s0 offset-m1 offset-l2 valign">
-
 				<div class="card">
-					<div class="card-content black-text">
-						<div class="row">
-							<span class="card-title">Login/Register</span>
-						</div>
+					<div class="card-content">
 
+						{{!-- Card title --}}
+						<span class="card-title">{{loginRegisterCard.title}}</span>
+
+						<br><br>
+
+						{{!-- Form: Account id + password input --}}
 						<form id="loginRegisterForm" class="valign" action="/account/action/login" method="post">
 							<div class="row">
+								{{!-- Account id input --}}
 								<div class="input-field col s12">
 									<i class="material-icons prefix">account_circle</i>
-									<input class="validate" id="input_account_id" name="account_id" placeholder="Your account id..." pattern="^\w{4,16}$"
-									 maxlength="16" title="The user name needs to be unique and at least 4 but maximal 16 characters long and contain only word characters (no spaces or /#*+...)"
-									 autocomplete="username" type="text" required>
-									<label for="input_account_id">Account id</label>
+									<input class="validate" id="input_account_id" name="account_id" placeholder="{{loginRegisterCard.accountIdInput.placeholder}}"
+									 pattern="{{loginRegisterCard.accountIdInput.pattern}}" maxlength="{{loginRegisterCard.accountIdInput.maxInputLength}}"
+									 title="{{loginRegisterCard.accountIdInput.patternWrongTitle}}" autocomplete="username" type="text" required>
+									<label for="input_account_id">{{loginRegisterCard.accountIdInput.title}}</label>
 								</div>
 							</div>
 							<div class="row">
+								{{!-- Password input --}}
 								<div class="input-field col s12">
 									<i class="material-icons prefix">vpn_key</i>
-									<input class="validate" id="input_account_password" name="account_password" placeholder="Your account password..."
-									 pattern=".{6,}" title="The password needs to be at least 6 characters long" autocomplete="current-password"
-									 type="password" required>
-									<label for="input_account_password">Password</label>
+									<input class="validate" id="input_account_password" name="account_password" placeholder="{{loginRegisterCard.accountPasswordInput.placeholder}}"
+									 pattern="{{loginRegisterCard.accountPasswordInput.pattern}}" title="{{loginRegisterCard.accountPasswordInput.patternWrongTitle}}"
+									 autocomplete="current-password" type="password" required>
+									<label for="input_account_password">{{loginRegisterCard.accountPasswordInput.title}}</label>
 								</div>
 							</div>
+							{{!-- Invisible submit input to allow submission on enter in any of the previous text input fields --}}
 							<input type="submit" style="display:none" />
 						</form>
 
 					</div>
+
+					{{!-- Card actions --}}
 					<div class="card-action">
-						<a id="loginAction" class="waves-effect waves-light btn-large blue"><i class="material-icons left">lock_open</i>Login</a>
-						<a id="registerAction" class="waves-effect waves-light btn-large blue"><i class="material-icons left">person_add</i>Register</a>
+						{{!-- Login action button --}}
+						<a id="loginAction" class="waves-effect waves-light btn-large {{theme.loginRegisterCard.loginButtonColor}}" style="margin-right: 15px">
+							<i class="material-icons left">lock_open</i>{{loginRegisterCard.loginButton.title}}
+						</a>
+						{{!-- Register action button --}}
+						<a id="registerAction" class="waves-effect waves-light btn-large {{theme.loginRegisterCard.registerButtonColor}}">
+							<i class="material-icons left">person_add</i>{{loginRegisterCard.registerButton.title}}
+						</a>
 					</div>
+
 				</div>
-
 			</div>
-		</div>
 
+		</div>
 	</div>
 </div>
 

@@ -11,7 +11,6 @@
 
 const API = require('../../classes/api/api')
 const ErrorPage = require('../../classes/server/errorPage')
-
 const configuration = require('../../classes/configuration/configuration')
 const express = require('express')
 const router = express.Router()
@@ -21,15 +20,36 @@ const router = express.Router()
  */
 router.get('/login_register', (req, res, next) => {
   if (API.checkIfLoggedIn(req.session.authorized)) {
-    // TODO - Redirect to logout page
-    res.locals.customLinks = ErrorPage.createErrorLinks([
-      { link: '/account/action/logout', text: 'Logout' }
-    ], true)
+    res.locals.customLinks = ErrorPage.createErrorLinks()
     next(Error('You are already logged in!'))
   } else {
     res.locals = { ...res.locals, ...configuration.getLocals() }
     res.render('loginRegister', {
       layout: 'materialize',
+      loginRegisterCard: {
+        accountIdInput: {
+          maxInputLength: 16,
+          pattern: '^\\w{4,16}$',
+          patternWrongTitle: 'The user name needs to be unique and at least 4 but maximal 16 characters long' +
+           'and contain only word characters (no spaces or /#*+...)',
+          placeholder: 'Your account id...',
+          title: 'Account id'
+        },
+        accountPasswordInput: {
+          maxInputLength: 6,
+          pattern: '^.{6,}',
+          patternWrongTitle: 'The password needs to be at least 6 characters long',
+          placeholder: 'Your account password...',
+          title: 'Password'
+        },
+        loginButton: {
+          title: 'Login'
+        },
+        registerButton: {
+          title: 'Register'
+        },
+        title: 'Login/Register'
+      },
       title: 'Login/Register'
     })
   }
@@ -40,15 +60,13 @@ router.get('/login_register', (req, res, next) => {
  */
 router.post('/login', (req, res, next) => {
   if (API.checkIfLoggedIn(req.session.authorized)) {
-    // TODO - Redirect to logout page
-    res.locals.customLinks = ErrorPage.createErrorLinks([
-      { link: '/account/action/logout', text: 'Logout' }
-    ], true)
+    res.locals.customLinks = ErrorPage.createErrorLinks()
     next(Error('You are already logged in!'))
   } else {
     API.login(req.body.account_id, req.body.account_password)
       .then(registeredId => {
         req.session.authorized = registeredId
+        req.session.account_id = req.body.account_id
         res.redirect('/')
       })
       .catch(next)
@@ -60,15 +78,13 @@ router.post('/login', (req, res, next) => {
  */
 router.post('/register', (req, res, next) => {
   if (API.checkIfLoggedIn(req.session.authorized)) {
-    // TODO - Redirect to logout page
-    res.locals.customLinks = ErrorPage.createErrorLinks([
-      { link: '/account/action/logout', text: 'Logout' }
-    ], true)
+    res.locals.customLinks = ErrorPage.createErrorLinks()
     next(Error('You are already logged in!'))
   } else {
     API.register(req.body.account_id, req.body.account_password)
       .then(registeredId => {
         req.session.authorized = registeredId
+        req.session.account_id = req.body.account_id
         res.redirect('/welcome')
       })
       .catch(err => {
@@ -92,8 +108,7 @@ router.post('/logout', (req, res, next) => {
   } else {
     API.logout(req.session.authorized)
     req.session.authorized = undefined
-    res.redirect('/birds/test')
-    // TODO - Redirect to home page
+    res.redirect('/')
   }
 })
 

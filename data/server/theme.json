@@ -25,6 +25,10 @@
 		},
 		"mainColor": "light-blue"
 	},
+	"loginRegisterCard": {
+		"loginButtonColor": "blue",
+		"registerButtonColor": "blue"
+	},
 	"navBar": {
 		"loginButtonColor": "orange",
 		"themeColor": "light-blue"

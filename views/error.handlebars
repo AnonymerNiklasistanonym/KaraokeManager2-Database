@@ -3,16 +3,23 @@ Description:
 Error page template (Needs materialize css, js)
 --}}
 
-<div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
+{{!-- Center content vertically and horizontally --}}
+<div class="valign-wrapper" style="width:100%;min-height:100%;position: absolute;">
 	<div class="valign" style="width:100%;">
 
+		{{!-- Create a responsive materialize.css card --}}
 		<div class="container">
 			<div class="col s10 m10 l10 offset-s1 offset-m1 offset-l1 valign">
 				<div class="card red darken-1">
 					<div class="card-content white-text">
+
+						{{!-- Big error title/message --}}
 						<span class="card-title">{{customError.message}}</span>
+
+						{{!-- Even bigger error status --}}
 						<h2>{{customError.status}}</h2>
 
+						{{!-- Links to other websites --}}
 						{{#if customLinks.hasLinks}}
 						{{#each customLinks.links}}
 						<a class="waves-effect waves-light btn-large white black-text" href="{{this.link}}"><i class="material-icons left">insert_link</i>{{this.text}}</a>
@@ -20,9 +27,11 @@ Error page template (Needs materialize css, js)
 						{{/each}}
 						{{/if}}
 
+						{{!-- Advanced error stack (development) --}}
 						{{#if displayError}}
 						<br><br>
 						<ul class="collapsible">
+							{{!-- Error stack --}}
 							<li>
 								<div class="collapsible-header white black-text">
 									<i class="material-icons">code</i>Error stack
@@ -33,6 +42,7 @@ Error page template (Needs materialize css, js)
 									</span>
 								</div>
 							</li>
+							{{!-- Used Parameters --}}
 							{{#if customBody.hasBody}}
 							<li>
 								<div class="collapsible-header white black-text">

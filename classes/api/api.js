@@ -101,7 +101,9 @@ class API {
    * @param {string} id Unique account name
    * @returns {Promise<import("./apiTypes").Account>} Promise with information object or error message
    */
-  static getAccount (id) {}
+  static getAccount (id) {
+    return DatabaseApi.getAccount(id)
+  }
   /**
    * Get artist information
    * @param {number} id Unique artist number

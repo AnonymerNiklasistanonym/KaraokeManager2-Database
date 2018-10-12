@@ -112,7 +112,15 @@ class DatabaseQueries {
         database.each(query, parameters,
           (err, row) => { err ? reject(err) : (requestedElement = row) },
           // @ts-ignore
-          (err, count) => { err ? reject(err) : resolve(requestedElement) })
+          (err, count) => {
+            if (err) {
+              reject(err)
+            } else if (count === 0) {
+              reject(Error('No results found!'))
+            } else {
+              resolve(requestedElement)
+            }
+          })
       })
       .catch(reject))
   }

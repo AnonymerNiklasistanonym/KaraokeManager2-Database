@@ -206,6 +206,7 @@ class DatabaseApi {
       'is_banned_comments, is_banned_entries, server_file_path_profile_picture, status ' +
       'FROM account WHERE id=?;', [name])
         .then(object => {
+          console.log(object)
           resolve({
             id: object.id,
             is_admin: object.is_admin === 1,

@@ -9,14 +9,20 @@
  * The routing paths for the route `/welcome`.
  */
 
+const API = require('../../classes/api/api')
 const express = require('express')
 const router = express.Router()
 
+/*
+ * Show features/options of this web app if logged in else redirect to login/register
+ */
 router.get('/', (req, res, next) => {
-  // Render the features of this website and what an account is able to do
-  res.render('loginRegister', {
-    layout: 'materialize'
-  })
+  if (API.checkIfLoggedIn(req.session.authorized)) {
+    // TODO: Render welcome page (modify template that explains features/options)
+    res.render('loginRegister', { layout: 'materialize' })
+  } else {
+    res.redirect('/account/action/login_register')
+  }
 })
 
 module.exports = router

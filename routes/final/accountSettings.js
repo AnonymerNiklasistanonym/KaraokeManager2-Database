@@ -9,20 +9,33 @@
  * The routing paths for the route `/account/settings`.
  */
 
+const API = require('../../classes/api/api')
 const express = require('express')
+
 const router = express.Router()
 
+/*
+ * If not logged in redirect to login/register else show settings page
+ */
 router.get('/', (req, res, next) => {
-  // If not logged in redirect to error message page
-  // Else render all the settings
-  res.sendStatus(200)
+  if (API.checkIfLoggedIn(req.session.authorized)) {
+    // TODO: Render account settings (create template)
+    res.sendStatus(200)
+  } else {
+    res.redirect('/account/action/login_register')
+  }
 })
 
-router.post('/configure/:id', (req, res, next) => {
-  // If not logged in redirect to error message page
-  // Else try to change/set setting
-  // If setting could not be changed redirect to settings page with error message
-  res.sendStatus(200)
+/*
+ * If not logged in redirect to login/register else handle settings configuration
+ */
+router.post('/configure/:event', (req, res, next) => {
+  if (API.checkIfLoggedIn(req.session.authorized)) {
+    // TODO: Handle account settings configuration
+    res.sendStatus(200)
+  } else {
+    res.redirect('/account/action/login_register')
+  }
 })
 
 module.exports = router
