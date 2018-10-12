@@ -25,7 +25,11 @@ class LoginRegister {
     const loginRegister = document.getElementById('loginRegisterForm')
     loginRegister.action = url
     if (submit) {
-      loginRegister.submit()
+      if (loginRegister.checkValidity()) {
+        loginRegister.submit()
+      } else {
+        loginRegister.reportValidity()
+      }
     }
   }
   static login (submit = false) {

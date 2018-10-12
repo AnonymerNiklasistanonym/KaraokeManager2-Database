@@ -22,8 +22,8 @@ const upload = multer({
 })
 
 // Define the home page route
-router.get('/', (req, res) => res.render('upload', {
-  layout: 'dropzone', csrfToken: true, xCsrfToken: '123XYZ' }))
+router.get('/', (req, res) => res.render('upload',
+  { csrfToken: true, layout: 'dropzone', xCsrfToken: '123XYZ' }))
 
 router.post('/image', upload.single('file'), (req, res, next) => {
   /**
@@ -35,9 +35,8 @@ router.post('/image', upload.single('file'), (req, res, next) => {
 
   // Check if uploaded file is an image or return error
   if (!fileRequestInfo.mimetype.startsWith('image/')) {
-    return res.status(422).json({
-      error: 'The uploaded file must be an image'
-    })
+    return res.status(422)
+      .json({ error: 'The uploaded file must be an image' })
   }
 
   // Get dimensions of the uploaded image
@@ -45,9 +44,8 @@ router.post('/image', upload.single('file'), (req, res, next) => {
 
   // Check if the image is at least 128x128 pixels big
   if ((dimensions.width < 128) || (dimensions.height < 128)) {
-    return res.status(422).json({
-      error: 'The image must be at least 128px x 128px'
-    })
+    return res.status(422)
+      .json({ error: 'The image must be at least 128px x 128px' })
   }
 
   fs.copyFile(`${fileRequestInfo.destination}\\${fileRequestInfo.filename}`,

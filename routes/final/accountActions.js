@@ -10,6 +10,8 @@
  */
 
 const API = require('../../classes/api/api')
+const ErrorPage = require('../../classes/server/errorPage')
+
 const configuration = require('../../classes/configuration/configuration')
 const express = require('express')
 const router = express.Router()
@@ -19,6 +21,10 @@ const router = express.Router()
  */
 router.get('/login_register', (req, res, next) => {
   if (API.checkIfLoggedIn(req.session.authorized)) {
+    // TODO - Redirect to logout page
+    res.locals.customLinks = ErrorPage.createErrorLinks([
+      { link: '/account/action/logout', text: 'Logout' }
+    ], true)
     next(Error('You are already logged in!'))
   } else {
     res.locals = { ...res.locals, ...configuration.getLocals() }
@@ -34,13 +40,16 @@ router.get('/login_register', (req, res, next) => {
  */
 router.post('/login', (req, res, next) => {
   if (API.checkIfLoggedIn(req.session.authorized)) {
+    // TODO - Redirect to logout page
+    res.locals.customLinks = ErrorPage.createErrorLinks([
+      { link: '/account/action/logout', text: 'Logout' }
+    ], true)
     next(Error('You are already logged in!'))
   } else {
     API.login(req.body.account_id, req.body.account_password)
       .then(registeredId => {
         req.session.authorized = registeredId
-        res.redirect('/birds/test')
-        // TODO - Redirect to custom home page
+        res.redirect('/')
       })
       .catch(next)
   }
@@ -51,15 +60,23 @@ router.post('/login', (req, res, next) => {
  */
 router.post('/register', (req, res, next) => {
   if (API.checkIfLoggedIn(req.session.authorized)) {
+    // TODO - Redirect to logout page
+    res.locals.customLinks = ErrorPage.createErrorLinks([
+      { link: '/account/action/logout', text: 'Logout' }
+    ], true)
     next(Error('You are already logged in!'))
   } else {
     API.register(req.body.account_id, req.body.account_password)
       .then(registeredId => {
         req.session.authorized = registeredId
-        res.redirect('/birds/test')
-        // TODO - Redirect to welcome page
+        res.redirect('/welcome')
       })
-      .catch(next)
+      .catch(err => {
+        res.locals.customLinks = ErrorPage.createErrorLinks([
+          { link: '/account/action/login_register', text: 'Login/Register' }
+        ], true)
+        next(err)
+      })
   }
 })
 
@@ -68,6 +85,9 @@ router.post('/register', (req, res, next) => {
  */
 router.post('/logout', (req, res, next) => {
   if (!API.checkIfLoggedIn(req.session.authorized)) {
+    res.locals.customLinks = ErrorPage.createErrorLinks([
+      { link: '/account/action/login_register', text: 'Login' }
+    ], true)
     next(Error('You are not logged in!'))
   } else {
     API.logout(req.session.authorized)

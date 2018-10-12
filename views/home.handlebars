@@ -1,15 +1,18 @@
 {{!--
 Description:
-Home body template
+Home body template (Search bar, Current Playlist)
 --}}
 
-{{!-- Uses built-in `if` helper. --}}
-{{#if showTitle}}
-<h1>Home</h1>
-{{/if}}
+{{> materialize_partial_nav_bar}}
 
-{{!-- Calls `foo` helper, overridden at render-level. --}}
-<p>{{foo}}</p>
+<main>
 
-{{!-- Calls `bar` helper, defined at instance-level. --}}
-<p>{{bar}}</p>
+{{> materialize_partial_search_bar}}
+
+{{> materialize_partial_list_playlist}}
+
+</main>
+
+{{> materialize_partial_fab}}
+
+{{> materialize_partial_footer}}

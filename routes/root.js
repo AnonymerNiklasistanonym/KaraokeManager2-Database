@@ -9,6 +9,7 @@
  * The root route of the server
  */
 
+const ErrorPage = require('../classes/server/errorPage')
 const express = require('express')
 const router = express.Router()
 
@@ -119,6 +120,9 @@ router.get('/type/status', (req, res) => {
 })
 
 router.get('/type/fail', (req, res, next) => {
+  res.locals.customLinks = ErrorPage.createErrorLinks([
+    { link: '/account/action/login_register', text: 'Go to login/register' }
+  ])
   const err = Error('FAIL')
   err.status = 500
   next(err)

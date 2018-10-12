@@ -1,36 +1,57 @@
-<div class="container">
-    <div class="row valign-wrapper">
-        <div class="col s10 m10 l10 offset-s1 offset-m1 offset-l1 valign">
-            <div class="card red darken-1">
-                <div class="card-content white-text">
-                    <span class="card-title">{{message}}</span>
-                    <h2>{{error.status}}</h2>
-                    {{#if displayError}}
-                    <ul class="collapsible">
-                        <li>
-                            <div class="collapsible-header white black-text">
-                                <i class="material-icons">code</i>Error stack
-                            </div>
-                            <div class="collapsible-body white black-text">
-                                <span>
-                                    <pre style="overflow-x:scroll">{{error.stack}}</pre>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="collapsible-header white black-text">
-                                <i class="material-icons">list</i>Request body
-                            </div>
-                            <div class="collapsible-body white black-text">
-                                <span>
-                                    <pre style="overflow-x:scroll">{{error.body}}</pre>
-                                </span>
-                            </div>
-                        </li>
-                    </ul>
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-    </div>
+{{!--
+Description:
+Error page template (Needs materialize css, js)
+--}}
+
+<div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
+	<div class="valign" style="width:100%;">
+
+		<div class="container">
+			<div class="col s10 m10 l10 offset-s1 offset-m1 offset-l1 valign">
+				<div class="card red darken-1">
+					<div class="card-content white-text">
+						<span class="card-title">{{customError.message}}</span>
+						<h2>{{customError.status}}</h2>
+
+						{{#if customLinks.hasLinks}}
+						{{#each customLinks.links}}
+						<a class="waves-effect waves-light btn-large white black-text" href="{{this.link}}"><i class="material-icons left">insert_link</i>{{this.text}}</a>
+						<br><br>
+						{{/each}}
+						{{/if}}
+
+						{{#if displayError}}
+						<br><br>
+						<ul class="collapsible">
+							<li>
+								<div class="collapsible-header white black-text">
+									<i class="material-icons">code</i>Error stack
+								</div>
+								<div class="collapsible-body white black-text">
+									<span>
+										<pre style="overflow-x:scroll">{{customError.stack}}</pre>
+									</span>
+								</div>
+							</li>
+							{{#if customBody.hasBody}}
+							<li>
+								<div class="collapsible-header white black-text">
+									<i class="material-icons">list</i>Request body
+								</div>
+								<div class="collapsible-body white black-text">
+									<span>
+										<pre><code class="language-json">{{customBody.body}}</code></pre>
+									</span>
+								</div>
+							</li>
+							{{/if}}
+						</ul>
+						{{/if}}
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
 </div>

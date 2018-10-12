@@ -31,6 +31,8 @@ const ServerHelper = require('./serverHelper')
 // Server > externalized router
 const root = require('../../routes/root')
 
+const ErrorPage = require('./errorPage')
+
 /*
  * Create express server (http/https)
  */
@@ -142,23 +144,38 @@ app.use('/dropzone', express.static('./node_modules/dropzone/dist/min/'))
 /*
  * Error catcher
  */
+
 // Catch every 404 and forward to the error handler
 app.use((req, res, next) => {
+  res.locals.customLinks = ErrorPage.createErrorLinks()
   const err = Error('Not Found')
+  // @ts-ignore
   err.status = 404
   next(err)
 })
 
+// All errors will end in here
 // @ts-ignore
 app.use((err, req, res, next) => {
-  res.locals.message = err.message + ` ("${req.url}")`
-  res.locals.jsonBody = JSON.stringify(req.body)
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
+  // Error status code to display/send
+  const errorStatus = err.status === undefined ? 500 : err.status
+  // Error message to display
+  res.locals.customError = {
+    message: err.message,
+    stack: err.card,
+    status: errorStatus
+  }
+  // Links to other pages
+  res.locals.customLinks = ErrorPage.getCustomLinks(res.locals.customLinks)
+  // Dev
   res.locals.displayError = req.app.get('env') === 'development'
-  res.status(err.status || 500)
+  res.locals.error = req.app.get('env') === 'development' ? err : {}
+  res.locals.customBody = ErrorPage.getCustomBody(req.body)
+  // **Send status** and render page
+  res.status(errorStatus)
     .render('error', {
       layout: 'materialize',
-      title: `Error ${err.status} - ${err.message}`
+      title: `${errorStatus} - ${err.message}`
     })
 })
 
