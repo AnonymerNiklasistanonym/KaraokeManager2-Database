@@ -31,6 +31,7 @@ const ServerHelper = require('./serverHelper')
 // Server > externalized router
 const root = require('../../routes/root')
 
+const configuration = require('../../classes/configuration/configuration')
 const ErrorPage = require('./errorPage')
 
 /*
@@ -171,6 +172,7 @@ app.use((err, req, res, next) => {
   res.locals.displayError = req.app.get('env') === 'development'
   res.locals.error = req.app.get('env') === 'development' ? err : {}
   res.locals.customBody = ErrorPage.getCustomBody(req.body)
+  res.locals = { ...res.locals, ...configuration.getLocals() }
   // **Send status** and render page
   res.status(errorStatus)
     .render('error', {

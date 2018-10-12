@@ -1,0 +1,38 @@
+{
+	"customBody": {
+		"body": "{\n  parameter: \"value\"\n}",
+		"hasBody": true
+	},
+	"customError": {
+		"message": "Error message",
+		"stack": "Error stack trace",
+		"status": 404
+	},
+	"customLinks": {
+		"hasLinks": true,
+		"links": [{
+				"link": "/",
+				"text": "Go to home page"
+			},
+			{
+				"link": "/account/action/login_register",
+				"text": "Login/Register"
+			}
+		]
+	},
+	"displayError": true,
+	"theme": {
+		"errorCard": {
+			"cardColor": "red darken-1",
+			"collapsible": {
+				"bgColor": "white",
+				"textColor": "black"
+			},
+			"customLinks": {
+				"buttonColor": "white",
+				"textColor": "black"
+			},
+			"textColor": "white"
+		}
+	}
+}

@@ -10,8 +10,8 @@ Error page template (Needs materialize css, js)
 		{{!-- Create a responsive materialize.css card --}}
 		<div class="container">
 			<div class="col s10 m10 l10 offset-s1 offset-m1 offset-l1 valign">
-				<div class="card red darken-1">
-					<div class="card-content white-text">
+				<div class="card {{theme.errorCard.cardColor}}">
+					<div class="card-content {{theme.errorCard.textColor}}-text">
 
 						{{!-- Big error title/message --}}
 						<span class="card-title">{{customError.message}}</span>
@@ -22,7 +22,7 @@ Error page template (Needs materialize css, js)
 						{{!-- Links to other websites --}}
 						{{#if customLinks.hasLinks}}
 						{{#each customLinks.links}}
-						<a class="waves-effect waves-light btn-large white black-text" href="{{this.link}}"><i class="material-icons left">insert_link</i>{{this.text}}</a>
+						<a class="waves-effect waves-light btn-large {{../theme.errorCard.customLinks.buttonColor}} {{../theme.errorCard.customLinks.textColor}}-text" href="{{this.link}}"><i class="material-icons left">insert_link</i>{{this.text}}</a>
 						<br><br>
 						{{/each}}
 						{{/if}}
@@ -33,10 +33,10 @@ Error page template (Needs materialize css, js)
 						<ul class="collapsible">
 							{{!-- Error stack --}}
 							<li>
-								<div class="collapsible-header white black-text">
+								<div class="collapsible-header {{theme.errorCard.collapsible.bgColor}} {{theme.errorCard.collapsible.textColor}}-text">
 									<i class="material-icons">code</i>Error stack
 								</div>
-								<div class="collapsible-body white black-text">
+								<div class="collapsible-body {{theme.errorCard.collapsible.bgColor}} {{theme.errorCard.collapsible.textColor}}-text">
 									<span>
 										<pre style="overflow-x:scroll">{{customError.stack}}</pre>
 									</span>
@@ -45,10 +45,10 @@ Error page template (Needs materialize css, js)
 							{{!-- Used Parameters --}}
 							{{#if customBody.hasBody}}
 							<li>
-								<div class="collapsible-header white black-text">
+								<div class="collapsible-header {{theme.errorCard.collapsible.bgColor}} {{theme.errorCard.collapsible.textColor}}-text">
 									<i class="material-icons">list</i>Request body
 								</div>
-								<div class="collapsible-body white black-text">
+								<div class="collapsible-body {{theme.errorCard.collapsible.bgColor}} {{theme.errorCard.collapsible.textColor}}-text">
 									<span>
 										<pre><code class="language-json">{{customBody.body}}</code></pre>
 									</span>
