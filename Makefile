@@ -35,6 +35,8 @@ clean : ;@echo "Clean ${PROJECT}....."; \
 	rm -rf http2; \
 	rm -rf dh; \
 	rm -rf uploads; \
+	rm -rf public/favicons; \
+	rm -rf public/pictures; \
 	rm -rf build; \
 	rm -rf database; \
 	rm -f database.db; \

@@ -9,7 +9,7 @@
 1. Install the latest version of [nodejs](https://nodejs.org/en/download/current/)
 2. Clone the directory via `git clone https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database.git`
 3. Run in the cloned directory `chmod +x setup.sh && ./setup.sh` to create a self signed certificate and dh parameter for the server (on Linux everything works, on Windows use WSL to do this)
-4. Run in the cloned directory `npm install`
+4. Run in the cloned directory `npm install` and `npm run createImages`
 5. Now start the server with `npm start`
 
 ## Setup via Makefile (`make`)
