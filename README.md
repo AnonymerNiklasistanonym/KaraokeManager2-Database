@@ -21,7 +21,7 @@
 
 ## Debug in [VisualStudioCode](https://code.visualstudio.com/)
 
-1. To not use infinite `console.log('...')` statements for debugging you can use a IDE like VSC for debugging
+1. To not use infinite `console.log('...')` statements for debugging you can use an IDE like VSC for debugging
 2. Open the directory in your VSC workspace
    - Either through your file explorer context menu (...*Open with Code Insiders* or something else)
    - Or open VSC, click `File`, click `Add Folder to Workspace` and select this directory
@@ -33,8 +33,8 @@
    - Inspect values of local and global variables
    - Watch variables
    - View call stack
-7. Since I found this I don't need to use console.log any more and can change my code on the fly :D
-8. Additional tip: If you click the terminal symbol next to the `Debug KaraokeManager2` you can still view console.log statements ;)
+7. Since I found this I don't need to use `console.log('...')` any more and can change my code on the fly :D
+8. Additional tip: If you click the terminal symbol next to the `Debug KaraokeManager2` you can still view the `console.log('...')` statements ;)
 
 ## Commands
 
