@@ -19,6 +19,23 @@
 3. Run in the cloned directory `make -f Makefile`
 4. Now start the server with `make -f Makefile server`
 
+## Debug in [VisualStudioCode](https://code.visualstudio.com/)
+
+1. To not use infinite `console.log('...')` statements for debugging you can use a IDE like VSC for debugging
+2. Open the directory in your VSC workspace
+   - Either through your file explorer context menu (...*Open with Code Insiders* or something else)
+   - Or open VSC, click `File`, click `Add Folder to Workspace` and select this directory
+3. In the side bar of VSC select the 3rd icon from the top (or the one that has a bug on it and displays the text `Debug (Ctrl+Shift+D)`)
+4. Normally you should now be able to use the `Debug KaraokeManager2` in the top selection box
+5. Select it and click the `Start Debugging` button (the triangle)
+6. Now you can
+   - Set breakpoints
+   - Inspect values of local and global variables
+   - Watch variables
+   - View call stack
+7. Since I found this I don't need to use console.log any more and can change my code on the fly :D
+8. Additional tip: If you click the terminal symbol next to the `Debug KaraokeManager2` you can still view console.log statements ;)
+
 ## Commands
 
 ### Production

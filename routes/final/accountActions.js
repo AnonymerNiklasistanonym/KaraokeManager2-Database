@@ -25,7 +25,7 @@ router.get('/login_register', (req, res, next) => {
   } else {
     res.locals = {
       ...res.locals,
-      ...Configuration.generalContent,
+      ...Configuration.generalContentClean,
       ...Configuration.loginRegisterContent
     }
     res.render('loginRegister', {
@@ -79,7 +79,7 @@ router.post('/register', (req, res, next) => {
 /*
  * Redirect if not logged in else try to log out the user
  */
-router.post('/logout', (req, res, next) => {
+router.get('/logout', (req, res, next) => {
   if (!API.checkIfLoggedIn(req.session.authorized)) {
     res.locals.customLinks = ErrorPage.createErrorLinks([
       { link: '/account/action/login_register', text: 'Login' }

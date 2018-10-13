@@ -1,12 +1,13 @@
 <div id="menuBig" class="fixed-action-btn">
     <a id="menu" class="btn-floating btn-large {{theme.fab.buttonColor}} {{#if fab.tooltip}}tooltipped{{/if}}"
-        {{#if fab.tooltip}} data-position="left" data-tooltip="{{fab.tooltipText}}" {{/if}}>
+        {{#if fab.tooltip}} data-position="left" data-tooltip="{{fab.tooltipText}}" {{/if}} href="{{fab
+        .link}}">
         <i class="large material-icons">{{fab.icon}}</i>
     </a>
     <ul>
         {{#each fab.actions}}
         <li><a class="btn-floating {{this.color}} {{#if this.tooltip}}tooltipped{{/if}}"
-                {{#if this.tooltip}} data-position="left" data-tooltip="{{this.tooltipText}}" {{/if}}><i class="material-icons">{{this.icon}}</i></a></li>
+                {{#if this.tooltip}} data-position="left" data-tooltip="{{this.tooltipText}}" {{/if}} href="{{this.link}}"><i class="material-icons">{{this.icon}}</i></a></li>
         {{/each}}
     </ul>
 </div>

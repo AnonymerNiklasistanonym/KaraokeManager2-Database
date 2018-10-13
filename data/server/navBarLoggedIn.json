@@ -8,13 +8,13 @@
 			"icon": "playlist_play",
 			"isIconLink": true,
 			"title": "Playlist",
-			"url": "#"
+			"url": "/playlist"
 		},
 		{
 			"icon": "playlist_add",
 			"isIconLink": true,
 			"title": "Songs",
-			"url": "#"
+			"url": "/songs"
 		},
 		{
 			"isDivider": true
@@ -27,13 +27,13 @@
 			"icon": "settings",
 			"isIconLink": true,
 			"title": "Settings",
-			"url": "#"
+			"url": "/account/action/settings"
 		},
 		{
 			"icon": "power_settings_new",
 			"isIconLink": true,
 			"title": "Logout",
-			"url": "#"
+			"url": "/account/action/logout"
 		}
 	]
 }

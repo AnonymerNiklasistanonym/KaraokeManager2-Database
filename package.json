@@ -16,7 +16,8 @@
     "jsdoc": "node_modules/.bin/jsdoc -c .jsdoc.json --verbose -R README.md classes",
     "typedoc": "node_modules/.bin/typedoc --options .typedoc.json --ignoreCompilerErrors",
     "createImages": "node ./classes/images/createImages.js",
-    "previews": "node ./classes/views/renderViews.js"
+    "previews": "node ./classes/views/renderViews.js",
+    "debug": "node --nolazy --inspect-brk=9229 index.js"
   },
   "repository": {
     "type": "git",

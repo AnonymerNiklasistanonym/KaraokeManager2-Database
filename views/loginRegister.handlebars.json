@@ -5,14 +5,20 @@
 			"pattern": "^\\w{4,16}$",
 			"patternWrongTitle": "The user name needs to be unique and at least 4 but maximal 16 characters long and contain only word characters (no spaces or /#*+...)",
 			"placeholder": "Your account id...",
-			"title": "Account id"
+			"title": "Account id",
+			"helperText": "Helper text account id",
+			"helperTextRight": "Helper text account id",
+			"helperTextWrong": "Helper text account id"
 		},
 		"accountPasswordInput": {
 			"maxInputLength": 6,
 			"pattern": "^.{6,}",
 			"patternWrongTitle": "The password needs to be at least 6 characters long",
 			"placeholder": "Your account password...",
-			"title": "Password"
+			"title": "Password",
+			"helperText": "Helper text password",
+			"helperTextRight": "Helper text password right",
+			"helperTextWrong": "Helper text password wrong"
 		},
 		"loginButton": {
 			"title": "Login"

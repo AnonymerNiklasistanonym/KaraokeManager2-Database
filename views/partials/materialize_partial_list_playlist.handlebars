@@ -1,0 +1,23 @@
+{{!--
+Description:
+Playlist element list
+--}}
+
+<div class="container">
+	<ul class="collection">
+		{{#each playlist.elements}}
+		<li class="collection-item avatar">
+			<a href="{{this.url}}">
+				<i class="material-icons circle {{#if
+				this.isVideo}}{{../theme.playlist.video.color}}{{else if
+				this.isAudio}}{{../theme.playlist.audio.color}}{{/if}}">{{#if
+					this.isVideo}}{{../theme.playlist.video.icon}}{{else if
+					this.isAudio}}{{../theme.playlist.audio.icon}}{{/if}}</i>
+			</a>
+			<span class="title">{{this.title}}</span>
+			<p>{{this.firstLine}}<br>{{this.secondLine}}</p>
+			<a href="{{this.url}}" class="secondary-content"><i class="material-icons">playlist_add</i></a>
+		</li>
+		{{/each}}
+	</ul>
+</div>

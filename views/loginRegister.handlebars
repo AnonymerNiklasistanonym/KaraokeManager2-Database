@@ -31,6 +31,7 @@ Post parameter ([Test regex here](https://regex101.com/)):
 									 pattern="{{loginRegisterCard.accountIdInput.pattern}}" maxlength="{{loginRegisterCard.accountIdInput.maxInputLength}}"
 									 title="{{loginRegisterCard.accountIdInput.patternWrongTitle}}" autocomplete="username" type="text" required>
 									<label for="input_account_id">{{loginRegisterCard.accountIdInput.title}}</label>
+									<span class="helper-text" data-error="{{loginRegisterCard.accountIdInput.helperTextWrong}}" data-success="{{loginRegisterCard.accountIdInput.helperTextRight}}">{{loginRegisterCard.accountIdInput.helperText}}</span>
 								</div>
 							</div>
 							<div class="row">
@@ -41,6 +42,7 @@ Post parameter ([Test regex here](https://regex101.com/)):
 									 pattern="{{loginRegisterCard.accountPasswordInput.pattern}}" title="{{loginRegisterCard.accountPasswordInput.patternWrongTitle}}"
 									 autocomplete="current-password" type="password" required>
 									<label for="input_account_password">{{loginRegisterCard.accountPasswordInput.title}}</label>
+									<span class="helper-text" data-error="{{loginRegisterCard.accountPasswordInput.helperTextWrong}}" data-success="{{loginRegisterCard.accountPasswordInput.helperTextRight}}">{{loginRegisterCard.accountPasswordInput.helperText}}</span>
 								</div>
 							</div>
 							{{!-- Invisible submit input to allow submission on enter in any of the previous text input fields --}}
@@ -52,11 +54,11 @@ Post parameter ([Test regex here](https://regex101.com/)):
 					{{!-- Card actions --}}
 					<div class="card-action">
 						{{!-- Login action button --}}
-						<a id="loginAction" class="waves-effect waves-light btn-large {{theme.loginRegisterCard.loginButtonColor}}" style="margin-right: 15px">
+						<a id="loginAction" class="waves-effect waves-light btn-large {{theme.loginRegisterCard.loginButtonColor}}" style="margin-right: 15px;margin-bottom: 15px">
 							<i class="material-icons left">lock_open</i>{{loginRegisterCard.loginButton.title}}
 						</a>
 						{{!-- Register action button --}}
-						<a id="registerAction" class="waves-effect waves-light btn-large {{theme.loginRegisterCard.registerButtonColor}}">
+						<a id="registerAction" class="waves-effect waves-light btn-large {{theme.loginRegisterCard.registerButtonColor}}" style="margin-right: 15px;margin-bottom: 15px">
 							<i class="material-icons left">person_add</i>{{loginRegisterCard.registerButton.title}}
 						</a>
 					</div>

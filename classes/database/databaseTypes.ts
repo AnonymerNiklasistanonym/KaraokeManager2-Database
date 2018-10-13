@@ -143,17 +143,23 @@ export interface IGetAccountCredentialsObject {
 }
 
 export interface IGetSongObject {
-author: string;
-date: number;
-description: string;
-id: number;
-link_spotify: string;
-link_youtube: string;
-local_file_path: string;
-lyrics: string;
-name: string;
-release_date: number;
-server_file_path: string;
-song_content_language: string;
-song_content_type: string;
+    author: string;
+    date: number;
+    description: string;
+    id: number;
+    link_spotify: string;
+    link_youtube: string;
+    local_file_path: string;
+    lyrics: string;
+    name: string;
+    release_date: number;
+    server_file_path: string;
+    song_content_language: string;
+    song_content_type: string;
+}
+
+export interface IGetSongObjectParsed extends IGetSongObject {
+    isAudio?: boolean;
+    isUndefined?: boolean;
+    isVideo?: boolean;
 }

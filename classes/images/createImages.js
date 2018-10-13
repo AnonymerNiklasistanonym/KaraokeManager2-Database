@@ -34,14 +34,14 @@ const createPngFavicons = (imagePathSvg, imagePathPng) => Promise.all(
  * @param {function(number):string} imagePathJpg
  */
 const createJpgAccountFg = (imagePathSvg, imagePathJpg) => Promise.all(
-  [64, 1000]
+  [64, 128, 256, 512, 1000]
     .map(size => ImageLibrary.convertSvgToJpg(imagePathSvg, imagePathJpg(size), { width: size, height: size })))
 /**
  * @param {string} imagePathSvg
  * @param {function(number[]):string} imagePathJpg
  */
 const createJpgAccountBg = (imagePathSvg, imagePathJpg) => Promise.all(
-  [[300, 176]]
+  [[300, 176], [600, 353], [1200, 706], [2400, 1412]]
     .map(size => ImageLibrary.convertSvgToJpg(imagePathSvg, imagePathJpg(size), { width: size[0], height: size[1] })))
 
 /**

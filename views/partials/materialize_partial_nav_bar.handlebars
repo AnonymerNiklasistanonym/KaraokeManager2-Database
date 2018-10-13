@@ -24,7 +24,7 @@ Materialize nav bar
             <div class="background">
                 <img src="{{navBar.account.bgPicture}}">
             </div>
-            <a href="#user"><img class="circle" src="{{navBar.account.profilePicture}}"></a>
+            <a href="#user"><img class="circle materialboxed" src="{{navBar.account.profilePicture}}" onclick='this.src="{{navBar.account.profilePictureBig}}"'></a>
             <a href="#name"><span class="white-text name">{{navBar.account.name}}</span></a>
             <a href="#email"><span class="white-text email">{{navBar.account.id}}</span></a>
         </div>

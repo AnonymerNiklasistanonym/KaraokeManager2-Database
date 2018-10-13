@@ -29,6 +29,8 @@ const accountsPath = path.join('accounts')
 const loginRegisterCard = ConfigurationReader.parseJsonData('loginRegister/card.json')
 // Fab button
 const fab = ConfigurationReader.parseJsonData('fab.json')
+// Playlist page
+const searchBar = ConfigurationReader.parseJsonData('playlist/searchBar.json')
 
 /**
  * Main configuration interface where all the important data can be got
@@ -36,6 +38,51 @@ const fab = ConfigurationReader.parseJsonData('fab.json')
  * @author AnonymerNiklasistanonym <https://github.com/AnonymerNiklasistanonym>
  */
 class Configuration {
+  /**
+   * Parse pagination object
+   * @param {number} currentPage
+   * @param {number} lastPage
+   * @param {string} baseLinkUrl
+   * @param {number} size
+   * @returns {{arrows:{left:{disabled:boolean,exists:boolean,link:string},right:{disabled:boolean,exists:boolean,link:string}},pages:{active:boolean,link:string,number:number}[]}}
+   */
+  static parsePagination (currentPage, lastPage, baseLinkUrl, size = 5) {
+    const pages = []
+    for (let index = 1; index < size + 1; index++) {
+      console.log('aha', index, currentPage, index === currentPage)
+      pages.push({
+        active: index === currentPage,
+        link: baseLinkUrl + index,
+        number: index
+      })
+    }
+
+    return {
+      arrows: {
+        left: {
+          disabled: currentPage === 1,
+          exists: true,
+          link: baseLinkUrl + (currentPage - 1)
+        },
+        right: {
+          disabled: currentPage === lastPage,
+          exists: true,
+          link: baseLinkUrl + (currentPage + 1)
+        }
+      },
+      pages
+    }
+  }
+  static parsePlaylistEntries (object) {
+    return {
+      firstLine: `by [add artists later]`,
+      isAudio: object.isAudio,
+      isVideo: object.isVideo,
+      secondLine: `added and supported by [add singer later]`,
+      title: `${object.name}`,
+      url: `/song/${object.id}/name`
+    }
+  }
   /**
    * @param {string} authorizedId
    */
@@ -49,11 +96,11 @@ class Configuration {
               ...navBarLoggedIn,
               ...accountObject,
               account: {
-                bgPicture: ['', accountsPath, accountObject.server_file_path_bg_picture + '_300x176.jpg'].join('/'),
+                bgPicture: ['', accountsPath, accountObject.server_file_path_bg_picture + '_600x353.jpg'].join('/'),
                 id: accountObject.id,
                 name: accountObject.name,
                 profilePicture: ['', accountsPath,
-                  accountObject.server_file_path_profile_picture + '_64x64.jpg'].join('/'),
+                  accountObject.server_file_path_profile_picture + '_128x128.jpg'].join('/'),
                 profilePictureBig: ['', accountsPath,
                   accountObject.server_file_path_profile_picture + '_1000x1000.jpg'].join('/')
               },
@@ -65,20 +112,29 @@ class Configuration {
       }
     })
   }
-  static get fabContent () {
-    return { fab }
-  }
   /**
    * Content that can be merged with `res.locals`
    */
   static get generalContent () {
-    return { applicationName, theme, footer }
+    return { applicationName, theme, footer, fab }
+  }
+  /**
+   * Content that can be merged with `res.locals`
+   */
+  static get generalContentClean () {
+    return { applicationName, theme }
   }
   /**
    * Content that can be merged with `res.locals`
    */
   static get welcomeContent () {
     return { banner: welcomeBanner, featureRow: welcomeFeatures }
+  }
+  /**
+   * Content that can be merged with `res.locals`
+   */
+  static get playlistContent () {
+    return { searchBar }
   }
   /**
    * Content that can be merged with `res.locals`

@@ -13,13 +13,13 @@
 			"icon": "playlist_play",
 			"isIconLink": true,
 			"title": "Playlist",
-			"url": "#"
+			"url": "/playlist"
 		},
 		{
 			"icon": "playlist_add",
 			"isIconLink": true,
 			"title": "Songs",
-			"url": "#"
+			"url": "/songs"
 		}
 	]
 }

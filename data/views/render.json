@@ -12,12 +12,23 @@
 				]
 			},
 			{
-				"findPath": "/materialize/",
+				"findPath": "/materialize/css/",
 				"replaceWith": [
 					"..",
 					"node_modules",
 					"materialize-css",
-					"dist"
+					"dist",
+					"css"
+				]
+			},
+			{
+				"findPath": "/materialize/js/",
+				"replaceWith": [
+					"..",
+					"node_modules",
+					"materialize-css",
+					"dist",
+					"abcdefgjs"
 				]
 			},
 			{
@@ -46,12 +57,19 @@
 					"css",
 					"style.css"
 				]
-			},{
+			}, {
 				"findPath": "/favicons/",
 				"replaceWith": [
 					"..",
 					"public",
 					"favicons"
+				]
+			},
+			{
+				"findPath": "abcdefgjs",
+				"replaceWith": [
+					"dist",
+					"js"
 				]
 			}
 		],
@@ -83,6 +101,16 @@
 			[
 				"partials",
 				"materialize_partial_pagination.handlebars"
+			],
+			[
+				"loginRegister.handlebars"
+			],
+			[
+				"error.handlebars"
+			],
+			[
+				"partials",
+				"materialize_partial_search_bar.handlebars"
 			]
 		]
 	},

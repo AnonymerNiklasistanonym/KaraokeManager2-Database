@@ -374,11 +374,28 @@ class DatabaseApi {
     })
   }
   /**
+   * Add type of content
+   * @param {import('./databaseTypes').IGetSongObject} object
+   * @returns {import('./databaseTypes').IGetSongObjectParsed}
+   */
+  static addIsTypeOfContent (object) {
+    // TODO implement database query for determining this
+    if (object.song_content_type === null || object.song_content_type === undefined) {
+      // TODO text: return { ...object, isUndefined: true }
+      return { ...object, isVideo: true }
+    }
+    if (object.song_content_type === 'VIDEO') {
+      return { ...object, isVideo: true }
+    } else if (object.song_content_type === 'AUDIO') {
+      return { ...object, isAudio: true }
+    }
+  }
+  /**
    * Get song list
    * @param {number} page Page number
    * @param {number} limit Song entry limit
    * @param {string} [searchQuery] Search query
-   * @returns {Promise<import('./databaseTypes').IGetSongObject[]>}
+   * @returns {Promise<import('./databaseTypes').IGetSongObjectParsed[]>}
    */
   static getSongs (page = 0, limit = 4, searchQuery) {
     let query = 'SELECT * FROM song '
@@ -389,7 +406,11 @@ class DatabaseApi {
     }
     data.push(limit, limit * page)
 
-    return DatabaseQueries.getAllRequest(query + 'LIMIT ? OFFSET ?;', data)
+    return new Promise((resolve, reject) =>
+      DatabaseQueries.getAllRequest(query + 'LIMIT ? OFFSET ?;', data)
+        .then(songs => songs.map(this.addIsTypeOfContent))
+        .then(resolve)
+        .catch(reject))
   }
   /**
    * Get song list pages
@@ -399,14 +420,15 @@ class DatabaseApi {
    */
   static getSongPages (limit = 4, searchQuery) {
     return new Promise((resolve, reject) => {
-      let query = 'SELECT count(*) FROM song'
+      let query = 'SELECT count(*) AS count FROM song'
       const data = []
       if (searchQuery !== undefined) {
         query += ' WHERE song LIKE ?'
         data.push(searchQuery)
       }
+      data.push(searchQuery)
       DatabaseQueries.getEachRequest(query + ';', data)
-        .then(result => { resolve(result / limit) })
+        .then(result => { resolve(Math.round(result.count / limit)) })
         .catch(reject)
     })
   }

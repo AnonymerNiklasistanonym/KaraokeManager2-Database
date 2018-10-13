@@ -44,6 +44,16 @@
 		"loginButtonColor": "orange",
 		"themeColor": "light-blue"
 	},
+	"playlist": {
+		"audio": {
+			"color": "blue",
+			"icon": "music_note"
+		},
+		"video": {
+			"color": "red",
+			"icon": "movie"
+		}
+	},
 	"search": {
 		"artist": {
 			"color": "green",

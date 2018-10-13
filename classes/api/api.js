@@ -119,10 +119,26 @@ class API {
   /**
    * Get playlist information
    * @param {number} page Page number
-   * @param {boolean} old Old or current playlist entries
-   * @returns {Promise<import("./apiTypes").Playlist>} Promise with information object or error message
+   * @param {number} limit Maximum entries to send back
+   * @param {boolean} old Old or current playlist entries > TODO
+   * @returns {Promise<import("./apiTypesFinal").IPlaylist>} Promise with information object or error message
    */
-  static getPlaylist (page = 0, old = false) {}
+  static getPlaylist (page = 0, limit = 10, old = false) {
+    // TODO change later to playlist entries
+    return new Promise((resolve, reject) =>
+      Promise.all([
+        DatabaseApi.getSongs(page, limit),
+        DatabaseApi.getSongPages(limit)
+      ])
+        .then(results =>
+          resolve({
+            elements: results[0],
+            limit,
+            page,
+            pages: results[1]
+          }))
+        .catch(reject))
+  }
   /**
    * Get playlist entry information
    * @param {number} id Unique playlist entry number

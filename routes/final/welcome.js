@@ -24,7 +24,6 @@ router.get('/', (req, res, next) => {
         ...res.locals,
         ...Configuration.generalContent,
         ...Configuration.welcomeContent,
-        ...Configuration.fabContent,
         navBar
       }
       res.render('welcome', { layout: 'materialize', title: 'Welcome :)' })

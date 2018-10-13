@@ -21,9 +21,12 @@ const upload = require('./upload')
 
 const account = require('./final/account')
 const welcome = require('./final/welcome')
+const playlist = require('./final/playlist')
 
-// Respond with "hello world" when a GET request is made to the homepage
-router.get('/', (req, res) => res.send('hello world'))
+/*
+ * Show features/options of this web app if logged in else redirect to login/register
+ */
+router.get('/', (req, res, next) => { res.redirect('/playlist') })
 
 // GET method route
 router.get('/get', (req, res) => res.send('GET request'))
@@ -145,5 +148,6 @@ router.use('/upload', upload)
 
 router.use('/account', account)
 router.use('/welcome', welcome)
+router.use('/playlist', playlist)
 
 module.exports = router

@@ -1,32 +1,38 @@
 {
 	"fab": {
-		"highlightText": {
-			"title": "Highlight text",
-			"content": "Highlight content"
-		},
-		"tooltip": true,
-		"tooltipText": "Tooltip",
-		"icon": "add",
 		"actions": [{
 				"color": "blue",
+				"icon": "mode_edit",
+				"link": "#",
 				"tooltip": true,
-				"tooltipText": "Another tooltip",
-				"icon": "mode_edit"
+				"tooltipText": "Another tooltip"
 			},
 			{
 				"color": "yellow darken-1",
-				"icon": "format_quote"
+				"icon": "format_quote",
+				"link": "#"
 			},
 			{
 				"color": "green",
-				"icon": "publish"
-			}, {
+				"icon": "publish",
+				"link": "#"
+			},
+			{
 				"color": "purple",
+				"icon": "attach_file",
+				"link": "#",
 				"tooltip": true,
-				"tooltipText": "Another tooltip 2",
-				"icon": "attach_file"
+				"tooltipText": "Another tooltip 2"
 			}
-		]
+		],
+		"highlightText": {
+			"content": "Highlight content",
+			"title": "Highlight text"
+		},
+		"icon": "add",
+		"link": "#",
+		"tooltip": true,
+		"tooltipText": "Tooltip"
 	},
 	"theme": {
 		"fab": {

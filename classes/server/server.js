@@ -174,7 +174,7 @@ app.use((err, req, res, next) => {
   res.locals.customBody = ErrorPage.getCustomBody(req.body)
   res.locals = {
     ...res.locals,
-    ...Configuration.generalContent
+    ...Configuration.generalContentClean
   }
 
   // **Send status** and render page

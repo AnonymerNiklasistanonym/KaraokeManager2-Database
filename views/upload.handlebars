@@ -1,102 +1,11 @@
-<!-- http://www.sitepoint.com/file-upload-form-express-dropzone-js/ -->
+{{!-- http://www.sitepoint.com/file-upload-form-express-dropzone-js/ --}}
 <form id="uploadWidget" method="post" action="/upload/image" class="dropzone">
     <div class="fallback">
         <input name="file" type="file" />
     </div>
+    {{!-- Hidden input for token --}}
+    <input type="hidden" id="token" value="{{xCsrfToken}}">
 </form>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-    Dropzone.options.uploadWidget = {
-    paramName: 'file',
-    maxFilesize: 3, // MB
-    dictDefaultMessage: 'Drag an image here to set a new profile picture, or click to select one',
-    headers: {
-        'x-csrf-token': '{{xCsrfToken}}'
-    },
-    acceptedFiles: 'image/*',
-    init: function () {
-        const blub = Dropzone.forElement("#uploadWidget")
-
-        console.log('never executed, ... yay')
-        blub.on('thumbnail', (file, dataUrl) => {
-            if (file.rejectDimensions !== undefined || file.acceptDimensions !== undefined) {
-      // Do the dimension checks you want to do
-      const maxImageWidth = 128
-      const maxImageHeight = 128
-      if (file.width > maxImageWidth || file.height > maxImageHeight) {
-        file.rejectDimensions()
-      }
-      else {
-        file.acceptDimensions();
-      }
-  }            console.log("Thumbnail generated", file, dataUrl)
-        })
-        blub.on("drop", (event) => { console.log("Drop", event) })
-    blub.on("dragenter", (event) => { console.log("Dragenter", event) })
-    blub.on("dragleave", (event) => { console.log("Dragleave", event) })
-    blub.on("addedfile", (file) => { console.log("Added file", file) })
-    blub.on("removedfile", (file) => { console.log("Removed file", file) })
-    blub.on("sending", (file, xhrObject, formData) => {
-        console.log("Sending file", file, xhrObject, formData)
-        // Will send the filesize along with the file as POST data.
-        formData.append("filesize", file.size);
-    })
-    blub.on("success", (file, serverResponse) => { console.log("Success", serverResponse) })
-    blub.on("uploadprogress", (file, progress, bytesSent) => { console.log("Upload progress", file, progress, bytesSent) })
-    blub.on("error", (file, errorMessage) => { console.log("Error", file, errorMessage) })
-    blub.on("processing", (file, progress) => { console.log("Processing", file) })
-    },
-    accept: function (file, done) {
-        file.acceptDimensions = done
-        file.rejectDimensions = () => {
-            done('The image must be at least 128 x 128')
-        }
-    }
-}
-Dropzone.options.uploadWidget.init()
-    })
-</script>
-<!--
-<script>
-// Init & load
-document.addEventListener('DOMContentLoaded', () => {
-    // "myAwesomeDropzone" is the camelized version of the HTML element's ID
-    console.log('key')
-    // var myDropzone = new Dropzone("div#myId", { url: "/file/post"});
-    // myDropzone.on("complete", function(file) { myDropzone.removeFile(file); });
-Dropzone.options.mydropzone = {
-  paramName: "file", // The name that will be used to transfer the file
-  maxFilesize: 2, // MB
-  accept: (file, done) => {
-    if (file.name == "justinbieber.jpg") {
-      done("Naha, you don't.")
-    } else {
-         done()
-    }
-  },
-  init: function() {
-      console.log('ok...')
-      console.log(this)
-      mydropzone = this;
-    this.on("drop", (event) => { console.log("Drop", event) })
-    this.on("dragenter", (event) => { console.log("Dragenter", event) })
-    this.on("dragleave", (event) => { console.log("Dragleave", event) })
-    this.on("addedfile", (file) => { console.log("Added file", file) })
-    this.on("removedfile", (file) => { console.log("Removed file", file) })
-    this.on("sending", (file, xhrObject, formData) => {
-        console.log("Sending file", file, xhrObject, formData)
-        // Will send the filesize along with the file as POST data.
-        formData.append("filesize", file.size);
-    })
-    this.on("success", (file, serverResponse) => { console.log("Success", serverResponse) })
-    this.on("uploadprogress", (file, progress, bytesSent) => { console.log("Upload progress", file, progress, bytesSent) })
-    this.on("error", (file, errorMessage) => { console.log("Error", file, errorMessage) })
-    this.on("thumbnail", (file, dataUrl) => { console.log("Thumbnail generated", file, dataUrl) })
-    this.on("processing", (file, progress) => { console.log("Processing", file) })
-  }
-}
-Dropzone.options.mydropzone.init();
-})
-</script>-->
+{{!-- Special script to handle dropzone --}}
+<script src="/js/dropzone.js"></script>

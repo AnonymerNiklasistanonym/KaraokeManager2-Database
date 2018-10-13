@@ -1,0 +1,38 @@
+{
+	"playlist": {
+		"elements": [{
+				"firstLine": "result1 artist",
+				"isAudio": true,
+				"secondLine": "result1 info",
+				"title": "result1 title",
+				"url": "#"
+			},
+			{
+				"firstLine": "result2 artist",
+				"isVideo": true,
+				"secondLine": "result2 info",
+				"title": "result2 title",
+				"url": "#"
+			},
+			{
+				"firstLine": "result3 artist",
+				"isVideo": true,
+				"secondLine": "result3 info",
+				"title": "result3 title",
+				"url": "#"
+			}
+		]
+	},
+	"theme": {
+		"playlist": {
+			"audio": {
+				"color": "blue",
+				"icon": "music_note"
+			},
+			"video": {
+				"color": "red",
+				"icon": "movie"
+			}
+		}
+	}
+}

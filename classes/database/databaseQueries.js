@@ -116,7 +116,11 @@ class DatabaseQueries {
             if (err) {
               reject(err)
             } else {
-              resolve(requestedElement)
+              if (requestedElement === undefined) {
+                reject(Error('No entry found!'))
+              } else {
+                resolve(requestedElement)
+              }
             }
           })
       })
