@@ -19,9 +19,11 @@ const router = express.Router()
  * Display current playlist entries
  */
 router.get('/', (req, res, next) => {
+
+  const pageNumber = isNaN(Number(req.query.page)) ? undefined : Number(req.query.page)
   Promise.all([
     Configuration.generateNavBarContent(req.session.authorized),
-    API.getPlaylist(req.query.page)
+    API.getSongList(pageNumber)
   ])
     .then(navBarPlaylistEntries => {
       res.locals = {

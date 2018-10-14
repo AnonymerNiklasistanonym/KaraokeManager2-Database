@@ -69,15 +69,14 @@ class API {
     })
   }
   /**
-   * Log out a registered account
+   * Log out a registered account by authorized id
    * @param {string} authorizedId
+   * @returns {void}
    */
   static logout (authorizedId) {
-    if (authorizedId === undefined) {
-      return false
+    if (authorizedId !== undefined) {
+      return LoginManager.removeAuthorizedAccount(authorizedId)
     }
-
-    return LoginManager.removeAuthorizedAccount(authorizedId)
   }
   /**
    * Check if the authorized id is registered
@@ -87,19 +86,14 @@ class API {
   static checkIfLoggedIn (authorizedId) {
     if (authorizedId === undefined) {
       return false
+    } else {
+      return LoginManager.checkIfAccountAuthorized(authorizedId)
     }
-
-    return LoginManager.checkIfAccountAuthorized(authorizedId)
   }
-  /**
-   * Get 'Create table' SQLite queries
-   * @returns {Promise<boolean>} Which resolves with an string array of SQLite queries
-   */
-  static get setupSQLiteTablesQueries () {}
   /**
    * Get account information
    * @param {string} id Unique account name
-   * @returns {Promise<import("./apiTypes").Account>} Promise with information object or error message
+   * @returns {Promise<import("./apiTypesFinal").IAccount>} Promise with information object or error message
    */
   static getAccount (id) {
     return DatabaseApi.getAccount(id)
@@ -107,23 +101,19 @@ class API {
   /**
    * Get artist information
    * @param {number} id Unique artist number
-   * @returns {Promise<import("./apiTypes").Artist>} Promise with information object or error message
+   * @returns {Promise<import("./apiTypesFinal").IArtist>} Promise with information object or error message
    */
-  static getArtist (id) {}
+  static getArtist (id) {
+    return DatabaseApi.getArtist(id)
+  }
   /**
-   * Get image album information
-   * @param {number} id Unique image album number
-   * @returns {Promise<import("./apiTypes").ImageAlbum>} Promise with information object or error message
-   */
-  static getImageAlbum (id) {}
-  /**
-   * Get playlist information
+   * Get song list
    * @param {number} page Page number
    * @param {number} limit Maximum entries to send back
    * @param {boolean} old Old or current playlist entries > TODO
-   * @returns {Promise<import("./apiTypesFinal").IPlaylist>} Promise with information object or error message
+   * @returns {Promise<import("./apiTypesFinal").ISongList>} Promise with information object or error message
    */
-  static getPlaylist (page = 0, limit = 10, old = false) {
+  static getSongList (page = 1, limit = 10, old = false) {
     // TODO change later to playlist entries
     return new Promise((resolve, reject) =>
       Promise.all([
@@ -139,6 +129,12 @@ class API {
           }))
         .catch(reject))
   }
+  /**
+   * Get image album information
+   * @param {number} id Unique image album number
+   * @returns {Promise<import("./apiTypes").ImageAlbum>} Promise with information object or error message
+   */
+  static getImageAlbum (id) {}
   /**
    * Get playlist entry information
    * @param {number} id Unique playlist entry number

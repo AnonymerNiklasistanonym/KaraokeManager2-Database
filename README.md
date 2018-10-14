@@ -59,7 +59,7 @@ Calculated using the tool [`cost-of-modules`](https://github.com/siddharthkp/cos
 
 name | children | size | version | latest version
 ---- | -------- | ---- | ------- | --------------
-jimp | 123 | [![install size](https://packagephobia.now.sh/badge?p=jimp)](https://packagephobia.now.sh/result?p=jimp) | 0.5.3 | [![latest-version-jimp](https://badge.fury.io/js/jimp.svg)](https://www.npmjs.com/package/jimp)
+jimp | 123 | [![install size](https://packagephobia.now.sh/badge?p=jimp)](https://packagephobia.now.sh/result?p=jimp) | 0.5.4 | [![latest-version-jimp](https://badge.fury.io/js/jimp.svg)](https://www.npmjs.com/package/jimp)
 sqlite3 | 124 | [![install size](https://packagephobia.now.sh/badge?p=sqlite3)](https://packagephobia.now.sh/result?p=sqlite3) | 4.0.2 | [![latest-version-sqlite3](https://badge.fury.io/js/sqlite3.svg)](https://www.npmjs.com/package/sqlite3)
 express-handlebars | 31 | [![install size](https://packagephobia.now.sh/badge?p=express-handlebars)](https://packagephobia.now.sh/result?p=express-handlebars) | 3.0.0 | [![latest-version-express-handlebars](https://badge.fury.io/js/express-handlebars.svg)](https://www.npmjs.com/package/express-handlebars)
 express-minify-html | 18 | [![install size](https://packagephobia.now.sh/badge?p=express-minify-html)](https://packagephobia.now.sh/result?p=express-minify-html) | 0.12.0 | [![latest-version-express-minify-html](https://badge.fury.io/js/express-minify-html.svg)](https://www.npmjs.com/package/express-minify-html)

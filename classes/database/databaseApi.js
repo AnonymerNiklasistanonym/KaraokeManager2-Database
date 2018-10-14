@@ -375,30 +375,122 @@ class DatabaseApi {
   }
   /**
    * Add type of content
-   * @param {import('./databaseTypes').IGetSongObject} object
-   * @returns {import('./databaseTypes').IGetSongObjectParsed}
+   * @param {import('./databaseTypes').IGetSongObjectDatabase3} object
+   * @returns {import('./databaseTypes').IGetSongObjectDatabase}
    */
   static addIsTypeOfContent (object) {
-    // TODO implement database query for determining this
-    if (object.song_content_type === null || object.song_content_type === undefined) {
-      // TODO text: return { ...object, isUndefined: true }
-      return { ...object, isVideo: true }
+    if (object.songContentTypes === null || object.songContentTypes === undefined) {
+      throw Error('Content type not defined!')
     }
-    if (object.song_content_type === 'VIDEO') {
-      return { ...object, isVideo: true }
-    } else if (object.song_content_type === 'AUDIO') {
-      return { ...object, isAudio: true }
+    const isVideo = object.songContentTypes.find(a => a.name === 'Video') !== undefined
+    const isAudio = object.songContentTypes.find(a => a.name === 'Audio') !== undefined
+    const isUnknown = object.songContentTypes.find(a => a.name === 'Unknown') !== undefined
+
+    return { ...object, isVideo, isAudio, isUnknown }
+  }
+  /**
+   * Clean database song results
+   * @param {import('./databaseTypes').IGetSongObjectDatabase1} object
+   * @returns {import('./databaseTypes').IGetSongObjectDatabase2}
+   */
+  static cleanSongResultsExternalizeSubObjects (object) {
+    return {
+      artist: {
+        author: object.artistAuthor,
+        date: object.artistDate,
+        description: object.artistDescription,
+        id: object.artistId,
+        linkSpotify: object.artistLinkSpotify,
+        linkYouTube: object.artistLinkYouTube,
+        name: object.artistName,
+        serverFilePathArtistPicture: object.artistServerFilePathArtistPicture
+      },
+      author: object.songAuthor,
+      contentLanguage: object.songContentLanguage,
+      contentType: object.songContentType,
+      date: object.songDate,
+      description: object.songDescription,
+      id: object.songId,
+      linkSpotify: object.songLinkSpotify,
+      linkYouTube: object.songLinkYouTube,
+      name: object.songName,
+      releaseDate: object.songReleaseDate,
+      serverFilePath: object.songServerFilePath,
+      songContentType: {
+        author: object.songContentTypeAuthor,
+        date: object.songContentTypeDate,
+        description: object.songContentTypeDescription,
+        id: object.songContentTypeId,
+        name: object.songContentTypeName
+      }
     }
+  }
+  /**
+   * Clean database song results
+   * @param {import('./databaseTypes').IGetSongObjectDatabase2[]} objectArray
+   * @returns {import('./databaseTypes').IGetSongObjectDatabase3[]}
+   */
+  static cleanSongResultsMergeArtists (objectArray) {
+    // Push all results to a set to get the unique songs
+    const uniqueSongIds = new Set()
+    objectArray.forEach(element => { uniqueSongIds.add(element.id) })
+    const uniqueArtistIds = new Set()
+    objectArray.forEach(element => { uniqueArtistIds.add(element.artist.id) })
+    const uniqueSongContentTypeIds = new Set()
+    objectArray.forEach(element => { uniqueSongContentTypeIds.add(element.songContentType.id) })
+
+    const uniqueArtists = Array.from(uniqueArtistIds)
+      .map(uniqueArtistId => objectArray.find(song => song.artist.id === uniqueArtistId))
+    const uniqueSongContentTypes = Array.from(uniqueSongContentTypeIds)
+      .map(uniqueArtistId => objectArray.find(song => song.songContentType.id === uniqueArtistId))
+
+    // Add song information and artists
+    return Array.from(uniqueSongIds)
+      .map(uniqueSongId => {
+        // Get song information
+        const songInfo = objectArray.find(song => song.id === uniqueSongId)
+        // Create new artists element that has all artists in it
+        const artists = uniqueArtists
+          .filter(song => song.id === uniqueSongId)
+          .map(song => song.artist)
+        // Create new song content types element that has all content types in it
+        const songContentTypes = uniqueSongContentTypes
+          .filter(song => song.id === uniqueSongId)
+          .map(song => song.songContentType)
+
+        return { ...songInfo, artists, songContentTypes }
+      })
   }
   /**
    * Get song list
    * @param {number} page Page number
    * @param {number} limit Song entry limit
    * @param {string} [searchQuery] Search query
-   * @returns {Promise<import('./databaseTypes').IGetSongObjectParsed[]>}
+   * @returns {Promise<import('./databaseTypes').IGetSongObjectDatabase[]>}
    */
   static getSongs (page = 0, limit = 4, searchQuery) {
-    let query = 'SELECT * FROM song '
+    let query = 'SELECT '
+    query += [
+      'song.author AS songAuthor', 'song.song_content_language AS songContentLanguage',
+      'song.song_content_type AS songContentType', 'song.date AS songDate',
+      'song.description AS songDescription', 'song.id AS songId',
+      'song.link_spotify AS songLinkSpotify', 'song.link_youtube AS songLinkYouTube',
+      'song.name AS songName', 'song.release_date AS songReleaseDate',
+      'song.server_file_path AS songServerFilePath', ''
+    ].join(', ')
+    query += [
+      'artist.author AS artistAuthor', 'artist.date AS artistDate',
+      'artist.description AS artistDescription', 'artist.id AS artistId',
+      'artist.link_spotify AS artistLinkSpotify', 'artist.link_youtube AS artistLinkYouTube',
+      'artist.name AS artistName',
+      'artist.server_file_path_artist_picture AS artistServerFilePathArtistPicture', ''
+    ].join(', ')
+    query += [
+      'song_content_type.author AS songContentTypeAuthor', 'song_content_type.date AS songContentTypeDate',
+      'song_content_type.id AS songContentTypeId', 'song_content_type.name AS songContentTypeName',
+      'song_content_type.description AS songContentTypeDescription', ''
+    ].join(', ')
+    query += '* FROM song '
     const data = []
     if (searchQuery !== undefined) {
       query += 'WHERE song LIKE ? '
@@ -406,8 +498,20 @@ class DatabaseApi {
     }
     data.push(limit, limit * page)
 
+    // Inner joins to get song content type, artists
+    query += 'INNER JOIN song_content_type ON song.song_content_type = song_content_type.id '
+    query += 'INNER JOIN song_tag_artist ON song.id = song_tag_artist.song '
+    query += 'INNER JOIN artist ON song_tag_artist.artist = artist.id '
+
+    // The result will now be a row for each song/artist combination and all data is one object
+    // This means we need to tidy things up to get a cleaner result with arrays and such things
     return new Promise((resolve, reject) =>
       DatabaseQueries.getAllRequest(query + 'LIMIT ? OFFSET ?;', data)
+        // Externalize artist object from song object
+        .then(songs => songs.map(this.cleanSongResultsExternalizeSubObjects))
+        // Merge artists to the same song
+        .then(songs => this.cleanSongResultsMergeArtists(songs))
+        // At last add handlebars medium content type Info
         .then(songs => songs.map(this.addIsTypeOfContent))
         .then(resolve)
         .catch(reject))

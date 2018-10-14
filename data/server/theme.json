@@ -52,6 +52,10 @@
 		"video": {
 			"color": "red",
 			"icon": "movie"
+		},
+		"unknown": {
+			"color": "grey",
+			"icon": "not_interested"
 		}
 	},
 	"search": {

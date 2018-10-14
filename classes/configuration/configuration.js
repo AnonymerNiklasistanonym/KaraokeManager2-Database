@@ -48,8 +48,18 @@ class Configuration {
    */
   static parsePagination (currentPage, lastPage, baseLinkUrl, size = 5) {
     const pages = []
-    for (let index = 1; index < size + 1; index++) {
-      console.log('aha', index, currentPage, index === currentPage)
+    // Always try to make the active page in the middle
+    // Exceptions are the first and last three places
+    let paginationBeginIndex
+    if (currentPage <= 3) {
+      paginationBeginIndex = 1
+    } else if (currentPage >= lastPage - 3) {
+      paginationBeginIndex = lastPage - size
+    } else {
+      paginationBeginIndex = currentPage - Math.floor(size / 2)
+    }
+
+    for (let index = paginationBeginIndex; index <= paginationBeginIndex + size; index++) {
       pages.push({
         active: index === currentPage,
         link: baseLinkUrl + index,
@@ -62,12 +72,12 @@ class Configuration {
         left: {
           disabled: currentPage === 1,
           exists: true,
-          link: baseLinkUrl + (currentPage - 1)
+          link: currentPage === 1 ? 'javascript:void(0);' : baseLinkUrl + (currentPage - 1)
         },
         right: {
           disabled: currentPage === lastPage,
           exists: true,
-          link: baseLinkUrl + (currentPage + 1)
+          link: currentPage === lastPage ? 'javascript:void(0);' : baseLinkUrl + (currentPage + 1)
         }
       },
       pages
@@ -75,8 +85,9 @@ class Configuration {
   }
   static parsePlaylistEntries (object) {
     return {
-      firstLine: `by [add artists later]`,
+      firstLine: `by ${object.artists.map(a => a.name).join(', ')} [${object.songContentTypes.map(a => a.name).join(', ')}]`,
       isAudio: object.isAudio,
+      isUnknown: object.isUnknown,
       isVideo: object.isVideo,
       secondLine: `added and supported by [add singer later]`,
       title: `${object.name}`,

@@ -10,9 +10,11 @@ Playlist element list
 			<a href="{{this.url}}">
 				<i class="material-icons circle {{#if
 				this.isVideo}}{{../theme.playlist.video.color}}{{else if
-				this.isAudio}}{{../theme.playlist.audio.color}}{{/if}}">{{#if
+				this.isAudio}}{{../theme.playlist.audio.color}}{{else if
+				this.isUnknown}}{{../theme.playlist.unknown.color}}{{/if}}">{{#if
 					this.isVideo}}{{../theme.playlist.video.icon}}{{else if
-					this.isAudio}}{{../theme.playlist.audio.icon}}{{/if}}</i>
+					this.isAudio}}{{../theme.playlist.audio.icon}}{{else if
+					this.isUnknown}}{{../theme.playlist.unknown.icon}}{{/if}}</i>
 			</a>
 			<span class="title">{{this.title}}</span>
 			<p>{{this.firstLine}}<br>{{this.secondLine}}</p>

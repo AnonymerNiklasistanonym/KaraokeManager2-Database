@@ -136,7 +136,9 @@ class DatabaseQueries {
     return new Promise((resolve, reject) => this.databaseWrapper(true)
       .then(database => database.all(query, parameters,
         // @ts-ignore
-        (err, rows) => { err ? reject(err) : resolve(rows) }))
+        (err, rows) => {
+          err ? reject(err) : resolve(rows)
+        }))
       .catch(reject))
   }
   /**

@@ -163,3 +163,79 @@ export interface IGetSongObjectParsed extends IGetSongObject {
     isUndefined?: boolean;
     isVideo?: boolean;
 }
+
+export interface IGetSongObjectDatabase1 {
+    artistAuthor: string;
+    artistDate: number;
+    artistDescription: string;
+    artistId: number;
+    artistLinkSpotify: string;
+    artistLinkYouTube: string;
+    artistName: string;
+    artistServerFilePathArtistPicture: string;
+    songAuthor: string;
+    songContentLanguage: string;
+    songContentType: string;
+    songContentTypeAuthor: string;
+    songContentTypeDate: number;
+    songContentTypeDescription: string;
+    songContentTypeId: number;
+    songContentTypeName: string;
+    songDate: number;
+    songDescription: string;
+    songId: number;
+    songLinkSpotify: string;
+    songLinkYouTube: string;
+    songName: string;
+    songReleaseDate: number;
+    songServerFilePath: string;
+}
+
+export interface IGetSongObjectDatabase2SongInformation {
+    author: string;
+    contentLanguage: string;
+    contentType: string;
+    date: number;
+    description: string;
+    id: number;
+    linkSpotify: string;
+    linkYouTube: string;
+    name: string;
+    releaseDate: number;
+    serverFilePath: string;
+}
+
+export interface IGetSongObjectDatabase2SongContentType {
+    author: string;
+    date: number;
+    description: string;
+    id: number;
+    name: string;
+}
+
+export interface IGetSongObjectDatabase2ArtistInformation {
+    author: string;
+    date: number;
+    description: string;
+    id: number;
+    linkSpotify: string;
+    linkYouTube: string;
+    name: string;
+    serverFilePathArtistPicture: string;
+}
+
+export interface IGetSongObjectDatabase2 extends IGetSongObjectDatabase2SongInformation {
+    artist: IGetSongObjectDatabase2ArtistInformation;
+    songContentType: IGetSongObjectDatabase2SongContentType;
+}
+
+export interface IGetSongObjectDatabase3 extends IGetSongObjectDatabase2SongInformation {
+    artists: IGetSongObjectDatabase2ArtistInformation[];
+    songContentTypes: IGetSongObjectDatabase2SongContentType[];
+}
+
+export interface IGetSongObjectDatabase extends IGetSongObjectDatabase3 {
+    isAudio?: boolean;
+    isUnknown?: boolean;
+    isVideo?: boolean;
+}
