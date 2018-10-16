@@ -1,9 +1,10 @@
-export interface IErrorPageLink {
-  link: string;
-  text: string;
+export interface IRequestFile {
+    destination: string;
+    encoding: string;
+    fieldname: string;
+    filename: string;
+    mimetype: string;
+    originalname: string;
+    path: string;
+    size: number;
 }
-
-export interface IErrorPageLinkReturnObject {
-    hasLinks: boolean;
-    links: IErrorPageLink[];
-  }

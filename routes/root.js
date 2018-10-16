@@ -13,7 +13,6 @@ const ErrorPage = require('../classes/server/errorPage')
 const express = require('express')
 const router = express.Router()
 
-const birds = require('./birds')
 const waveform = require('./waveform')
 const sockets = require('./sockets')
 const videoAudio = require('./videoAudio')
@@ -26,7 +25,10 @@ const playlist = require('./final/playlist')
 /*
  * Show features/options of this web app if logged in else redirect to login/register
  */
-router.get('/', (req, res, next) => { res.redirect('/playlist') })
+router.get('/', (req, res, next) => {
+  console.log('redirect to to /playlist')
+  res.redirect('/playlist')
+})
 
 // GET method route
 router.get('/get', (req, res) => res.send('GET request'))
@@ -133,14 +135,12 @@ router.get('/type/fail', (req, res, next) => {
 
 // Post interface
 router.post('/type/status', (req, res) => {
-  console.log(req.body)
   res.sendStatus(200)
 })
 
 /*
  * Other routes
  */
-router.use('/birds', birds)
 router.use('/waveform', waveform)
 router.use('/sockets', sockets)
 router.use('/videoAudio', videoAudio)

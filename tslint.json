@@ -146,7 +146,8 @@
 	"lintOptions": {
 		"typeCheck": true,
 		"exclude": [
-			"classes/**/*.ts"
+			"classes/**/*.ts",
+			"public/**/*"
 		]
 	}
 }

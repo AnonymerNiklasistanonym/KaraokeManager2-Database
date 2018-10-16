@@ -83,13 +83,8 @@ export interface IJsonDataTableDataArtist {
 
 export interface ICreateSongOptions {
     description?: string;
-    link_spotify?: string;
-    link_youtube?: string;
-    local_file_path?: string;
     lyrics?: string;
     release_date?: number;
-    song_content_language?: string;
-    song_content_type?: string;
 }
 
 export interface IJsonDataTableDataSong {
@@ -164,18 +159,25 @@ export interface IGetSongObjectParsed extends IGetSongObject {
     isVideo?: boolean;
 }
 
+// FINAL:
+
 export interface IGetSongObjectDatabase1 {
     artistAuthor: string;
     artistDate: number;
     artistDescription: string;
     artistId: number;
-    artistLinkSpotify: string;
-    artistLinkYouTube: string;
+    artistLinkAuthor: string;
+    artistLinkDate: number;
+    artistLinkDescription: string;
+    artistLinkId: number;
+    artistLinkUrl: string;
     artistName: string;
     artistServerFilePathArtistPicture: string;
     songAuthor: string;
-    songContentLanguage: string;
-    songContentType: string;
+    songContentLanguageAuthor: string;
+    songContentLanguageDate: number;
+    songContentLanguageId: number;
+    songContentLanguageName: string;
     songContentTypeAuthor: string;
     songContentTypeDate: number;
     songContentTypeDescription: string;
@@ -184,8 +186,11 @@ export interface IGetSongObjectDatabase1 {
     songDate: number;
     songDescription: string;
     songId: number;
-    songLinkSpotify: string;
-    songLinkYouTube: string;
+    songLinkAuthor: string;
+    songLinkDate: number;
+    songLinkDescription: string;
+    songLinkId: number;
+    songLinkUrl: string;
     songName: string;
     songReleaseDate: number;
     songServerFilePath: string;
@@ -193,13 +198,9 @@ export interface IGetSongObjectDatabase1 {
 
 export interface IGetSongObjectDatabase2SongInformation {
     author: string;
-    contentLanguage: string;
-    contentType: string;
     date: number;
     description: string;
     id: number;
-    linkSpotify: string;
-    linkYouTube: string;
     name: string;
     releaseDate: number;
     serverFilePath: string;
@@ -218,19 +219,45 @@ export interface IGetSongObjectDatabase2ArtistInformation {
     date: number;
     description: string;
     id: number;
-    linkSpotify: string;
-    linkYouTube: string;
+    link: IGetSongObjectDatabase2ArtistLink;
     name: string;
     serverFilePathArtistPicture: string;
 }
 
+export interface IGetSongObjectDatabase2SongContentLanguage {
+    author: string;
+    date: number;
+    id: number;
+    name: string;
+}
+
+export interface IGetSongObjectDatabase2ArtistLink {
+    author: string;
+    date: number;
+    description: string;
+    id: number;
+    url: string;
+}
+
+export interface IGetSongObjectDatabase2SongLink {
+    author: string;
+    date: number;
+    description: string;
+    id: number;
+    url: string;
+}
+
 export interface IGetSongObjectDatabase2 extends IGetSongObjectDatabase2SongInformation {
     artist: IGetSongObjectDatabase2ArtistInformation;
+    link: IGetSongObjectDatabase2SongLink;
+    songContentLanguage: IGetSongObjectDatabase2SongContentLanguage;
     songContentType: IGetSongObjectDatabase2SongContentType;
 }
 
 export interface IGetSongObjectDatabase3 extends IGetSongObjectDatabase2SongInformation {
     artists: IGetSongObjectDatabase2ArtistInformation[];
+    links: IGetSongObjectDatabase2SongLink[];
+    songContentLanguages: IGetSongObjectDatabase2SongContentLanguage[];
     songContentTypes: IGetSongObjectDatabase2SongContentType[];
 }
 

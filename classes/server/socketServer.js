@@ -6,44 +6,20 @@
 
 /*
  * This file contains:
- * Socket server, the initial binding
+ * Socket server binding to *normal* express http/https servers.
+ * Also the addition of a custom socket manager function to each of the socket servers.
  */
 
 const socketIo = require('socket.io')
+const socketManager = require('./socketManager')
+const { serverHttp, serverHttps } = require('./server')
 
-/**
- * Express server
- */
-const serverHttp = require('./server').ServerHttp
-/**
- * Express https server
- */
-const serverHttps = require('./server').ServerHttps
-/**
- * SocketIO.Server
- */
+// Make the express http/https servers to socketIo servers
 const ioHttp = socketIo(serverHttp)
 const ioHttps = socketIo(serverHttps)
 
-/**
- * @param {import('socket.io').ClientSocket} clientSocket Socket.io client socket
- */
-const socketMethod = clientSocket => {
-  let identifier = 'Socket Unsecured'
-  if (clientSocket.client.request.socket.encrypted) {
-    identifier = 'Socket Secured'
-  }
-  console.log(identifier + ' > Client connected...', clientSocket.client.id)
+// React to socket connections
+ioHttp.on('connection', socketManager)
+ioHttps.on('connection', socketManager)
 
-  clientSocket.on('join', data => {
-    console.log(identifier + ' > client sent data -', clientSocket.client.id, '\n\t', data)
-  })
-}
-
-/*
- * React to socket connections
- */
-ioHttp.on('connection', socketMethod)
-ioHttps.on('connection', socketMethod)
-
-module.exports = { serverHttp, serverHttps, ServerHttpSocketIo: ioHttp, ServerHttpsSocketIo: ioHttps }
+module.exports = { serverHttp, serverHttps }

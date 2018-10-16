@@ -2,6 +2,9 @@
  * Copyright 2018 AnonymerNiklasistanonym > https://github.com/AnonymerNiklasistanonym/KaraokeManager2-Database
  ***************************************************************************************************************/
 
+// Standard style global attributes
+/* global WaveSurfer, AudioContext */
+
 // Wait till all content is loaded
 document.addEventListener('DOMContentLoaded', () => {
   // Define all HTML elements
@@ -20,31 +23,48 @@ document.addEventListener('DOMContentLoaded', () => {
   // Define global constants
   const wavesurfer = WaveSurfer.create({
     container: '#waveformContainer',
-    waveColor: '#c5c5c5',
-    progressColor: '#000000',
     cursorColor: '#000000',
-    splitChannels: false,
-    normalize: true,
-    height: 128,
     cursorWidth: 1,
-    responsive: true,
-    mediaControls: true,
     fillParent: true,
-    hideScrollbar: true
+    height: 128,
+    hideScrollbar: true,
+    mediaControls: true,
+    normalize: true,
+    progressColor: '#000000',
+    responsive: true,
+    splitChannels: false,
+    waveColor: '#c5c5c5'
   })
   const context = new AudioContext()
 
   // Define constant anonymous functions
+  /**
+   * Parse time from `wavesurfer.getCurrentTime()` (Returns current progress in seconds)
+   * to human readable time string
+   * @param {number} time Time in seconds
+   * @returns {string}
+   */
   const parseTime = time => {
     const minutes = Math.floor(time / 60)
     const minutesString = '00' + minutes
     const seconds = Math.floor(time % 60)
     const secondsString = '00' + seconds
-    return minutesString.slice(minutesString.length - 2, minutesString.length) + ':' + secondsString.slice(secondsString.length - 2, secondsString.length)
+    // Slice to Min : Sec string
+    const minutesStringNew = minutesString.slice(minutesString.length - 2, minutesString.length)
+    const secondsStringNew = secondsString.slice(secondsString.length - 2, secondsString.length)
+
+    return `${minutesStringNew}:${secondsStringNew}`
   }
+  /**
+   * Display/Update the current progress time of the song
+   */
   const displayCurrentTime = () => {
-    timeStamp.innerHTML = parseTime(wavesurfer.getCurrentTime()) + ' / ' + completeTime
+    const parsedTimeString = parseTime(wavesurfer.getCurrentTime())
+    timeStamp.innerHTML = `${parsedTimeString}  / ${completeTime}`
   }
+  /**
+   * Display/Update the current progress time of the song in the range tag
+   */
   const updateRange = () => {
     musicRange.value = Math.round(wavesurfer.getCurrentTime())
   }
@@ -57,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const onPause = () => {
     clearInterval(interval)
     displayCurrentTime()
+    updateRange()
   }
   const updatePlayPause = () => {
     if (wavesurfer.isPlaying()) {
@@ -66,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
       playPauseIcon.innerHTML = 'play_arrow'
       onPause()
     }
-    updateRange()
   }
 
   /*

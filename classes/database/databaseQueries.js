@@ -110,17 +110,29 @@ class DatabaseQueries {
         let requestedElement
         // Make request for one element
         database.each(query, parameters,
-          (err, row) => { err ? reject(err) : (requestedElement = row) },
+          (err, row) => {
+            if (err) {
+              // -> console.error(query, parameters)
+              reject(err)
+            } else {
+              requestedElement = row
+            }
+          },
           // @ts-ignore
           (err, count) => {
             if (err) {
+              // -> console.error(query, parameters)
               reject(err)
             } else {
+              resolve(requestedElement)
+              /*
               if (requestedElement === undefined) {
+                // -> console.error(query, parameters)
                 reject(Error('No entry found!'))
               } else {
                 resolve(requestedElement)
               }
+              */
             }
           })
       })
@@ -137,7 +149,12 @@ class DatabaseQueries {
       .then(database => database.all(query, parameters,
         // @ts-ignore
         (err, rows) => {
-          err ? reject(err) : resolve(rows)
+          if (err) {
+            // -> console.error(query, parameters)
+            reject(err)
+          } else {
+            resolve(rows)
+          }
         }))
       .catch(reject))
   }
@@ -145,9 +162,10 @@ class DatabaseQueries {
    * Edit something in database
    * @param {string} query Query for the database
    * @param {*[]} parameters Query data (for better security)
-   * @returns {Promise<{lastID: number, changes: number}>} Post result
+   * @returns {Promise<import('databaseQueriesTypes').IPostRequestResult>} Post result
    */
   static postRequest (query, parameters = []) {
+    // -> console.log(query, parameters)
     return new Promise((resolve, reject) => this.databaseWrapper(false)
       .then(database => database.run(query, parameters, function (err) {
         // No ES6 style function because of otherwise this would be the class and not the RunResult
@@ -155,6 +173,74 @@ class DatabaseQueries {
       })
       )
       .catch(reject))
+  }
+  /**
+   * Create `INSERT INTO` query
+   * @param {string} tableName Table name
+   * @param {string[]} columns Columns
+   * @returns {string} Query
+   */
+  static createInsertQuery (tableName, columns) {
+    return `INSERT INTO ${tableName}(${columns.join(',')}) ` +
+      `VALUES(${columns.map(() => '?')
+        .join(',')});`
+  }
+  /**
+   * Create `EXISTS` query
+   * @param {string} tableName Table name
+   * @param {string} column Column
+   * @returns {string} Query
+   */
+  static createExistsQuery (tableName, column = 'id') {
+    return `SELECT EXISTS(SELECT 1 FROM ${tableName} WHERE ${column}=?) AS exists_value;`
+  }
+  /**
+   * Create `INSERT INTO` query
+   * @param {string} tableName Table name
+   * @param {string[]} columns Columns
+   * TODO:
+   * @param {{otherTableName:string,otherColumn:string,thisColumn:string}[]} [innerJoins] InnerJoins
+   * TODO:
+   * @param {string} [whereColumn] Where column, value is '?'
+   * @returns {string} Query
+   */
+  static createSelectQuery (tableName, columns, innerJoins, whereColumn) {
+    let innerJoinsStr = ''
+    let whereStr = ''
+
+    if (innerJoins !== undefined) {
+      innerJoinsStr = innerJoins
+        .map(a => `INNER JOIN ${a.otherTableName} ON ${a.otherColumn}=${a.thisColumn}`)
+        .join(' ')
+    }
+    if (whereColumn !== undefined) {
+      whereStr = `WHERE ${whereColumn}=?`
+    }
+
+    return `SELECT ${columns.join(',')} FROM ${tableName} ${innerJoinsStr} ${whereStr};`
+  }
+  /**
+   * Get if some column value exists in some table
+   * @param {string} tableName Table name
+   * @param {string} column Column
+   * @param {(number|string)} value Column value
+   * @returns {Promise<boolean>} Exists
+   */
+  static getExists (tableName, column, value) {
+    return new Promise((resolve, reject) => {
+      DatabaseQueries.getEachRequest(DatabaseQueries.createExistsQuery(tableName, column), [value])
+        .then(result => { resolve(result.exists_value === 1) })
+        .catch(reject)
+    })
+  }
+  /**
+   * Create `DELETE` query
+   * @param {string} tableName Table name
+   * @param {string} whereColumn Column
+   * @returns {string} Query
+   */
+  static createDeleteQuery (tableName, whereColumn = 'id') {
+    return `DELETE FROM ${tableName} WHERE ${whereColumn}=?;`
   }
 }
 

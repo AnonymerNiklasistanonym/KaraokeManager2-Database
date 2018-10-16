@@ -1,0 +1,156 @@
+{
+	"filePath": [
+		"serverRoutes.md"
+	],
+	"title": "Server routes",
+	"dictionary": [
+		{
+			"path": "/",
+			"description": "TODO - Home page"
+		},
+		{
+			"path": "/get",
+			"description": "TODO"
+		},
+		{
+			"path": "/post",
+			"description": "TODO"
+		},
+		{
+			"path": "/secret",
+			"description": "TODO"
+		},
+		{
+			"path": "/random.text",
+			"description": "TODO"
+		},
+		{
+			"path": "/users/:userId/books/:bookId",
+			"description": "TODO"
+		},
+		{
+			"path": "/plantae/:genus.:species",
+			"description": "TODO"
+		},
+		{
+			"path": "/example/b",
+			"description": "TODO"
+		},
+		{
+			"path": "/example/c",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/download",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/end",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/json",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/redirect",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/send",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/render",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/status",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/fail",
+			"description": "TODO"
+		},
+		{
+			"path": "/type/status",
+			"description": "TODO"
+		},
+		{
+			"path": "/birds",
+			"description": "TODO"
+		},
+		{
+			"path": "/birds/about",
+			"description": "TODO"
+		},
+		{
+			"path": "/birds/test",
+			"description": "TODO"
+		},
+		{
+			"path": "/waveform",
+			"description": "TODO"
+		},
+		{
+			"path": "/waveform/autoplay",
+			"description": "TODO"
+		},
+		{
+			"path": "/sockets",
+			"description": "TODO"
+		},
+		{
+			"path": "/videoAudio",
+			"description": "TODO"
+		},
+		{
+			"path": "/upload",
+			"description": "TODO"
+		},
+		{
+			"path": "/upload/image",
+			"description": "TODO"
+		},
+		{
+			"path": "/account",
+			"description": "Redirect to login if not logged in or else redirect to logged in account"
+		},
+		{
+			"path": "/account/page/:id",
+			"description": "Account profile website"
+		},
+		{
+			"path": "/account/action/login_register",
+			"description": "Login/Register website"
+		},
+		{
+			"path": "/account/action/login",
+			"description": "Account login route"
+		},
+		{
+			"path": "/account/action/register",
+			"description": "Account register route"
+		},
+		{
+			"path": "/account/action/logout",
+			"description": "Account logout route [TODO -> Change from GET to POST!]"
+		},
+		{
+			"path": "/account/settings",
+			"description": "Account settings website"
+		},
+		{
+			"path": "/account/settings/configure/:event",
+			"description": "Account change setting route"
+		},
+		{
+			"path": "/welcome",
+			"description": "Account welcome website after login that displays features of this platform"
+		},
+		{
+			"path": "/playlist",
+			"description": "Display the current playlist entries with the song, the artist and the singers"
+		}
+	]
+}

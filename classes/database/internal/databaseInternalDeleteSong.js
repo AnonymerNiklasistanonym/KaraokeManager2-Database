@@ -9,11 +9,18 @@
  * TODO
  */
 
-/**
- * Login tracker that can authorize account specific possibilities if user is logged in
- */
-class LoginChecker {
-  // Take the cookie number and let the client send it to you via his socket channel to authorize his channel
+const DatabaseQueries = require('../databaseQueries').DatabaseQueries
+
+class DatabaseInternalApiDeleteSong {
+  /**
+   * Delete a song from the database
+   * @param {string} id Unique song id
+   * @returns {Promise}
+   */
+  static deleteAccount (id) {
+    return DatabaseQueries.postRequest(
+      DatabaseQueries.createDeleteQuery('account'), [id])
+  }
 }
 
-module.exports = { LoginChecker }
+module.exports = DatabaseInternalApiDeleteSong

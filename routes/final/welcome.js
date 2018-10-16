@@ -9,7 +9,6 @@
  * The routing paths for the route `/welcome`.
  */
 
-const API = require('../../classes/api/api')
 const Configuration = require('../../classes/configuration/configuration')
 const express = require('express')
 const router = express.Router()

@@ -1,16 +1,36 @@
 import {
-    IGetAccountObject,
-    IGetArtistObject,
-    IGetSongObjectDatabase,
-} from "../database/databaseTypes";
+    IAddSongOptionsMore,
+    IGetSongHbs,
+} from "../database/databaseTypes2";
 
-export interface IAccount extends IGetAccountObject {}
+import {
+    IGetAccount,
+    IGetArtist,
+} from "../database/internal/databaseInternalTypes";
 
-export interface IArtist extends IGetArtistObject {}
+import {
+    IRequestFile,
+} from "../server/serverTypes";
+
+/**
+ * Get types
+ */
+
+export interface IArtist extends IGetArtist {}
+
+export interface IAccount extends IGetAccount {}
 
 export interface ISongList {
-    elements: IGetSongObjectDatabase[];
+    elements: IGetSongHbs[];
     limit: number;
     page: number;
     pages: number;
 }
+
+export interface IAddSongFileData extends IRequestFile {}
+
+/**
+ * Add types
+ */
+
+export interface IAddSongOptions extends IAddSongOptionsMore {}

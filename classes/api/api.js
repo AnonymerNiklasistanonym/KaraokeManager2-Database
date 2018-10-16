@@ -9,7 +9,14 @@
  * Api functions to interact with anything as fast, short and easy as possible
  */
 
-const DatabaseApi = require('../database/databaseApi')
+const DatabaseApiSong = require('../database/databaseApiSong')
+const DatabaseApiInternalGetSong = require('../database/internal/databaseInternalGetSong')
+const DatabaseApiInternalGetArtist = require('../database/internal/databaseInternalGetArtist')
+const DatabaseApiInternalGetAccount = require('../database/internal/databaseInternalGetAccount')
+const DatabaseApiInternalAddAccount = require('../database/internal/databaseInternalAddAccount')
+const UploadManager = require('../server/uploadManager')
+const path = require('path')
+
 const LoginManager = require('../communication/loginManager')
 
 /**
@@ -19,20 +26,20 @@ const LoginManager = require('../communication/loginManager')
 class API {
   /**
    * Register an account
-   * @param {string} accountId Unique account id
+   * @param {string} name Unique account name
    * @param {string} password Account password
    * @returns {Promise<string>} Authorized id
    */
-  static register (accountId, password) {
+  static register (name, password) {
     return new Promise((resolve, reject) => {
-      DatabaseApi.getAccountExists(accountId)
+      DatabaseApiInternalGetAccount.getAccountExists(name)
         .then(exists => {
           if (exists) {
             reject(Error('Account already exists!'))
           } else {
-            DatabaseApi.createAccount(accountId, password)
+            DatabaseApiInternalAddAccount.addAccount(name, password)
               .then(() => {
-                this.login(accountId, password)
+                this.login(name, password)
                   .then(resolve)
                   .catch(reject)
               })
@@ -44,23 +51,23 @@ class API {
   }
   /**
    * Log in to an account
-   * @param {string} accountId Unique account id
+   * @param {string} name Unique account name
    * @param {string} password Account password
    * @returns {Promise<string>} Authorized id
    */
-  static login (accountId, password) {
+  static login (name, password) {
     return new Promise((resolve, reject) => {
-      DatabaseApi.getAccountExists(accountId)
+      DatabaseApiInternalGetAccount.getAccountExists(name)
         .then(exists => {
           if (!exists) {
-            reject(Error('Account does not exist!'))
+            reject(Error(`Account ("${name}") does not exist!`))
           } else {
-            DatabaseApi.authorizeAccount(accountId, password)
+            DatabaseApiInternalGetAccount.verifyAccount(name, password)
               .then(authorized => {
                 if (!authorized) {
-                  reject(Error('Account password is wrong!'))
+                  reject(Error(`Account ("${name}") password is wrong!`))
                 }
-                resolve(LoginManager.registerAuthorizedAccount(accountId))
+                resolve(LoginManager.registerAuthorizedAccount(name))
               })
               .catch(reject)
           }
@@ -92,11 +99,11 @@ class API {
   }
   /**
    * Get account information
-   * @param {string} id Unique account name
+   * @param {string} name Unique account name
    * @returns {Promise<import("./apiTypesFinal").IAccount>} Promise with information object or error message
    */
-  static getAccount (id) {
-    return DatabaseApi.getAccount(id)
+  static getAccount (name) {
+    return DatabaseApiInternalGetAccount.getAccount(name)
   }
   /**
    * Get artist information
@@ -104,30 +111,55 @@ class API {
    * @returns {Promise<import("./apiTypesFinal").IArtist>} Promise with information object or error message
    */
   static getArtist (id) {
-    return DatabaseApi.getArtist(id)
+    return DatabaseApiInternalGetArtist.getArtist(id)
   }
   /**
    * Get song list
    * @param {number} page Page number
    * @param {number} limit Maximum entries to send back
-   * @param {boolean} old Old or current playlist entries > TODO
    * @returns {Promise<import("./apiTypesFinal").ISongList>} Promise with information object or error message
    */
-  static getSongList (page = 1, limit = 10, old = false) {
+  static getSongList (page = 1, limit = 10) {
     // TODO change later to playlist entries
     return new Promise((resolve, reject) =>
       Promise.all([
-        DatabaseApi.getSongs(page, limit),
-        DatabaseApi.getSongPages(limit)
+        DatabaseApiSong.getSongList(limit, page),
+        DatabaseApiInternalGetSong.getSongPages(limit)
       ])
         .then(results =>
           resolve({
-            elements: results[0],
+            elements: results[0].map(DatabaseApiSong.handlebarsSongConversion),
             limit,
             page,
             pages: results[1]
           }))
         .catch(reject))
+  }
+  /**
+   * Add a new song
+   * @param {string} name Song title/name
+   * @param {string} authorId Unique account name
+   * @param {import("./apiTypesFinal").IAddSongFileData} fileData FileData
+   * @param {import("./apiTypesFinal").IAddSongOptions} options Song creation options
+   * @returns {Promise<number>} Promise with song id
+   */
+  static addSong (name, authorId, fileData, options) {
+    return new Promise((resolve, reject) => {
+      // Check for correct format
+      if (!(UploadManager.checkIfSupportedAudio(fileData) || UploadManager.checkIfSupportedVideo(fileData))) {
+        reject(Error('The uploaded file must be an audio or video file!'))
+
+        return
+      }
+      // Copy the file to the correct path to remove it from the uploaded section
+      const newFilePath = path.join(__dirname, '../../public/songs/', fileData.originalname)
+      UploadManager.copyFileTo(fileData, newFilePath)
+        .then(() => DatabaseApiSong
+          .addSong(name, authorId, newFilePath, options)
+          .then(result => { resolve(result.songResult.lastID) })
+          .catch(reject))
+        .catch(reject)
+    })
   }
   /**
    * Get image album information

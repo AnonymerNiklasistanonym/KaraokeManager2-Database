@@ -14,6 +14,7 @@
 const DocumentFileStructure = require('./fileStructure/fileStructure')
 // Create file structure/content documentation
 const DocumentJsDoc = require('./documentationJsDoc').DocumentJsDoc
+const DocumentServerRoutes = require('./serverRoutes/serverRoutes')
 
 // File structure documentation
 DocumentFileStructure.createDocumentation()
@@ -21,4 +22,8 @@ DocumentFileStructure.createDocumentation()
 
 // Source code documentation
 DocumentJsDoc.createDocumentation()
+  .catch(console.error)
+
+// Server routes documentation
+DocumentServerRoutes.createDocumentation()
   .catch(console.error)

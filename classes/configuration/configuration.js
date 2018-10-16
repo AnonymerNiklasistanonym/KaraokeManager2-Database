@@ -10,7 +10,7 @@
  */
 
 const ConfigurationReader = require('./configurationReader')
-const DatabaseApi = require('../database/databaseApi')
+const { DatabaseApiGetAccount } = require('../database/databaseApi')
 const LoginManager = require('../communication/loginManager')
 const path = require('path')
 
@@ -83,9 +83,15 @@ class Configuration {
       pages
     }
   }
+  /**
+   * Parse playlist entries for handlebars
+   * @param {import("./configurationTypes").IPlaylistElements} object
+   * @returns {import("./configurationTypes").IPlaylistElementsParsed}
+   */
   static parsePlaylistEntries (object) {
     return {
-      firstLine: `by ${object.artists.map(a => a.name).join(', ')} [${object.songContentTypes.map(a => a.name).join(', ')}]`,
+      firstLine: `by ${object.artists.map(a => a.name).join(', ')} ` +
+      `[${object.contentTypes.map(a => a.name).join(', ')}]`,
       isAudio: object.isAudio,
       isUnknown: object.isUnknown,
       isVideo: object.isVideo,
@@ -101,7 +107,7 @@ class Configuration {
     return new Promise((resolve, reject) => {
       if (LoginManager.checkIfAccountAuthorized(authorizedId)) {
         const accountId = LoginManager.getAuthorizedAccount(authorizedId)
-        DatabaseApi.getAccountNavBar(accountId)
+        DatabaseApiGetAccount.getAccount(accountId)
           .then(accountObject =>
             resolve({
               ...navBarLoggedIn,

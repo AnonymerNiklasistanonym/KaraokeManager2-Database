@@ -20,6 +20,13 @@
 				"secondLine": "result3 info",
 				"title": "result3 title",
 				"url": "#"
+			},
+			{
+				"firstLine": "result4 artist",
+				"isUnknown": true,
+				"secondLine": "result4 info",
+				"title": "result4 title",
+				"url": "#"
 			}
 		]
 	},
@@ -32,6 +39,10 @@
 			"video": {
 				"color": "red",
 				"icon": "movie"
+			},
+			"unknown": {
+				"color": "grey",
+				"icon": "not_interested"
 			}
 		}
 	}

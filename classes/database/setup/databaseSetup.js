@@ -15,7 +15,7 @@
 const { DatabaseTablesJsonParser, DatabaseTableValuesJsonParser } = require('./databaseSetupJsonParser')
 const { DatabaseQueriesErrorHelper } = require('../databaseQueries')
 const DatabaseSetupDataRoutines = require('./databaseSetupDataRoutines')
-const DatabaseApi = require('../databaseApi')
+const DatabaseApi = require('../internal/databaseInternalAddTable')
 
 /**
  * Setup database with default tables and values
@@ -37,6 +37,8 @@ class DatabaseSetup {
     return new Promise((resolve, reject) => DatabaseTableValuesJsonParser.setupTableValues
       .then(dbTableValuesJson => {
         Promise.all([...dbTableValuesJson.accounts.map(DatabaseSetupDataRoutines.createAccount),
+          ...dbTableValuesJson.song_content_types.map(DatabaseSetupDataRoutines.createSongContentType),
+          ...dbTableValuesJson.song_content_languages.map(DatabaseSetupDataRoutines.createSongContentLanguage),
           ...dbTableValuesJson.artists.map(DatabaseSetupDataRoutines.createArtist),
           ...dbTableValuesJson.songs.map(DatabaseSetupDataRoutines.createSong)
         ])

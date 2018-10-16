@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "module": "system",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outFile": "./build/tsc.js",
+        "sourceMap": true,
+        "allowJs": true,
+        "checkJs": true,
+        "target": "es2018",
+        "types": [
+            "node"
+        ],
+        "typeRoots": [
+            "./node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "docs",
+        "http2",
+        "build",
+        "views",
+        "uploads",
+        "classes",
+        "index.js"
+    ]
+}

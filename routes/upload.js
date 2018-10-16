@@ -12,7 +12,7 @@
 const express = require('express')
 const router = express.Router()
 const multer = require('multer')
-const sizeOf = require('image-size')
+const UploadManager = require('../classes/server/uploadManager')
 const MediaHelper = require('../classes/other/mediaHelper')
 const fs = require('fs').promises
 
@@ -22,34 +22,28 @@ const upload = multer({
 })
 
 // Define the home page route
-router.get('/', (req, res) => res.render('upload',
-  { csrfToken: true, layout: 'dropzone', xCsrfToken: '123XYZ' }))
+router.get('/', (req, res) => {
+  res.render('upload', { csrfToken: true, layout: 'dropzone', xCsrfToken: '123XYZ' })
+})
 
 router.post('/image', upload.single('file'), (req, res, next) => {
-  /**
-   * @type {{fieldname: string, originalname: string, encoding: string, mimetype: string, destination: string, filename: string, path: string, size: number}}
-   */
-  const fileRequestInfo = req.file
+  if (req.file === undefined) {
+    return res.status(422)
+      .json({ error: 'No file was uploaded!' })
+  }
 
-  console.log(req.headers)
-
-  // Check if uploaded file is an image or return error
-  if (!fileRequestInfo.mimetype.startsWith('image/')) {
+  if (!UploadManager.checkIfSupportedImage(req.file)) {
     return res.status(422)
       .json({ error: 'The uploaded file must be an image' })
   }
 
-  // Get dimensions of the uploaded image
-  const dimensions = sizeOf(fileRequestInfo.path)
-
-  // Check if the image is at least 128x128 pixels big
-  if ((dimensions.width < 128) || (dimensions.height < 128)) {
+  if (!UploadManager.checkImageDimension(req.file, 128, 4096, 128, 4096)) {
     return res.status(422)
-      .json({ error: 'The image must be at least 128px x 128px' })
+      .json({ error: 'The image must be at least 128px x 128px and not bigger than 4096px x 4096px' })
   }
 
-  fs.copyFile(`${fileRequestInfo.destination}\\${fileRequestInfo.filename}`,
-    `${fileRequestInfo.destination}\\${fileRequestInfo.originalname}`)
+  fs.copyFile(`${req.file.destination}\\${req.file.filename}`,
+    `${req.file.destination}\\${req.file.originalname}`)
     .catch(console.error)
 
   // Change the profile picture

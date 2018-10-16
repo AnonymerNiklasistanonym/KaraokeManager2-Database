@@ -102,16 +102,6 @@
 				"description": "server file path to a 'profile' picture of the artist",
 				"name": "server_file_path_artist_picture",
 				"type": "text"
-			},
-			{
-				"description": "link to the Spotify account of the artist",
-				"name": "link_spotify",
-				"type": "text"
-			},
-			{
-				"description": "link to the YouTube account of the artist",
-				"name": "link_youtube",
-				"type": "text"
 			}
 		],
 		"primary_key": {
@@ -120,6 +110,8 @@
 			"type": "integer"
 		}
 	},
+
+
 	{
 		"description": "the type of content in the song file (lyric video, music video, audio file, ...)",
 		"name": "song_content_type",
@@ -179,6 +171,222 @@
 				"type": "text"
 			}
 		],
+		"null_keys": [{
+			"description": "more information about the song content language",
+			"name": "description",
+			"type": "text"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
+		}
+	},
+	{
+		"description": "the language of the song tag",
+		"name": "song_tag_song_content_language",
+		"not_null_keys": [{
+				"description": "song which the connected language is in",
+				"name": "song_id",
+				"reference": {
+					"property": "id",
+					"table": "song"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "",
+				"name": "song_content_language_id",
+				"reference": {
+					"property": "id",
+					"table": "song_content_language"
+				},
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when tag was created",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that made this tag",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
+		}
+	},
+	{
+		"description": "the type of the song tag",
+		"name": "song_tag_song_content_type",
+		"not_null_keys": [{
+				"description": "song which the connected language is in",
+				"name": "song_id",
+				"reference": {
+					"property": "id",
+					"table": "song"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "",
+				"name": "song_content_type_id",
+				"reference": {
+					"property": "id",
+					"table": "song_content_type"
+				},
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when tag was created",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that made this tag",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
+		}
+	},
+
+
+	{
+		"description": "a link for a song to a website/spotify/...",
+		"name": "song_tag_song_link",
+		"not_null_keys": [{
+				"description": "url",
+				"name": "url",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when link was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that added the song link",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			},
+			{
+				"description": "song of link",
+				"name": "song_id",
+				"reference": {
+					"property": "id",
+					"table": "song"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "song of link",
+				"name": "song_link_id",
+				"reference": {
+					"property": "id",
+					"table": "song_link"
+				},
+				"type": "integer"
+			}
+		],
+		"null_keys": [{
+			"description": "more information about the link",
+			"name": "description",
+			"type": "text"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
+		}
+	},
+	{
+		"description": "a link for an artist to a website/spotify/...",
+		"name": "artist_link",
+		"not_null_keys": [{
+				"description": "url",
+				"name": "url",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when link was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that added the artist link",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "more information about the link",
+			"name": "description",
+			"type": "text"
+		}],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
+		}
+	},
+	{
+		"description": "a link for a song to a website/spotify/...",
+		"name": "song_link",
+		"not_null_keys": [{
+				"description": "url",
+				"name": "url",
+				"type": "text"
+			},
+			{
+				"default": "now",
+				"description": "date when link was added",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that added the artist link",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"null_keys": [{
+			"description": "more information about the link",
+			"name": "description",
+			"type": "text"
+		}],
 		"primary_key": {
 			"description": "unique id",
 			"name": "id",
@@ -228,39 +436,6 @@
 				"description": "lyrics of the song",
 				"name": "lyrics",
 				"type": "text"
-			},
-			{
-				"description": "local file path to song file",
-				"name": "local_file_path",
-				"type": "text"
-			},
-			{
-				"description": "song content type (Music video, audio file, ...)",
-				"name": "song_content_type",
-				"reference": {
-					"property": "id",
-					"table": "song_content_type"
-				},
-				"type": "integer"
-			},
-			{
-				"description": "language of the song",
-				"name": "song_content_language",
-				"reference": {
-					"property": "id",
-					"table": "song_content_language"
-				},
-				"type": "integer"
-			},
-			{
-				"description": "link to song on Spotify",
-				"name": "link_spotify",
-				"type": "text"
-			},
-			{
-				"description": "link to song on YouTube",
-				"name": "link_youtube",
-				"type": "text"
 			}
 		],
 		"primary_key": {
@@ -274,7 +449,7 @@
 		"name": "song_tag_artist",
 		"not_null_keys": [{
 				"description": "song which the connected artist is in",
-				"name": "song",
+				"name": "song_id",
 				"reference": {
 					"property": "id",
 					"table": "song"
@@ -283,10 +458,53 @@
 			},
 			{
 				"description": "artist which sings the connected song",
+				"name": "artist_id",
+				"reference": {
+					"property": "id",
+					"table": "artist"
+				},
+				"type": "integer"
+			},
+			{
+				"default": "now",
+				"description": "date when tag was created",
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"description": "account that made this tag",
+				"name": "author",
+				"reference": {
+					"property": "id",
+					"table": "account"
+				},
+				"type": "text"
+			}
+		],
+		"primary_key": {
+			"description": "unique id",
+			"name": "id",
+			"type": "integer"
+		}
+	},
+	{
+		"description": "in here links are connected to artists",
+		"name": "artist_tag_artist_link",
+		"not_null_keys": [{
+				"description": "artist that should receive link",
 				"name": "artist",
 				"reference": {
 					"property": "id",
 					"table": "artist"
+				},
+				"type": "integer"
+			},
+			{
+				"description": "link which should be connected to artist",
+				"name": "artist_link",
+				"reference": {
+					"property": "id",
+					"table": "artist_link"
 				},
 				"type": "integer"
 			},

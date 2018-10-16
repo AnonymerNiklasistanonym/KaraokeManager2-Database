@@ -98,6 +98,11 @@ class DocumentationHelper {
           .catch(reject))
     }
   }
+  /**
+   * @param {*} filePath
+   * @param {boolean} [useDocumentationDirectoryAsRootPath=true]
+   * @returns {Promise<boolean>}
+   */
   static existsDocumentationFile (filePath, useDocumentationDirectoryAsRootPath = true) {
     if (!useDocumentationDirectoryAsRootPath) {
       return new Promise((resolve, reject) => fs.stat(filePath)
@@ -114,7 +119,7 @@ class DocumentationHelper {
   }
   /**
    * @param {string} filePath TODO
-   * @returns {Promise} TODO
+   * @returns {Promise<*>} TODO
    */
   static getDocumentationInformationObject (filePath) {
     return new Promise((resolve, reject) => fs.readFile(filePath)

@@ -26,8 +26,44 @@
 			"password": "private_user"
 		}
 	],
+	"song_content_languages": [{
+		"name": "Unknown",
+		"options": {
+			"description": "No language was specified"
+		}
+	}],
+	"song_content_types": [{
+			"name": "Unknown",
+			"options": {
+				"description": "No content type was specified"
+			}
+		},
+		{
+			"name": "Video",
+			"options": {
+				"description": "Song is a video"
+			}
+		},
+		{
+			"name": "MusicVideo",
+			"options": {
+				"description": "ong is a music video"
+			}
+		},
+		{
+			"name": "LyricVideo",
+			"options": {
+				"description": "Song is a lyric video"
+			}
+		},
+		{
+			"name": "Audio",
+			"options": {
+				"description": "Song is an audio file"
+			}
+		}
+	],
 	"artists": [{
-			"author": "root",
 			"name": "Unknown",
 			"options": {
 				"description": "Unknown artist",
@@ -35,31 +71,33 @@
 			}
 		},
 		{
-			"author": "root",
 			"name": "Linkin Park",
 			"options": {
-				"link_spotify": "https://open.spotify.com/track/2uBhGx3m5iJrtsql8Qk00j?si=-yZlFZ4DRoy7VEUQsrl-EQ",
-				"link_youtube": "https://www.youtube.com/watch?v=uv_1AKKKJnk",
-				"server_file_path": "linkinpark"
-			}
-		},
-		{
-			"author": "root",
-			"name": "Queen",
-			"options": {
-				"link_spotify": "https://open.spotify.com/track/2uBhGx3m5iJrtsql8Qk00j?si=-yZlFZ4DRoy7VEUQsrl-EQ",
-				"link_youtube": "https://www.youtube.com/watch?v=uv_1AKKKJnk",
-				"server_file_path": "queen"
+				"links": [{
+						"description": "Spotify",
+						"url": "https://open.spotify.com/track/2uBhGx3m5iJrtsql8Qk00j?si=-yZlFZ4DRoy7VEUQsrl-EQ"
+					},
+					{
+						"description": "YouTube",
+						"url": "https://www.youtube.com/watch?v=uv_1AKKKJnk"
+					}
+				]
 			}
 		}
 	],
 	"songs": [{
-		"author": "root",
 		"name": "Levitate",
 		"options": {
 			"description": "Cool song",
-			"link_spotify": "https://open.spotify.com/track/2uBhGx3m5iJrtsql8Qk00j?si=-yZlFZ4DRoy7VEUQsrl-EQ",
-			"link_youtube": "https://www.youtube.com/watch?v=uv_1AKKKJnk"
+			"links": [{
+					"description": "Spotify",
+					"url": "https://open.spotify.com/track/2uBhGx3m5iJrtsql8Qk00j?si=-yZlFZ4DRoy7VEUQsrl-EQ"
+				},
+				{
+					"description": "YouTube",
+					"url": "https://www.youtube.com/watch?v=uv_1AKKKJnk"
+				}
+			]
 		},
 		"server_file_path": "levitate.mp3"
 	}]

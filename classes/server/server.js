@@ -10,8 +10,8 @@
  */
 
 // Other
-const { join } = require('path')
-const { readFileSync, existsSync, mkdirSync } = require('fs')
+const path = require('path')
+const fs = require('fs')
 
 // Server > base servers
 const http = require('http')
@@ -39,11 +39,11 @@ const ErrorPage = require('./errorPage')
  */
 
 // Load certs/keys
-const serverSecurityDirectoryDH = join(__dirname, '..', '..', 'dh')
-const http2serverSecurityDirectory = join(__dirname, '..', '..', 'http2')
-const dhParam = readFileSync(join(serverSecurityDirectoryDH, 'dh-strong.pem'), 'utf8')
-const http2sslKey = readFileSync(join(http2serverSecurityDirectory, 'server.key'), 'utf8')
-const http2sslCert = readFileSync(join(http2serverSecurityDirectory, 'server.crt'), 'utf8')
+const serverSecurityDirectoryDH = path.join(__dirname, '..', '..', 'dh')
+const http2serverSecurityDirectory = path.join(__dirname, '..', '..', 'http2')
+const dhParam = fs.readFileSync(path.join(serverSecurityDirectoryDH, 'dh-strong.pem'), 'utf8')
+const http2sslKey = fs.readFileSync(path.join(http2serverSecurityDirectory, 'server.key'), 'utf8')
+const http2sslCert = fs.readFileSync(path.join(http2serverSecurityDirectory, 'server.crt'), 'utf8')
 const http2options = { key: http2sslKey, cert: http2sslCert, hd: dhParam }
 
 // Create express server instances
@@ -69,8 +69,8 @@ const hbs = handlebarsCreate({
     foo: () => 'FOO!'
   },
   // Specify the directories for view layouts and partials
-  layoutsDir: join(__dirname, '../../views/layouts'),
-  partialsDir: join(__dirname, '../../views/partials')
+  layoutsDir: path.join(__dirname, '../../views/layouts'),
+  partialsDir: path.join(__dirname, '../../views/partials')
 })
 app.engine('handlebars', hbs.engine) // Add handlebars engine
 app.set('view engine', 'handlebars') // Use handlebars as view engine
@@ -107,10 +107,10 @@ app.use(session({
 }))
 
 // Log directory
-const logDirectory = join(__dirname, '../../log')
+const logDirectory = path.join(__dirname, '../../log')
 // Ensure log directory exists
-if (!existsSync(logDirectory)) {
-  mkdirSync(logDirectory)
+if (!fs.existsSync(logDirectory)) {
+  fs.mkdirSync(logDirectory)
 }
 // Create a rotating write stream
 // @ts-ignore
@@ -185,7 +185,4 @@ app.use((err, req, res, next) => {
     })
 })
 
-// Uncomment to view server route tree
-ServerHelper.printAllServerRoutes(app)
-
-module.exports = { ServerHttp: serverHttp, ServerHttps: serverHttps }
+module.exports = { serverHttp, serverHttps, app }
